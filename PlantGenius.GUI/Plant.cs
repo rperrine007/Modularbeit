@@ -9,16 +9,21 @@ namespace PlantGenius.GUI
 {
     public class Plant
     {
-        public Plant(string PlantName, DateTime WaterLastTime, int WaterRequirement)
+        public Plant(string plantName, DateTime waterLastTime, int waterRequirement)
         {
-            this.PlantName = PlantName;
-            this.WaterLastTime = WaterLastTime;
-            this.WaterRequirement = WaterRequirement;
+            PlantName = plantName;
+            WaterLastTime = waterLastTime;
+            WaterRequirement = waterRequirement;
         }
 
         public string PlantName { get; set; }
         public DateTime WaterLastTime { get; set; }
         public int WaterRequirement { get; set; }
         // public Room Room { get; set; }
+
+        public override string ToString()
+        {
+            return $"Pflanzenname: {PlantName} - Zuletzt gewässert {WaterLastTime} - Giessintervall {WaterRequirement} Tage";
+        }
     }
 }
