@@ -23,7 +23,7 @@ namespace PlantGenius.GUI
 
         public override string ToString()
         {
-            return $"Pflanzenname: {PlantName} - Zuletzt gewässert {WaterLastTime} - Giessintervall {WaterRequirement} Tage";
+            return $"Pflanzenname: {PlantName}, Zuletzt gewässert {WaterLastTime}, Giessintervall {WaterRequirement} Tage";
         }
     }
 }
