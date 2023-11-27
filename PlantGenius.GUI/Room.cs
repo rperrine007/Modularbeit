@@ -36,5 +36,11 @@ namespace PlantGenius.GUI
 
         public string RoomName { get; set; }
         public int FloorOfRoom { get; set; }
+
+        public override string ToString()
+        {
+            return $"Raumname: {RoomName}, Stockwerk: {FloorOfRoom}";
+        }
+
     }
 }
