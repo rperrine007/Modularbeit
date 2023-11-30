@@ -28,10 +28,10 @@ namespace PlantGenius.GUI
         /// Constructor 2
         /// <param name="roomName"></param>
         /// <param name="floorofRoom"></param>
-        public Room(string roomName, int floorofRoom)
+        public Room(string roomName, int floorOfRoom)
         {
             RoomName = roomName;
-            FloorOfRoom = floorofRoom;
+            FloorOfRoom = floorOfRoom;
         }
 
         public string RoomName { get; set; }
