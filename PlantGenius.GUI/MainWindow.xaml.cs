@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,16 +22,27 @@ namespace PlantGenius.GUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        // Generate a Collection with rooms
+        public ObservableCollection<Room> roomList { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += MainWindow_Loaded; // Register the Loaded event
+            roomList = new ObservableCollection<Room>();
+
+            //Set Datacontext for binding in WPF
+            DataContext = roomList;
+
+            //Load window and process function. The function includes the data import of the DB
+            Loaded += MainWindow_Loaded; 
+
+           
         }
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Create an instance of the DatabaseConnector2 class.
-            var dbConnector = new DatabaseConnector2();
+            var dbConnector = new DatabaseConnector();
 
             // Use the 'GetDatabaseConnectionAsync' method to asynchronously obtain a database connection.
             // The 'await' keyword is used to await the completion of the asynchronous operation.
@@ -62,11 +74,20 @@ namespace PlantGenius.GUI
                 {
                     while (await reader.ReadAsync())
                     {
+                        //Add Room to roomList
+                        roomList.Add(new Room()
+                        {
+                            RoomID = (int)reader["RoomID"],
+                            RoomName = (string)reader["RoomName"],
+                            RoomSortNumber = (int)reader["RoomSort"],
+                            FloorOfRoom = (int)reader["RoomFloor"],
+                            RoomLight = (bool)reader["RoomLight"]
+                        });
                         // Construct the message string
-                        string message = $"RoomId: {reader["RoomID"]}, RoomName: {reader["RoomName"]}, RoomSortNumber: {reader["RoomSort"]}, RoomFloor: {reader["RoomFloor"]}, RoomLight: {reader["RoomLight"]}";
+                        //string message = $"RoomId: {reader["RoomID"]}, RoomName: {reader["RoomName"]}, RoomSortNumber: {reader["RoomSort"]}, RoomFloor: {reader["RoomFloor"]}, RoomLight: {reader["RoomLight"]}";
 
                         // Show the message in a MessageBox
-                        MessageBox.Show(message);
+                       // MessageBox.Show(message);
                     }
                 }
             }
