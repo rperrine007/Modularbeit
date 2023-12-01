@@ -47,7 +47,7 @@ namespace PlantGenius.GUI
                     while (await reader.ReadAsync())
                     {
                         // Construct the message string
-                        string message = $"RoomId: {reader["RoomID"]}, RoomName: {reader["RoomName"]}";
+                        string message = $"RoomId: {reader["RoomID"]}, RoomName: {reader["RoomName"]}, RoomSortNumber: {reader["RoomSort"]}, RoomFloor: {reader["RoomFloor"]}, RoomLight: {reader["RoomLight"]}";
 
                         // Show the message in a MessageBox
                         MessageBox.Show(message);
