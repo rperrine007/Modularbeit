@@ -15,8 +15,8 @@ namespace PlantGenius.GUI
             var builder = new MySqlConnectionStringBuilder
             {
                 Server = "49.12.196.20", // Server
-                Port = 14500,            // Port number
-                Database = "c1zhaw",     // Database
+                Port = 14501,            // Port number
+                Database = "c1_zhaw2",     // Database
                 UserID = "c1_zhaw",      // User
                 Password = "lQ9fKVoNK7ll!" // Password
             };

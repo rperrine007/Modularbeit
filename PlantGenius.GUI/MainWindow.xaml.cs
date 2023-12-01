@@ -25,16 +25,40 @@ namespace PlantGenius.GUI
         public MainWindow()
         {
             InitializeComponent();
-            // Attempt to connect to the database and print the status to the console
-                // Your code to connect to the database
-                var dbConnector = new DatabaseConnector();
-                dbConnector.ConnectToDatabase();
-            
-
-
-
+            Loaded += MainWindow_Loaded; // Register the Loaded event
         }
+
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var dbConnector = new DatabaseConnector2();
+            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
+            {
+                await ExecuteQueryAsync(connection);
+            }
+        }
+
+        private async Task ExecuteQueryAsync(MySqlConnection connection)
+        {
+            string query = "SELECT * FROM Room";
+
+            using (var command = new MySqlCommand(query, connection))
+            {
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        // Construct the message string
+                        string message = $"RoomId: {reader["RoomID"]}, RoomName: {reader["RoomName"]}";
+
+                        // Show the message in a MessageBox
+                        MessageBox.Show(message);
+                    }
+                }
+            }
+        }
+
     }
+
 
 }
 
