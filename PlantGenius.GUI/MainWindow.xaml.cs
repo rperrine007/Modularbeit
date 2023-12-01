@@ -81,6 +81,8 @@ namespace PlantGenius.GUI
 
             // Datensatz anpassen // vorgängig sinnvollerweise ein SELECT ID, Übergabe der Inhalte in Formular und dann zurück mit Update mit geänderten Inhalten
             // UPDATE `Room` SET `RoomFloor` = '1' WHERE `Room`.`RoomID` = 4;
+
+            // INSERT INTO `Plant` (`PlantID`, `PlantName`, `PlantNameScientific`, `PlantRoom`, `PlantSort`, `PlantWaterRequirement`, `PlantWaterLastTime`) VALUES (NULL, 'Orchideen', 'Orchidaceae', '1', '0', '14', '2023-12-01');
         }
 
     }
