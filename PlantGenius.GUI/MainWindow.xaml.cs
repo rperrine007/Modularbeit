@@ -59,6 +59,12 @@ namespace PlantGenius.GUI
             // SELECT * FROM `Room` WHERE `RoomName` = 'Wohnzimmer'     // Gib Raum mit Name "Wohnzimmer" zurück
             // SELECT * FROM `Room` WHERE `RoomID` = '1'                // Gib Raum mit ID 1 zurück
             // SELECT * FROM `Room` ORDER BY `Room`.`RoomFloor` DESC    // Alle Räume aber Absteigend vom obersten zum untersten Stock
+
+            // Neuer Datensatz einfügen
+            // INSERT INTO `Room` (`RoomID`, `RoomName`, `RoomSort`, `RoomFloor`, `RoomLight`) VALUES (NULL, 'Testraum', '0', '2', '0');
+
+            // Datensatz anpassen // vorgängig sinnvollerweise ein SELECT ID, Übergabe der Inhalte in Formular und dann zurück mit Update mit geänderten Inhalten
+            // UPDATE `Room` SET `RoomFloor` = '1' WHERE `Room`.`RoomID` = 4;
         }
 
     }
