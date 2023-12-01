@@ -12,7 +12,7 @@ namespace PlantGenius_User.GUI
     {
         public bool ConnectToDatabase()
         {
-            var builder = new MySqlConnectionStringBuilder()
+            var builder = new MySqlConnectionStringBuilder
             {
                 Server = "49.12.196.20",         // Server
                 Port = 14500,                   // Port number
@@ -26,11 +26,13 @@ namespace PlantGenius_User.GUI
             // SQL-Abfrage, um alle Felder aus der Tabelle "Room" abzurufen
             string query = "SELECT * FROM Room";
 
-            using (var connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
                 {
                     connection.Open();
+
+
                     using (var command = new MySqlCommand(query, connection))
                     {
                         using (var reader = command.ExecuteReader())

@@ -30,19 +30,35 @@ namespace PlantGenius.GUI
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // Create an instance of the DatabaseConnector2 class.
             var dbConnector = new DatabaseConnector2();
+
+            // Use the 'GetDatabaseConnectionAsync' method to asynchronously obtain a database connection.
+            // The 'await' keyword is used to await the completion of the asynchronous operation.
             using (var connection = await dbConnector.GetDatabaseConnectionAsync())
             {
-                await ExecuteQueryAsync(connection);
+                // The obtained database connection is now used to execute an asynchronous database query.
+                // The 'await' keyword ensures that the 'ExecuteQueryAsync' method is awaited,
+                await GetRooms(connection);
             }
         }
 
-        private async Task ExecuteQueryAsync(MySqlConnection connection)
+        /// <summary>
+        /// In this asynchronous task a query to get the room data is made to the DB.
+        /// Why asynchronous: This ensures that the application remains responsive and can handle
+        /// other tasks while waiting for the database to return results.
+        ///  </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        private async Task GetRooms(MySqlConnection connection)
         {
+            //string to get all columns (*) from the table Room on the DB.
             string query = "SELECT * FROM Room";
 
+            // the defined query is made on the defined connection (DB)
             using (var command = new MySqlCommand(query, connection))
             {
+                //the data is asynchroned read from the DB. 
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
