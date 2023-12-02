@@ -52,11 +52,14 @@ namespace PlantGenius.GUI
             }
         }
 
-        //TODO implement back button correctly
+        // Go back to main window
         private void GoBackToHome(object sender, RoutedEventArgs e)
         {
-
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
+
 
         /// <summary>
         /// In this asynchronous task a query to get the room data is made to the DB.
