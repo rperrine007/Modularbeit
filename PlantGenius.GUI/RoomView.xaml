@@ -135,7 +135,7 @@
             </Button>
 
             <!-- RoomSortNumber -1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Click="ChangeRoomSortNumberUp" Grid.Row="0" Grid.Column="1">
+            <Button Click="OnRoomSortNumberChanged" Grid.Row="0" Grid.Column="1" Tag="-1">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE110;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
@@ -144,7 +144,7 @@
             </Button>
 
             <!-- RoomSortNumber +1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Click="ChangeRoomSortNumberDown" Grid.Row="0" Grid.Column="2">
+            <Button Click="OnRoomSortNumberChanged" Grid.Row="0" Grid.Column="2" Tag="1">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE74B;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>

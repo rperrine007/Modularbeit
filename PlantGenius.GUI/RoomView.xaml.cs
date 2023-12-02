@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data.Common;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using Microsoft.VisualBasic;
 using MySql.Data.MySqlClient;
 
@@ -21,8 +22,6 @@ namespace PlantGenius.GUI
         private ObservableCollection<Room> roomList;
         // Create an instance of the DatabaseConnector class.
         DatabaseConnector dbConnector;
-
-
 
         public RoomView()
         {
@@ -106,6 +105,14 @@ namespace PlantGenius.GUI
             // INSERT INTO `Plant` (`PlantID`, `PlantName`, `PlantNameScientific`, `PlantRoom`, `PlantSort`, `PlantWaterRequirement`, `PlantWaterLastTime`) VALUES (NULL, 'Orchideen', 'Orchidaceae', '1', '0', '14', '2023-12-01');
         }
 
+        //Open new window to add new room
+        //TODO create RoomAddingView based on RoomView (second Row, all Coloumns. Here you have to create a new .xaml File. Do not forget to name it directly correct.
+        //TODO implement the function so that the RoomAddingView is opened
+        private void OpenRoomAddingView(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         /// <summary>
         /// In this asynchronous task a query to get the room data is made to the DB.
         /// Why asynchronous: This ensures that the application remains responsive and can handle
@@ -127,12 +134,70 @@ namespace PlantGenius.GUI
                     
         }
 
-        //Open new window to add new room
-        //TODO create RoomAddingView based on RoomView (second Row, all Coloumns. Here you have to create a new .xaml File. Do not forget to name it directly correct.
-        //TODO implement the function so that the RoomAddingView is opened
-        private void OpenRoomAddingView(object sender, RoutedEventArgs e)
+        private async 
+        /// <summary>
+        /// The SortID will be decreased(-1) or increased (1) and the direct neighbour will be swapped with the choosen room. 
+        /// Why asynchronous: This ensures that the application remains responsive and can handle
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="direction"></param>
+        Task
+        ChangeRoomSortNumber(object sender, RoutedEventArgs e, int direction)
         {
+            // Validation if room choosen
+            if (ListBox_RoomList.SelectedItem == null)
+            {
+                MessageBox.Show("Bitte wählen Sie einen Raum aus.");
+                return;
+            }
 
+            int currentIndex = ListBox_RoomList.SelectedIndex;
+            int newIndex = currentIndex + direction;
+
+            // Check index bandwith for up and down movement
+            if (newIndex < 0 || newIndex >= roomList.Count)
+            {
+                MessageBox.Show("Bewegung in diese Richtung nicht möglich.");
+                return;
+            }
+
+            Room currentRoom = roomList[currentIndex];
+            Room neighbourRoom = roomList[newIndex];
+
+            // Swap sort numbers
+            int tempSortNumber = currentRoom.RoomSortNumber;
+            currentRoom.RoomSortNumber = neighbourRoom.RoomSortNumber;
+            neighbourRoom.RoomSortNumber = tempSortNumber;
+
+            // Swap order
+            roomList[currentIndex] = neighbourRoom;
+            roomList[newIndex] = currentRoom;
+
+            // Update DB for both rooms
+            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
+            {
+                await ChangeSortRoomNumber(connection, currentRoom.RoomID, currentRoom.RoomSortNumber);
+                await ChangeSortRoomNumber(connection, neighbourRoom.RoomID, neighbourRoom.RoomSortNumber);
+            }
+        }
+
+        /// <summary>
+        /// Gets the Tag from the Button and its value -> adds it to the int direction. Will be handlet from ChangeRoomSortNumber 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OnRoomSortNumberChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                //TODO Add some error handling as this could go really wrong o.O or if there is a possiblity to make sure the tag is handled as int would be much better
+
+                int direction = Convert.ToInt32(button.Tag);
+
+                // Call ChangeRoomSortNumber method with the direction parameter
+                await ChangeRoomSortNumber(sender, e, direction);
+            }
         }
 
         /// <summary>
@@ -141,51 +206,49 @@ namespace PlantGenius.GUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ChangeRoomSortNumberUp(object sender, RoutedEventArgs e)
-        {
-            //make sure the user chose a Room and its not the first room.
-            if (ListBox_RoomList.SelectedItem != null && ListBox_RoomList.SelectedIndex > 0)
-            {
-                //Get index of selected room and corresponding object
-                int currentIndex = ListBox_RoomList.SelectedIndex;
-                Room selectedRoom = roomList[currentIndex];
-                //save the element with one Index lower
-                Room previousRoom = roomList[currentIndex - 1];
+        /// 
+        //private async void changeroomsortnumberup(object sender, routedeventargs e)
+        //{
+        //    //make sure the user chose a room and its not the first room.
+        //    if (listbox_roomlist.selecteditem != null && listbox_roomlist.selectedindex > 0)
+        //    {
+        //        //get index of selected room and corresponding object
+        //        int currentindex = listbox_roomlist.selectedindex;
+        //        room selectedroom = roomlist[currentindex];
+        //        //save the element with one index lower
+        //        room previousroom = roomlist[currentindex - 1];
 
 
-                //Change sortNumber
-                selectedRoom.RoomSortNumber--;
-                previousRoom.RoomSortNumber++;
+        //        //change sortnumber
+        //        selectedroom.roomsortnumber--;
+        //        previousroom.roomsortnumber++;
 
-                //swap order
-                roomList[currentIndex - 1] = selectedRoom;
-                roomList[currentIndex] = previousRoom;
+        //        //swap order
+        //        roomlist[currentindex - 1] = selectedroom;
+        //        roomlist[currentindex] = previousroom;
 
-                //update DB
-                // Use the 'GetDatabaseConnectionAsync' method to asynchronously obtain a database connection.
-                // The 'await' keyword is used to await the completion of the asynchronous operation.
-                using (var connection = await dbConnector.GetDatabaseConnectionAsync())
-                {
-                    // The obtained database connection is now used to execute an asynchronous database query.
-                    // The 'await' keyword ensures that the 'ExecuteQueryAsync' method is awaited,
-                    await ChangeSortRoomNumber(connection, selectedRoom.RoomID, selectedRoom.RoomSortNumber);
-                }                
-            }
-            else if(ListBox_RoomList.SelectedItem == null)
-            {
-                MessageBox.Show("Bitte wählen Sie den Raum an, welchen sie in der Darstellung nach oben verschieben möchten.");
-            }
-            else
-            {
-                MessageBox.Show("Der gewählt Raum ist bereits der Erste in der Liste und kann daher nicht weiter nach oben verschoben werden.");
-            }
-        }
+        //        //update db
+        //        // use the 'getdatabaseconnectionasync' method to asynchronously obtain a database connection.
+        //        // the 'await' keyword is used to await the completion of the asynchronous operation.
+        //        using (var connection = await dbconnector.getdatabaseconnectionasync())
+        //        {
+        //            // the obtained database connection is now used to execute an asynchronous database query.
+        //            // the 'await' keyword ensures that the 'executequeryasync' method is awaited,
+        //            await changesortroomnumber(connection, selectedroom.roomid, selectedroom.roomsortnumber);
+        //            await changesortroomnumber(connection, previousroom.roomid, previousroom.roomsortnumber);
+        //        }
+        //    }
+        //    else if (listbox_roomlist.selecteditem == null)
+        //    {
+        //        messagebox.show("bitte wählen sie den raum an, welchen sie in der darstellung nach oben verschieben möchten.");
+        //    }
+        //    else
+        //    {
+        //        messagebox.show("der gewählt raum ist bereits der erste in der liste und kann daher nicht weiter nach oben verschoben werden.");
+        //    }
+        //}
 
         // TODO implement method similar to ChageRoomSortNumberUp
-        private void ChangeRoomSortNumberDown (object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void Delete(object sender, RoutedEventArgs e)
         {

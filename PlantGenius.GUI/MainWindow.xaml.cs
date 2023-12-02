@@ -14,6 +14,8 @@ namespace PlantGenius.GUI
             InitializeComponent();           
         }
 
+        //TODO Picture not visible in the MainWindow.xaml why? Web version works. Other local also other directories are also not working 
+
         /// Function: The window size can only be changed proportinally.
         /// <param name="sender"></param>
         /// <param name="e"></param>
