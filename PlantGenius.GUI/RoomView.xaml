@@ -94,24 +94,25 @@
                 </Grid.ColumnDefinitions>
                 <!-- Labeling of Rows -->
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Room-ID: "/>
                     <TextBlock Text="Raumname: "/>
-                    <TextBlock Text="Sortier-Nummer: "/>
                     <TextBlock Text="Stockwerk: "/>
                     <TextBlock Text="Lichtverhältnisse: "/>
                 </StackPanel>
 
                 <!-- Content of given room -->
                 <StackPanel Grid.Row="0" Grid.Column="1">
-                    <TextBox Text=""/>
-                    <TextBox Text=""/>
-                    <TextBox Text=""/>
-                    <TextBox Text=""/>
-                    <TextBox Text=""/>
+                    <TextBox x:Name="inputNewRoomName" Text=""/>
+                    <TextBox x:Name="inputNewRoomFloor" Text=""/>
+                    <ComboBox x:Name="comboBoxRoomLight">
+                        <ComboBoxItem>False</ComboBoxItem>
+                        <ComboBoxItem>True</ComboBoxItem>
+                    </ComboBox>
+
+
                 </StackPanel>
             </Grid>
 
-            <Button Content="Raum hinzufügen" Height="20" FontSize="10"/>
+            <Button Content="Raum hinzufügen" Height="20" FontSize="10" Click="AddNewRoom_Click"/>
         </StackPanel>
 
 

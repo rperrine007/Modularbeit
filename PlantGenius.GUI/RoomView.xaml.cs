@@ -110,7 +110,7 @@ namespace PlantGenius.GUI
         //TODO implement the function so that the RoomAddingView is opened
         private void OpenRoomAddingView(object sender, RoutedEventArgs e)
         {
-
+            //TODO ALEX -> Perrine: I think not neccessary with this way right?
         }
 
         /// <summary>
@@ -174,12 +174,17 @@ namespace PlantGenius.GUI
             roomList[currentIndex] = neighbourRoom;
             roomList[newIndex] = currentRoom;
 
+            //TODO Add logic for the case does a room was deleted. So there are spaces between the sorting id. Probably make a new list and add the numbers new to the database from time to time
             // Update DB for both rooms
             using (var connection = await dbConnector.GetDatabaseConnectionAsync())
             {
                 await ChangeSortRoomNumber(connection, currentRoom.RoomID, currentRoom.RoomSortNumber);
                 await ChangeSortRoomNumber(connection, neighbourRoom.RoomID, neighbourRoom.RoomSortNumber);
             }
+
+            // Keep focus on moved object
+            ListBox_RoomList.SelectedIndex = newIndex;
+
         }
 
         /// <summary>
@@ -199,6 +204,32 @@ namespace PlantGenius.GUI
                 await ChangeRoomSortNumber(sender, e, direction);
             }
         }
+
+        private async void AddNewRoom_Click(object sender, RoutedEventArgs e)
+        {
+            // Create a new Room object from the input
+            Room newRoom = new Room()
+            {
+                RoomName = inputNewRoomName.Text,
+                RoomSortNumber = roomList.Count + 1,
+                FloorOfRoom = int.Parse(inputNewRoomFloor.Text),
+                RoomLight = bool.Parse((comboBoxRoomLight.SelectedItem as ComboBoxItem)?.Content.ToString())
+            };
+
+            // Add to ObservableCollection
+            roomList.Add(newRoom);
+
+            // Insert into database
+            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
+            {
+                string query = $"INSERT INTO Room (RoomName, RoomSort, RoomFloor, RoomLight) VALUES ('{newRoom.RoomName}', {newRoom.RoomSortNumber}, {newRoom.FloorOfRoom}, {newRoom.RoomLight})";
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
 
         /// <summary>
         /// The index and RoomSortNumber of the by the user chosen room will be decreased and hence the room one index lower accordingly changed. 
@@ -247,8 +278,6 @@ namespace PlantGenius.GUI
         //        messagebox.show("der gewählt raum ist bereits der erste in der liste und kann daher nicht weiter nach oben verschoben werden.");
         //    }
         //}
-
-        // TODO implement method similar to ChageRoomSortNumberUp
 
         private void Delete(object sender, RoutedEventArgs e)
         {
