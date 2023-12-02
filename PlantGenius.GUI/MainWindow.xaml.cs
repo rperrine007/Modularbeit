@@ -36,22 +36,15 @@ namespace PlantGenius.GUI
         }
 
         /// <summary>
-        /// When the button "Räume bearbeiten" is clicked, change the Window.
+        /// When the button "Räume bearbeiten" is clicked, change to the Room window.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ChangeToRoomView(object sender, RoutedEventArgs e)
         {
-            //Create instance of RoomView
             RoomView roomView = new RoomView();
-
-            //close the current window
-            this.Close();
-
-            //Show the Roomvuiew which created before
-            roomView.Show();
-        } 
+            UIHelper.SwitchWindowKeepSizePosition(this, roomView);
+        }
     }
-
 }
 
