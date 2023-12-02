@@ -52,14 +52,12 @@ namespace PlantGenius.GUI
             }
         }
 
-        // Go back to main window
+        // Go back to main window MainWindow.xaml
         private void GoBackToHome(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            this.Close();
+            UIHelper.SwitchWindowKeepSizePosition(this, mainWindow);
         }
-
 
         /// <summary>
         /// In this asynchronous task a query to get the room data is made to the DB.
