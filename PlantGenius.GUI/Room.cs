@@ -4,15 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-//TODO: Should the room have a list with plants?
-
 namespace PlantGenius.GUI
 {
     /// <summary>
     /// A room has a name. If an apartment or a house has different floors, the room also knows in which floor it is. 
-    /// In a room a set of plants can be placed. 
-
     /// 
     /// </summary>
     public class Room
