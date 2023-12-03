@@ -1,12 +1,35 @@
-﻿<Window x:Class="PlantGenius.GUI.MainWindow"
+﻿<!-- Setting for the main window. There is a minimum width and height set. The event "Window_SizeChange will ensure that the proportions will always be the same. Exact function is defined in .cs File  -->
+<Window x:Class="PlantGenius.GUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlantGenius.GUI"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        mc:Ignorable="d"        
+        Title="PlantGenius - Home" Height="450" Width="500" MinHeight="375" MinWidth="337.5" SizeChanged="Window_SizeChanged">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="3*"/>
+            <RowDefinition Height= "*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Background image -->
+        <!-- <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="PlantGenius.GUI;component/pexels-sohail-nachiti-807598.jpg" Stretch="UniformToFill"/> Is not visible yet-->
+        <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="https://4row.com/Dateien/PlantGenius/PlantGenius_background.jpg" Stretch="UniformToFill"/>
+        <!-- Formatted Textblock for "Logo PlantGenius -->
+        <TextBlock x:Name="Logo" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   FontSize="22" FontWeight="Bold" TextAlignment="Center" Text="PlantGenius" Foreground="#FF365D36" Padding="9"
+                   Height="50" Width="150" Background="White" TextWrapping="Wrap" />
+
+        <!-- Button to get to next window -->
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <Button x:Name="Button_ChangeToRoomView" Content="Räume bearbeiten" Height="40" FontSize="14" Margin="20" Click="ChangeToRoomView"/>
+        </StackPanel>
 
     </Grid>
 </Window>

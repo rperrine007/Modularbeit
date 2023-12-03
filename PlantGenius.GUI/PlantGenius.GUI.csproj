@@ -8,8 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.2.0" />
-    <PackageReference Include="MySqlConnector" Version="2.3.1" />
+    <None Remove="Fotos\pexels-sohail-nachiti-807598.jpg" />
+    <None Remove="pexels-sohail-nachiti-807598.jpg" />
   </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MySql.Data" Version="8.2.0" />
+		<PackageReference Include="MySqlConnector" Version="2.3.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Fotos\pexels-sohail-nachiti-807598.jpg" />
+	</ItemGroup>
 
 </Project>

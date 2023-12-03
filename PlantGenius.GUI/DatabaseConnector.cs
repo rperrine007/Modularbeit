@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace PlantGenius.GUI
 {
-    public class DatabaseConnector2
+    public class DatabaseConnector
     {
         public async Task<MySqlConnection> GetDatabaseConnectionAsync()
         {
