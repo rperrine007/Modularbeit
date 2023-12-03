@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Microsoft.VisualBasic;
 using MySql.Data.MySqlClient;
 
@@ -174,7 +175,6 @@ namespace PlantGenius.GUI
             roomList[currentIndex] = neighbourRoom;
             roomList[newIndex] = currentRoom;
 
-            //TODO Add logic for the case does a room was deleted. So there are spaces between the sorting id. Probably make a new list and add the numbers new to the database from time to time
             // Update DB for both rooms
             using (var connection = await dbConnector.GetDatabaseConnectionAsync())
             {
@@ -184,8 +184,13 @@ namespace PlantGenius.GUI
 
             // Keep focus on moved object
             ListBox_RoomList.SelectedIndex = newIndex;
-
         }
+
+        private async Task OnRoomDeleteNewSort()
+        {
+            ///TODO rearange room sort if one is deleted
+        }
+
 
         /// <summary>
         /// Gets the Tag from the Button and its value -> adds it to the int direction. Will be handlet from ChangeRoomSortNumber 
@@ -196,8 +201,6 @@ namespace PlantGenius.GUI
         {
             if (sender is Button button)
             {
-                //TODO Add some error handling as this could go really wrong o.O or if there is a possiblity to make sure the tag is handled as int would be much better
-
                 int direction = Convert.ToInt32(button.Tag);
 
                 // Call ChangeRoomSortNumber method with the direction parameter
@@ -236,6 +239,36 @@ namespace PlantGenius.GUI
                 using (var command = new MySqlCommand(query, connection))
                 {
                     await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Prevents to add non int values to a textfield
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                // Allow "-" only if it's the first character, allow digits
+                if (e.Text == "-" && textBox.Text.Length == 0 && !textBox.Text.Contains("-"))
+                {
+                    e.Handled = false; // Allow input
+                }
+                else
+                {
+                    // Allow digits only
+                    foreach (char c in e.Text)
+                    {
+                        if (!char.IsDigit(c))
+                        {
+                            e.Handled = true; // Block input
+                            break;
+                        }
+                    }
                 }
             }
         }
