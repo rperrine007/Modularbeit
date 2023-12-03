@@ -207,13 +207,23 @@ namespace PlantGenius.GUI
 
         private async void AddNewRoom_Click(object sender, RoutedEventArgs e)
         {
+            
+            // Retriving the data from the dropdown and handle it
+            bool roomLight = false;
+            var selectedItem = comboBoxRoomLight.SelectedItem as ComboBoxItem;
+            if (selectedItem != null)
+            {
+                // Use roomLight as Boolean value
+                roomLight = bool.Parse(selectedItem.Tag.ToString());
+            }
+
             // Create a new Room object from the input
             Room newRoom = new Room()
             {
                 RoomName = inputNewRoomName.Text,
                 RoomSortNumber = roomList.Count + 1,
                 FloorOfRoom = int.Parse(inputNewRoomFloor.Text),
-                RoomLight = bool.Parse((comboBoxRoomLight.SelectedItem as ComboBoxItem)?.Content.ToString())
+                RoomLight = roomLight
             };
 
             // Add to ObservableCollection
@@ -229,7 +239,6 @@ namespace PlantGenius.GUI
                 }
             }
         }
-
 
         /// <summary>
         /// The index and RoomSortNumber of the by the user chosen room will be decreased and hence the room one index lower accordingly changed. 
