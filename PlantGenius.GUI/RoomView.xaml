@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PlantGenius.GUI"
         mc:Ignorable="d"
         Title="RoomView"  Height="450" Width="500">
-    <Grid>
+    <Grid Background="#FF365D36">
         <Grid.RowDefinitions>
             <RowDefinition  Height="0.1*"/>
             <RowDefinition  Height="*"/>
@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Go back Buttom-->
-        <Grid  Grid.Row="0" Grid.Column="0">
+        <Grid  Grid.Row="0" Grid.Column="0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -30,7 +30,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Go back button; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <StackPanel Grid.Row="0" Grid.Column="0">
+            <StackPanel Grid.Row="0" Grid.Column="0" >
                 <Button Click="GoBackToHome">
                     <Button.ContentTemplate>
                         <DataTemplate>
@@ -43,7 +43,7 @@
 
          <!-- ListBox Section 
         Bind the selectedItem to the Property SelectedRoom (not the object selectedRoom! -->
-        <ListBox x:Name="ListBox_RoomList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}" DisplayMemberPath="RoomName" IsSynchronizedWithCurrentItem="True" Margin="10"/>
+        <ListBox x:Name="ListBox_RoomList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}" DisplayMemberPath="RoomName" IsSynchronizedWithCurrentItem="True" Margin="10" Background="#FF7AAD7D"/>
 
         <!-- Detail of Rooms Section -->
         <!-- Including a new Grid for nice proportions -->
@@ -58,7 +58,7 @@
 
 
                 <!-- Labeling of Rows -->
-                <StackPanel Grid.Column="0">
+                <StackPanel Grid.Column="0" Background="#FF7AAD7D">
                     <TextBlock Text="Room-ID: "/>
                     <TextBlock Text="Raumname: "/>
                     <TextBlock Text="Sortier-Nummer: "/>
@@ -67,7 +67,7 @@
                 </StackPanel>
 
                 <!-- Content of given room -->
-                <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="DarkGray">
+                <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="#FF5A7B68">
                     <TextBlock Text="{Binding Path=RoomID}"/>
                     <TextBlock Text="{Binding Path=RoomName}"/>
                     <TextBlock Text="{Binding Path=RoomSortNumber}"/>
@@ -78,7 +78,7 @@
         </StackPanel>
 
         <!-- Add Room Section -->
-        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10">
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" Background="White">
 
             <TextBlock HorizontalAlignment="Left" Text="Fügen Sie der Liste weitere Räume hinzu:" VerticalAlignment="Top" TextWrapping="Wrap"/>
 

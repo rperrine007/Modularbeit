@@ -16,14 +16,15 @@ namespace PlantGenius.GUI
         {}
 
         /// Constructor
-        /// <param name="roomID"></param>
         /// <param name="roomName"></param>
-        /// <param name="roomSortNumber"></param>
-        public Room(int roomID, string roomName, int roomSortNumber) 
+        /// <param name="floorOfRoom"></param>
+        /// <param name="roomLight"></param>
+        public Room(string roomName, int floorOfRoom, bool roomLight) 
         {
-            RoomID = roomID;
             RoomName = roomName;
-            FloorOfRoom = 0;
+            FloorOfRoom = floorOfRoom;
+            RoomLight = roomLight;
+            RoomSortNumber = 0;
         }
 
 

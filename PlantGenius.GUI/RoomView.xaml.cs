@@ -111,6 +111,8 @@ namespace PlantGenius.GUI
         private void OpenRoomAddingView(object sender, RoutedEventArgs e)
         {
             //TODO ALEX -> Perrine: I think not neccessary with this way right?
+            // Answer Perrine: Die idee war es ein Fenster zu öffnen, wenn der Benutzer bei der RoomView das ! drückt. Im Fenster könnte dann lediglich der Abschnitt Reihe 2
+            // (Räume hinzufügen) aufpoppen. Und nach getaner eingabe könnte es auch einfach wieder versdchwinden.
         }
 
         /// <summary>
@@ -174,7 +176,7 @@ namespace PlantGenius.GUI
             roomList[currentIndex] = neighbourRoom;
             roomList[newIndex] = currentRoom;
 
-            //TODO Add logic for the case does a room was deleted. So there are spaces between the sorting id. Probably make a new list and add the numbers new to the database from time to time
+
             // Update DB for both rooms
             using (var connection = await dbConnector.GetDatabaseConnectionAsync())
             {
@@ -205,6 +207,11 @@ namespace PlantGenius.GUI
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void AddNewRoom_Click(object sender, RoutedEventArgs e)
         {
             // Create a new Room object from the input
@@ -231,57 +238,37 @@ namespace PlantGenius.GUI
         }
 
 
+        //TODO Add logic for the case does a room was deleted. So there are spaces between the sorting id. Probably make a new list and add the numbers new to the database from time to time
         /// <summary>
-        /// The index and RoomSortNumber of the by the user chosen room will be decreased and hence the room one index lower accordingly changed. 
+        /// In this asynchronous task a query to delete one room is made to the DB.
         /// Why asynchronous: This ensures that the application remains responsive and can handle
-        /// </summary>
+        /// other tasks while waiting for the database to return results.
+        ///  </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// 
-        //private async void changeroomsortnumberup(object sender, routedeventargs e)
-        //{
-        //    //make sure the user chose a room and its not the first room.
-        //    if (listbox_roomlist.selecteditem != null && listbox_roomlist.selectedindex > 0)
-        //    {
-        //        //get index of selected room and corresponding object
-        //        int currentindex = listbox_roomlist.selectedindex;
-        //        room selectedroom = roomlist[currentindex];
-        //        //save the element with one index lower
-        //        room previousroom = roomlist[currentindex - 1];
-
-
-        //        //change sortnumber
-        //        selectedroom.roomsortnumber--;
-        //        previousroom.roomsortnumber++;
-
-        //        //swap order
-        //        roomlist[currentindex - 1] = selectedroom;
-        //        roomlist[currentindex] = previousroom;
-
-        //        //update db
-        //        // use the 'getdatabaseconnectionasync' method to asynchronously obtain a database connection.
-        //        // the 'await' keyword is used to await the completion of the asynchronous operation.
-        //        using (var connection = await dbconnector.getdatabaseconnectionasync())
-        //        {
-        //            // the obtained database connection is now used to execute an asynchronous database query.
-        //            // the 'await' keyword ensures that the 'executequeryasync' method is awaited,
-        //            await changesortroomnumber(connection, selectedroom.roomid, selectedroom.roomsortnumber);
-        //            await changesortroomnumber(connection, previousroom.roomid, previousroom.roomsortnumber);
-        //        }
-        //    }
-        //    else if (listbox_roomlist.selecteditem == null)
-        //    {
-        //        messagebox.show("bitte wählen sie den raum an, welchen sie in der darstellung nach oben verschieben möchten.");
-        //    }
-        //    else
-        //    {
-        //        messagebox.show("der gewählt raum ist bereits der erste in der liste und kann daher nicht weiter nach oben verschoben werden.");
-        //    }
-        //}
-
-        private void Delete(object sender, RoutedEventArgs e)
+        /// <param name="e"</param>
+        /// <returns></returns>
+        private async void Delete(object sender, RoutedEventArgs e)
         {
+            // Validation if room choosen
+            if (ListBox_RoomList.SelectedItem == null)
+            {
+                MessageBox.Show("Bitte wählen Sie einen Raum aus.");
+                return;
+            }
 
+            roomList.Remove((Room)ListBox_RoomList.SelectedItem);
+
+            // Insert into database
+            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
+            {
+                string query = "DELETE FROM `Room` WHERE `Room`.`RoomID` = @RoomID;";
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    // Assuming RoomID is an integer, replace with the actual data type if necessary
+                    command.Parameters.AddWithValue("@RoomID", ListBox_RoomList.SelectedIndex);
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
         }
     }
 }
