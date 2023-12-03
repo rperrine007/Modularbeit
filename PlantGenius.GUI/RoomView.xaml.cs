@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Microsoft.VisualBasic;
 using MySql.Data.MySqlClient;
 
@@ -111,8 +112,6 @@ namespace PlantGenius.GUI
         private void OpenRoomAddingView(object sender, RoutedEventArgs e)
         {
             //TODO ALEX -> Perrine: I think not neccessary with this way right?
-            // Answer Perrine: Die idee war es ein Fenster zu öffnen, wenn der Benutzer bei der RoomView das ! drückt. Im Fenster könnte dann lediglich der Abschnitt Reihe 2
-            // (Räume hinzufügen) aufpoppen. Und nach getaner eingabe könnte es auch einfach wieder versdchwinden.
         }
 
         /// <summary>
@@ -176,7 +175,6 @@ namespace PlantGenius.GUI
             roomList[currentIndex] = neighbourRoom;
             roomList[newIndex] = currentRoom;
 
-
             // Update DB for both rooms
             using (var connection = await dbConnector.GetDatabaseConnectionAsync())
             {
@@ -186,8 +184,13 @@ namespace PlantGenius.GUI
 
             // Keep focus on moved object
             ListBox_RoomList.SelectedIndex = newIndex;
-
         }
+
+        private async Task OnRoomDeleteNewSort()
+        {
+            ///TODO rearange room sort if one is deleted
+        }
+
 
         /// <summary>
         /// Gets the Tag from the Button and its value -> adds it to the int direction. Will be handlet from ChangeRoomSortNumber 
@@ -198,8 +201,6 @@ namespace PlantGenius.GUI
         {
             if (sender is Button button)
             {
-                //TODO Add some error handling as this could go really wrong o.O or if there is a possiblity to make sure the tag is handled as int would be much better
-
                 int direction = Convert.ToInt32(button.Tag);
 
                 // Call ChangeRoomSortNumber method with the direction parameter
@@ -207,20 +208,25 @@ namespace PlantGenius.GUI
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private async void AddNewRoom_Click(object sender, RoutedEventArgs e)
         {
+            
+            // Retriving the data from the dropdown and handle it
+            bool roomLight = false;
+            var selectedItem = comboBoxRoomLight.SelectedItem as ComboBoxItem;
+            if (selectedItem != null)
+            {
+                // Use roomLight as Boolean value
+                roomLight = bool.Parse(selectedItem.Tag.ToString());
+            }
+
             // Create a new Room object from the input
             Room newRoom = new Room()
             {
                 RoomName = inputNewRoomName.Text,
                 RoomSortNumber = roomList.Count + 1,
                 FloorOfRoom = int.Parse(inputNewRoomFloor.Text),
-                RoomLight = bool.Parse((comboBoxRoomLight.SelectedItem as ComboBoxItem)?.Content.ToString())
+                RoomLight = roomLight
             };
 
             // Add to ObservableCollection
@@ -237,38 +243,87 @@ namespace PlantGenius.GUI
             }
         }
 
-
-        //TODO Add logic for the case does a room was deleted. So there are spaces between the sorting id. Probably make a new list and add the numbers new to the database from time to time
         /// <summary>
-        /// In this asynchronous task a query to delete one room is made to the DB.
-        /// Why asynchronous: This ensures that the application remains responsive and can handle
-        /// other tasks while waiting for the database to return results.
-        ///  </summary>
+        /// Prevents to add non int values to a textfield
+        /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"</param>
-        /// <returns></returns>
-        private async void Delete(object sender, RoutedEventArgs e)
+        /// <param name="e"></param>
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // Validation if room choosen
-            if (ListBox_RoomList.SelectedItem == null)
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
             {
-                MessageBox.Show("Bitte wählen Sie einen Raum aus.");
-                return;
-            }
-
-            roomList.Remove((Room)ListBox_RoomList.SelectedItem);
-
-            // Insert into database
-            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
-            {
-                string query = "DELETE FROM `Room` WHERE `Room`.`RoomID` = @RoomID;";
-                using (var command = new MySqlCommand(query, connection))
+                // Allow "-" only if it's the first character, allow digits
+                if (e.Text == "-" && textBox.Text.Length == 0 && !textBox.Text.Contains("-"))
                 {
-                    // Assuming RoomID is an integer, replace with the actual data type if necessary
-                    command.Parameters.AddWithValue("@RoomID", ListBox_RoomList.SelectedIndex);
-                    await command.ExecuteNonQueryAsync();
+                    e.Handled = false; // Allow input
+                }
+                else
+                {
+                    // Allow digits only
+                    foreach (char c in e.Text)
+                    {
+                        if (!char.IsDigit(c))
+                        {
+                            e.Handled = true; // Block input
+                            break;
+                        }
+                    }
                 }
             }
+        }
+
+        /// <summary>
+        /// The index and RoomSortNumber of the by the user chosen room will be decreased and hence the room one index lower accordingly changed. 
+        /// Why asynchronous: This ensures that the application remains responsive and can handle
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// 
+        //private async void changeroomsortnumberup(object sender, routedeventargs e)
+        //{
+        //    //make sure the user chose a room and its not the first room.
+        //    if (listbox_roomlist.selecteditem != null && listbox_roomlist.selectedindex > 0)
+        //    {
+        //        //get index of selected room and corresponding object
+        //        int currentindex = listbox_roomlist.selectedindex;
+        //        room selectedroom = roomlist[currentindex];
+        //        //save the element with one index lower
+        //        room previousroom = roomlist[currentindex - 1];
+
+
+        //        //change sortnumber
+        //        selectedroom.roomsortnumber--;
+        //        previousroom.roomsortnumber++;
+
+        //        //swap order
+        //        roomlist[currentindex - 1] = selectedroom;
+        //        roomlist[currentindex] = previousroom;
+
+        //        //update db
+        //        // use the 'getdatabaseconnectionasync' method to asynchronously obtain a database connection.
+        //        // the 'await' keyword is used to await the completion of the asynchronous operation.
+        //        using (var connection = await dbconnector.getdatabaseconnectionasync())
+        //        {
+        //            // the obtained database connection is now used to execute an asynchronous database query.
+        //            // the 'await' keyword ensures that the 'executequeryasync' method is awaited,
+        //            await changesortroomnumber(connection, selectedroom.roomid, selectedroom.roomsortnumber);
+        //            await changesortroomnumber(connection, previousroom.roomid, previousroom.roomsortnumber);
+        //        }
+        //    }
+        //    else if (listbox_roomlist.selecteditem == null)
+        //    {
+        //        messagebox.show("bitte wählen sie den raum an, welchen sie in der darstellung nach oben verschieben möchten.");
+        //    }
+        //    else
+        //    {
+        //        messagebox.show("der gewählt raum ist bereits der erste in der liste und kann daher nicht weiter nach oben verschoben werden.");
+        //    }
+        //}
+
+        private void Delete(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
