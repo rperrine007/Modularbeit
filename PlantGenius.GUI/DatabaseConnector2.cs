@@ -26,5 +26,4 @@ namespace PlantGenius.GUI
             return connection;
         }
     }
-
 }
