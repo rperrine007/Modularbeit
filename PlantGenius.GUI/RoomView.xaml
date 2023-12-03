@@ -80,7 +80,7 @@
         <!-- Add Room Section -->
         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10">
 
-            <TextBlock HorizontalAlignment="Left" Text="Fügen Sie der Liste weitere Räume hinzu:" VerticalAlignment="Top" TextWrapping="Wrap"/>
+            <TextBlock HorizontalAlignment="Left" Text="Fügen Sie der Liste weitere Räume hinzu:" Height="20" VerticalAlignment="Top" TextWrapping="Wrap"/>
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -94,25 +94,22 @@
                 </Grid.ColumnDefinitions>
                 <!-- Labeling of Rows -->
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Raumname: "/>
-                    <TextBlock Text="Stockwerk: "/>
-                    <TextBlock Text="Lichtverhältnisse: "/>
+                    <TextBlock Text="Raumname:" Height="20"/>
+                    <TextBlock Text="Stockwerk:" Height="20"/>
+                    <TextBlock Text="Lichtverhältnisse:" Height="25"/>
                 </StackPanel>
 
                 <!-- Content of given room -->
                 <StackPanel Grid.Row="0" Grid.Column="1">
-                    <TextBox x:Name="inputNewRoomName" Text=""/>
-                    <TextBox x:Name="inputNewRoomFloor" Text=""/>
-                    <ComboBox x:Name="comboBoxRoomLight">
-                        <ComboBoxItem>False</ComboBoxItem>
-                        <ComboBoxItem>True</ComboBoxItem>
+                    <TextBox x:Name="inputNewRoomName" Text="" Height="20"/>
+                    <TextBox x:Name="inputNewRoomFloor" Text="" Height="20"/>
+                    <ComboBox x:Name="comboBoxRoomLight" Margin="0,0,0,10" Height="25">
+                        <ComboBoxItem Content="Schattenseite" Tag="False"></ComboBoxItem>
+                        <ComboBoxItem Content="Sonnenseite" Tag="True"></ComboBoxItem>
                     </ComboBox>
-
-
                 </StackPanel>
             </Grid>
-
-            <Button Content="Raum hinzufügen" Height="20" FontSize="10" Click="AddNewRoom_Click"/>
+            <Button Content="Raum hinzufügen" Height="40" FontSize="14" Click="AddNewRoom_Click"/>
         </StackPanel>
 
 
