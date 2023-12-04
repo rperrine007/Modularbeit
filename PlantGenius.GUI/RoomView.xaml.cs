@@ -196,12 +196,11 @@ namespace PlantGenius.GUI
             int newSortID = 1;
             foreach (var room in sortedRooms)
             {
-                room.RoomSortNumber = newSortID;
 
                 // Update Database
                 using (var connection = await dbConnector.GetDatabaseConnectionAsync())
                 {
-                    string query = $"UPDATE Room SET RoomSort = {newSortID} WHERE RoomSort = {room.RoomSortNumber}";
+                    string query = $"UPDATE Room SET RoomSort = {newSortID} WHERE RoomID = {room.RoomID}";
                     using (var command = new MySqlCommand(query, connection))
                     {
                         await command.ExecuteNonQueryAsync();
@@ -224,6 +223,7 @@ namespace PlantGenius.GUI
 
                 // Call ChangeRoomSortNumber method with the direction parameter
                 await ChangeRoomSortNumber(sender, e, direction);
+                await OnRoomDeleteNewSort();
             }
         }
 
