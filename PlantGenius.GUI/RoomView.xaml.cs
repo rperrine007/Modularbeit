@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Common;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -188,9 +189,27 @@ namespace PlantGenius.GUI
 
         private async Task OnRoomDeleteNewSort()
         {
-            ///TODO rearange room sort if one is deleted
-        }
+            // Sort the Rooms by RoomSortNumber
+            var sortedRooms = roomList.OrderBy(room => room.RoomSortNumber).ToList();
 
+            // Adding a new sorting number to each room to avoid gaps
+            int newSortID = 1;
+            foreach (var room in sortedRooms)
+            {
+                room.RoomSortNumber = newSortID;
+
+                // Update Database
+                using (var connection = await dbConnector.GetDatabaseConnectionAsync())
+                {
+                    string query = $"UPDATE Room SET RoomSort = {newSortID} WHERE RoomSort = {room.RoomSortNumber}";
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+                newSortID++;
+            }
+        }
 
         /// <summary>
         /// Gets the Tag from the Button and its value -> adds it to the int direction. Will be handlet from ChangeRoomSortNumber 
@@ -272,58 +291,16 @@ namespace PlantGenius.GUI
                 }
             }
         }
-
+                
         /// <summary>
-        /// The index and RoomSortNumber of the by the user chosen room will be decreased and hence the room one index lower accordingly changed. 
-        /// Why asynchronous: This ensures that the application remains responsive and can handle
+        /// This Method deletes a room entry from the database. Afterwards it will update the sorting numbers to avoid gaps
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        /// 
-        //private async void changeroomsortnumberup(object sender, routedeventargs e)
-        //{
-        //    //make sure the user chose a room and its not the first room.
-        //    if (listbox_roomlist.selecteditem != null && listbox_roomlist.selectedindex > 0)
-        //    {
-        //        //get index of selected room and corresponding object
-        //        int currentindex = listbox_roomlist.selectedindex;
-        //        room selectedroom = roomlist[currentindex];
-        //        //save the element with one index lower
-        //        room previousroom = roomlist[currentindex - 1];
-
-
-        //        //change sortnumber
-        //        selectedroom.roomsortnumber--;
-        //        previousroom.roomsortnumber++;
-
-        //        //swap order
-        //        roomlist[currentindex - 1] = selectedroom;
-        //        roomlist[currentindex] = previousroom;
-
-        //        //update db
-        //        // use the 'getdatabaseconnectionasync' method to asynchronously obtain a database connection.
-        //        // the 'await' keyword is used to await the completion of the asynchronous operation.
-        //        using (var connection = await dbconnector.getdatabaseconnectionasync())
-        //        {
-        //            // the obtained database connection is now used to execute an asynchronous database query.
-        //            // the 'await' keyword ensures that the 'executequeryasync' method is awaited,
-        //            await changesortroomnumber(connection, selectedroom.roomid, selectedroom.roomsortnumber);
-        //            await changesortroomnumber(connection, previousroom.roomid, previousroom.roomsortnumber);
-        //        }
-        //    }
-        //    else if (listbox_roomlist.selecteditem == null)
-        //    {
-        //        messagebox.show("bitte wählen sie den raum an, welchen sie in der darstellung nach oben verschieben möchten.");
-        //    }
-        //    else
-        //    {
-        //        messagebox.show("der gewählt raum ist bereits der erste in der liste und kann daher nicht weiter nach oben verschoben werden.");
-        //    }
-        //}
-
-        private void Delete(object sender, RoutedEventArgs e)
+        private async void Delete(object sender, RoutedEventArgs e)
         {
-
+            //Call resorting method
+            await OnRoomDeleteNewSort();
         }
     }
 }
