@@ -134,7 +134,7 @@ namespace PlantGenius.GUI
                     
         }
 
-        private async 
+        
         /// <summary>
         /// The SortID will be decreased(-1) or increased (1) and the direct neighbour will be swapped with the choosen room. 
         /// Why asynchronous: This ensures that the application remains responsive and can handle
@@ -142,8 +142,7 @@ namespace PlantGenius.GUI
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <param name="direction"></param>
-        Task
-        ChangeRoomSortNumber(object sender, RoutedEventArgs e, int direction)
+        private async Task ChangeRoomSortNumber(object sender, RoutedEventArgs e, int direction)
         {
             // Validation if room choosen
             if (ListBox_RoomList.SelectedItem == null)
