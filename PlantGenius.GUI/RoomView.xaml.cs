@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Common;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Microsoft.VisualBasic;
 using MySql.Data.MySqlClient;
 
@@ -173,7 +175,6 @@ namespace PlantGenius.GUI
             roomList[currentIndex] = neighbourRoom;
             roomList[newIndex] = currentRoom;
 
-            //TODO Add logic for the case does a room was deleted. So there are spaces between the sorting id. Probably make a new list and add the numbers new to the database from time to time
             // Update DB for both rooms
             using (var connection = await dbConnector.GetDatabaseConnectionAsync())
             {
@@ -183,7 +184,29 @@ namespace PlantGenius.GUI
 
             // Keep focus on moved object
             ListBox_RoomList.SelectedIndex = newIndex;
+        }
 
+        private async Task OnRoomDeleteNewSort()
+        {
+            // Sort the Rooms by RoomSortNumber
+            var sortedRooms = roomList.OrderBy(room => room.RoomSortNumber).ToList();
+
+            // Adding a new sorting number to each room to avoid gaps
+            int newSortID = 1;
+            foreach (var room in sortedRooms)
+            {
+
+                // Update Database
+                using (var connection = await dbConnector.GetDatabaseConnectionAsync())
+                {
+                    string query = $"UPDATE Room SET RoomSort = {newSortID} WHERE RoomID = {room.RoomID}";
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+                newSortID++;
+            }
         }
 
         /// <summary>
@@ -195,24 +218,33 @@ namespace PlantGenius.GUI
         {
             if (sender is Button button)
             {
-                //TODO Add some error handling as this could go really wrong o.O or if there is a possiblity to make sure the tag is handled as int would be much better
-
                 int direction = Convert.ToInt32(button.Tag);
 
                 // Call ChangeRoomSortNumber method with the direction parameter
                 await ChangeRoomSortNumber(sender, e, direction);
+                await OnRoomDeleteNewSort();
             }
         }
 
         private async void AddNewRoom_Click(object sender, RoutedEventArgs e)
         {
+            
+            // Retriving the data from the dropdown and handle it
+            bool roomLight = false;
+            var selectedItem = comboBoxRoomLight.SelectedItem as ComboBoxItem;
+            if (selectedItem != null)
+            {
+                // Use roomLight as Boolean value
+                roomLight = bool.Parse(selectedItem.Tag.ToString());
+            }
+
             // Create a new Room object from the input
             Room newRoom = new Room()
             {
                 RoomName = inputNewRoomName.Text,
                 RoomSortNumber = roomList.Count + 1,
                 FloorOfRoom = int.Parse(inputNewRoomFloor.Text),
-                RoomLight = bool.Parse((comboBoxRoomLight.SelectedItem as ComboBoxItem)?.Content.ToString())
+                RoomLight = roomLight
             };
 
             // Add to ObservableCollection
@@ -229,58 +261,45 @@ namespace PlantGenius.GUI
             }
         }
 
-
         /// <summary>
-        /// The index and RoomSortNumber of the by the user chosen room will be decreased and hence the room one index lower accordingly changed. 
-        /// Why asynchronous: This ensures that the application remains responsive and can handle
+        /// Prevents to add non int values to a textfield
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        /// 
-        //private async void changeroomsortnumberup(object sender, routedeventargs e)
-        //{
-        //    //make sure the user chose a room and its not the first room.
-        //    if (listbox_roomlist.selecteditem != null && listbox_roomlist.selectedindex > 0)
-        //    {
-        //        //get index of selected room and corresponding object
-        //        int currentindex = listbox_roomlist.selectedindex;
-        //        room selectedroom = roomlist[currentindex];
-        //        //save the element with one index lower
-        //        room previousroom = roomlist[currentindex - 1];
-
-
-        //        //change sortnumber
-        //        selectedroom.roomsortnumber--;
-        //        previousroom.roomsortnumber++;
-
-        //        //swap order
-        //        roomlist[currentindex - 1] = selectedroom;
-        //        roomlist[currentindex] = previousroom;
-
-        //        //update db
-        //        // use the 'getdatabaseconnectionasync' method to asynchronously obtain a database connection.
-        //        // the 'await' keyword is used to await the completion of the asynchronous operation.
-        //        using (var connection = await dbconnector.getdatabaseconnectionasync())
-        //        {
-        //            // the obtained database connection is now used to execute an asynchronous database query.
-        //            // the 'await' keyword ensures that the 'executequeryasync' method is awaited,
-        //            await changesortroomnumber(connection, selectedroom.roomid, selectedroom.roomsortnumber);
-        //            await changesortroomnumber(connection, previousroom.roomid, previousroom.roomsortnumber);
-        //        }
-        //    }
-        //    else if (listbox_roomlist.selecteditem == null)
-        //    {
-        //        messagebox.show("bitte wählen sie den raum an, welchen sie in der darstellung nach oben verschieben möchten.");
-        //    }
-        //    else
-        //    {
-        //        messagebox.show("der gewählt raum ist bereits der erste in der liste und kann daher nicht weiter nach oben verschoben werden.");
-        //    }
-        //}
-
-        private void Delete(object sender, RoutedEventArgs e)
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                // Allow "-" only if it's the first character, allow digits
+                if (e.Text == "-" && textBox.Text.Length == 0 && !textBox.Text.Contains("-"))
+                {
+                    e.Handled = false; // Allow input
+                }
+                else
+                {
+                    // Allow digits only
+                    foreach (char c in e.Text)
+                    {
+                        if (!char.IsDigit(c))
+                        {
+                            e.Handled = true; // Block input
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+                
+        /// <summary>
+        /// This Method deletes a room entry from the database. Afterwards it will update the sorting numbers to avoid gaps
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Delete(object sender, RoutedEventArgs e)
+        {
+            //Call resorting method
+            await OnRoomDeleteNewSort();
         }
     }
 }
