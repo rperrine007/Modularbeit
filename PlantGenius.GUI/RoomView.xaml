@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PlantGenius.GUI"
         mc:Ignorable="d"
         Title="PlantGenius - RoomView"  Height="450" Width="500">
-    <Grid Background="#FF365D36">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="*"/>
@@ -60,7 +60,7 @@
 
 
                 <!-- Labeling of Rows -->
-                <StackPanel Grid.Column="0" Background="#FF62775C">
+                <StackPanel Grid.Column="0" Background="DarkGray">
                     <TextBlock Text="Room-ID: "/>
                     <TextBlock Text="Raumname: "/>
                     <TextBlock Text="Sortier-Nummer: "/>
@@ -69,7 +69,7 @@
                 </StackPanel>
 
                 <!-- Content of given room -->
-                <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="#FF324A3B">
+                <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="DarkGray">
                     <TextBlock Text="{Binding Path=RoomID}"/>
                     <TextBlock Text="{Binding Path=RoomName}"/>
                     <TextBlock Text="{Binding Path=RoomSortNumber}"/>
@@ -105,11 +105,11 @@
 
                 <!-- Content of given room -->
                 <StackPanel Grid.Row="0" Grid.Column="1">
-                    <TextBox x:Name="inputNewRoomName" Text="" Height="25"/>
-                    <TextBox x:Name="inputNewRoomFloor" Height="25" PreviewTextInput="TextBox_PreviewTextInput"/>
-                    <ComboBox x:Name="comboBoxRoomLight" Margin="0,0,0,10" Height="25">
-                        <ComboBoxItem Content="Schattenseite" Tag="False"></ComboBoxItem>
-                        <ComboBoxItem Content="Sonnenseite" Tag="True"></ComboBoxItem>
+                    <TextBox x:Name="inputNewRoomName" Text="" Height="25" Background="#FF62775C" />
+                    <TextBox x:Name="inputNewRoomFloor" Height="25" PreviewTextInput="TextBox_PreviewTextInput" Background="#FF62775C" />
+                    <ComboBox x:Name="comboBoxRoomLight" Margin="0,0,0,10" Height="25" Background="#FF62775C" >
+                        <ComboBoxItem Content="Schattenseite" Tag="False" Background="#FF62775C"> </ComboBoxItem>
+                        <ComboBoxItem Content="Sonnenseite" Tag="True" Background="#FF62775C"></ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
             </Grid>

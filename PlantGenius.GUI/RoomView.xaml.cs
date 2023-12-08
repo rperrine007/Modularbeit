@@ -133,9 +133,7 @@ namespace PlantGenius.GUI
                 // Executing the query asynchronously
                 await command.ExecuteNonQueryAsync();
            }
-                    
         }
-
         
         /// <summary>
         /// The SortID will be decreased(-1) or increased (1) and the direct neighbour will be swapped with the choosen room. 
