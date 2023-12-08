@@ -13,8 +13,8 @@ namespace PlantGenius_User.GUI
             var app = builder.Build();
 
             // Attempt to connect to the database and print the status to the console
-            var dbConnector = new DatabaseConnector();
-            dbConnector.ConnectToDatabase();
+            //var dbConnector = new DatabaseConnector();
+            //dbConnector.ConnectToDatabase();
 
             return app;
         }
