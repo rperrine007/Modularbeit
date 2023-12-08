@@ -264,6 +264,7 @@ namespace PlantGenius.GUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        //TODO unit test and Exception handling for this method 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             TextBox textBox = sender as TextBox;
