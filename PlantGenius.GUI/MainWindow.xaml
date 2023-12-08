@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Background image -->
-        <!-- <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="PlantGenius.GUI;component/pexels-sohail-nachiti-807598.jpg" Stretch="UniformToFill"/> Is not visible yet-->
+        <!--<Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="PlantGenius.GUI;component/Fotos/pexels-sohail-nachiti-807598.jpg" Stretch="UniformToFill"/>-->
         <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="https://4row.com/Dateien/PlantGenius/PlantGenius_background.jpg" Stretch="UniformToFill"/>
         <!-- Formatted Textblock for "Logo PlantGenius -->
         <TextBlock x:Name="Logo" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" 
