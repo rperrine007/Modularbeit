@@ -1,41 +1,23 @@
 ﻿@page "/"
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Wässern</th>
-            <th>Anpassen</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Orchidee</td>
-            <td>...</td>
-            <td>...</td>
-        </tr>
-        <tr>
-            <td>Rose</td>
-            <td>...</td>
-            <td>...</td>
-        </tr>
-        <tr>
-            <td>Tulpe</td>
-            <td>...</td>
-            <td>...</td>
-        </tr>
-        <tr>
-            <td>Kaktus</td>
-            <td>...</td>
-            <td>...</td>
-        </tr>
-        
 
-    </tbody>
-</table>
-<br />These entries are just static for design purpose...
+<h3>Plants</h3>
+<ul>
+	@foreach (var plant in plants)
+	{
+		<li>@plant.PlantName - Watered: @plant.WaterLastTime.ToShortDateString() - Water needed: @plant.WaterRequirement</li>
+	}
+</ul>
+
+
 
 @code {
-    
+	private List<Plant> plants;
+
+	protected override async Task OnInitializedAsync()
+	{
+		// Create an instance of the DatabaseConnector class
+		var dbConnector = new DatabaseConnector();
+		plants = await dbConnector.GetPlantsAsync();
+	}
+
 }
-
-
