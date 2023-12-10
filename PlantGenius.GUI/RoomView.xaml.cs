@@ -92,19 +92,6 @@ namespace PlantGenius.GUI
                     }
                 }
             }
-
-            // SQL Querrys Beispiele
-            // SELECT * FROM `Room` WHERE `RoomName` = 'Wohnzimmer'     // Gib Raum mit Name "Wohnzimmer" zurück
-            // SELECT * FROM `Room` WHERE `RoomID` = '1'                // Gib Raum mit ID 1 zurück
-            // SELECT * FROM `Room` ORDER BY `Room`.`RoomFloor` DESC    // Alle Räume aber Absteigend vom obersten zum untersten Stock
-
-            // Neuer Datensatz einfügen
-            // INSERT INTO `Room` (`RoomID`, `RoomName`, `RoomSort`, `RoomFloor`, `RoomLight`) VALUES (NULL, 'Testraum', '0', '2', '0');
-
-            // Datensatz anpassen // vorgängig sinnvollerweise ein SELECT ID, Übergabe der Inhalte in Formular und dann zurück mit Update mit geänderten Inhalten
-            // UPDATE `Room` SET `RoomFloor` = '1' WHERE `Room`.`RoomID` = 4;
-
-            // INSERT INTO `Plant` (`PlantID`, `PlantName`, `PlantNameScientific`, `PlantRoom`, `PlantSort`, `PlantWaterRequirement`, `PlantWaterLastTime`) VALUES (NULL, 'Orchideen', 'Orchidaceae', '1', '0', '14', '2023-12-01');
         }
 
         //Open new window to add new room
@@ -289,7 +276,7 @@ namespace PlantGenius.GUI
                 }
             }
         }
-                
+
         /// <summary>
         /// This Method deletes a room entry from the database. Afterwards it will update the sorting numbers to avoid gaps
         /// </summary>
@@ -297,8 +284,30 @@ namespace PlantGenius.GUI
         /// <param name="e"></param>
         private async void Delete(object sender, RoutedEventArgs e)
         {
-            //Call resorting method
-            await OnRoomDeleteNewSort();
+            //control if a room is chosen
+            if (ListBox_RoomList.SelectedItem == null)
+            {
+                MessageBox.Show("Bitte wählen Sie einen Raum aus.");
+                return;
+            }
+
+            Room currentRoom = (Room)ListBox_RoomList.SelectedItem;
+
+            // Remove the specified room from the ObservableCollection
+            roomList.Remove(currentRoom);
+
+            //delete the room from the database
+            string query = $"DELETE FROM Room WHERE RoomID = {currentRoom.RoomID}";
+
+            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
+            {
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                    //Call resorting method
+                    await OnRoomDeleteNewSort();
+                }
+            }
         }
     }
 }
