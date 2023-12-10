@@ -48,48 +48,8 @@ namespace PlantGenius.GUI
         /// <param name="e"></param>
         private async void RoomView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Use the 'GetDatabaseConnectionAsync' method to asynchronously obtain a database connection.
-            // The 'await' keyword is used to await the completion of the asynchronous operation.
-            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
-            {
-                // The obtained database connection is now used to execute an asynchronous database query.
-                // The 'await' keyword ensures that the 'ExecuteQueryAsync' method is awaited,
-                await GetRooms(connection);
-            }
-        }
-
-        /// <summary>
-        /// In this asynchronous task a query to get the room data is made to the DB.
-        /// Why asynchronous: This ensures that the application remains responsive and can handle
-        /// other tasks while waiting for the database to return results.
-        ///  </summary>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        public async Task GetRooms(MySqlConnection connection)
-        {
-            // Sort by set RoomSort.
-            string query = "SELECT * FROM Room ORDER BY RoomSort ASC";
-
-            // the defined query is made on the defined connection (DB)
-            using (var command = new MySqlCommand(query, connection))
-            {
-                //the data is asynchroned read from the DB. 
-                using (var reader = await command.ExecuteReaderAsync())
-                {
-                    while (await reader.ReadAsync())
-                    {
-                        //Add Rooms of DB to roomList
-                        roomList.Add(new Room()
-                        {
-                            RoomID = (int)reader["RoomID"],
-                            RoomName = (string)reader["RoomName"],
-                            RoomSortNumber = (int)reader["RoomSort"],
-                            FloorOfRoom = (int)reader["RoomFloor"],
-                            RoomLight = (bool)reader["RoomLight"]
-                        });
-                    }
-                }
-            }
+                //import rooms from db and save into roomList
+                await DataAccessLayer.GetRooms(dbConnector, roomList);
         }
 
         /// <summary>
@@ -154,8 +114,7 @@ namespace PlantGenius.GUI
 
         /// <summary>
         /// In this asynchronous task a query to get the room data is made to the DB.
-        /// Why asynchronous: This ensures that the application remains responsive and can handle
-        /// other tasks while waiting for the database to return results.
+        /// Why asynchronous: This ensures that the application remains responsive and can handle other tasks while waiting for the database to return results.
         ///  </summary>
         /// <param name="connection"></param>
         /// <returns></returns>
@@ -185,11 +144,11 @@ namespace PlantGenius.GUI
 
                 // Call ChangeRoomSortNumber method with the direction parameter
                 await ChangeRoomSortNumber(sender, e, direction);
-                await OnRoomDeleteNewSort();
+                await DataAccessLayer.OnRoomDeleteNewSort(dbConnector, roomList);
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// This Method deletes a room entry from the database. Afterwards it will update the sorting numbers to avoid gaps
         /// </summary>
         /// <param name="sender"></param>
@@ -208,45 +167,7 @@ namespace PlantGenius.GUI
             // Remove the specified room from the ObservableCollection
             roomList.Remove(currentRoom);
 
-            //delete the room from the database
-            string query = $"DELETE FROM Room WHERE RoomID = {currentRoom.RoomID}";
-
-            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
-            {
-                using (var command = new MySqlCommand(query, connection))
-                {
-                    await command.ExecuteNonQueryAsync();
-                    //Call resorting method
-                    await OnRoomDeleteNewSort();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Update the SortNumber of the rooms, when a room is deleted.
-        /// </summary>
-        /// <returns></returns>
-        private async Task OnRoomDeleteNewSort()
-        {
-            // Sort the Rooms by RoomSortNumber
-            var sortedRooms = roomList.OrderBy(room => room.RoomSortNumber).ToList();
-
-            // Adding a new sorting number to each room to avoid gaps
-            int newSortID = 1;
-            foreach (var room in sortedRooms)
-            {
-
-                // Update Database
-                using (var connection = await dbConnector.GetDatabaseConnectionAsync())
-                {
-                    string query = $"UPDATE Room SET RoomSort = {newSortID} WHERE RoomID = {room.RoomID}";
-                    using (var command = new MySqlCommand(query, connection))
-                    {
-                        await command.ExecuteNonQueryAsync();
-                    }
-                }
-                newSortID++;
-            }
+            await DataAccessLayer.DeleteRoomFromDB(dbConnector, roomList, currentRoom);
         }
 
         /// <summary>
@@ -274,20 +195,13 @@ namespace PlantGenius.GUI
                 FloorOfRoom = int.Parse(inputNewRoomFloor.Text),
                 RoomLight = roomLight
             };
-
             // Add to ObservableCollection
             roomList.Add(newRoom);
 
-            // Insert into database
-            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
-            {
-                string query = $"INSERT INTO Room (RoomName, RoomSort, RoomFloor, RoomLight) VALUES ('{newRoom.RoomName}', {newRoom.RoomSortNumber}, {newRoom.FloorOfRoom}, {newRoom.RoomLight})";
-                using (var command = new MySqlCommand(query, connection))
-                {
-                    await command.ExecuteNonQueryAsync();
-                }
-            }
+            //add Room to DB
+            await DataAccessLayer.AddRoomToDB(dbConnector, newRoom);
         }
+
 
         /// <summary>
         /// Prevents to add non int values to a textfield.

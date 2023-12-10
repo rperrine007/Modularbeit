@@ -64,8 +64,11 @@
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
         <PackageReference Include="MySql.Data" Version="8.2.0" />
         <PackageReference Include="MySqlConnector" Version="2.3.1" />
+        <PackageReference Include="NUnit" Version="3.14.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
         <PackageReference Include="Serilog" Version="3.1.1" />
         <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
         <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
