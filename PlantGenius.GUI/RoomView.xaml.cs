@@ -104,32 +104,13 @@ namespace PlantGenius.GUI
             // Update DB for both rooms
             using (var connection = await dbConnector.GetDatabaseConnectionAsync())
             {
-                await UpdateDBChangeRoomSortNumber(connection, currentRoom.RoomID, currentRoom.RoomSortNumber);
-                await UpdateDBChangeRoomSortNumber(connection, neighbourRoom.RoomID, neighbourRoom.RoomSortNumber);
+                await DataAccessLayer.UpdateDBChangeRoomSortNumber(connection, currentRoom.RoomID, currentRoom.RoomSortNumber);
+                await DataAccessLayer.UpdateDBChangeRoomSortNumber(connection, neighbourRoom.RoomID, neighbourRoom.RoomSortNumber);
             }
 
             // Keep focus on moved object
             ListBox_RoomList.SelectedIndex = newIndex;
-        }
-
-        /// <summary>
-        /// In this asynchronous task a query to get the room data is made to the DB.
-        /// Why asynchronous: This ensures that the application remains responsive and can handle other tasks while waiting for the database to return results.
-        ///  </summary>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        private async Task UpdateDBChangeRoomSortNumber(MySqlConnection connection, int roomIDSelected, int roomSortChanged)
-        {
-            // query to update the roomSortNumber of a specific room
-            string query = $"UPDATE `Room` SET `Room`.`RoomSort` = '{roomSortChanged}' WHERE `Room`.`RoomID` = {roomIDSelected}";
-
-            // Using MySqlCommand to execute the query on the specified connection
-           using (var command = new MySqlCommand(query, connection))
-           {
-                // Executing the query asynchronously
-                await command.ExecuteNonQueryAsync();
-           }
-        }       
+        }      
      
         /// <summary>
         /// Gets the tag from the button and its value -> adds it to the int direction. Will be handled from ChangeRoomSortNumber 

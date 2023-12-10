@@ -22,6 +22,7 @@ namespace DataAccessLayerNUnitTests
         public async Task addAndDeleteRoom()
         {
             await DataAccessLayer.GetRooms(dbConnector, roomList);
+
             Room addedRoom = new Room()
             {
                 RoomID = -1,
@@ -36,9 +37,9 @@ namespace DataAccessLayerNUnitTests
 
             Room lastRoom = roomList[roomList.Count - 1];
 
-            
+
             //perform tests
-            Assert.AreEqual(lastRoom.RoomName, addedRoom.RoomName, "Added RoomName is not equal.");
+            Assert.AreEqual(addedRoom.RoomName, Is.EqualTo(expected: lastRoom.RoomName), "Added RoomName is not equal.");
             Assert.AreEqual(lastRoom.RoomSortNumber, addedRoom.RoomSortNumber, "Added RoomSortNumber is not equal.");
             Assert.AreEqual(lastRoom.FloorOfRoom, addedRoom.FloorOfRoom, "Added FloorOfRoom is not equal.");
             Assert.AreEqual(lastRoom.RoomLight, addedRoom.RoomLight, "Added RoomLight is not equal.");

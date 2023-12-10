@@ -53,7 +53,7 @@ namespace PlantGenius.GUI
         //override ToString function
         public override string ToString()
         {
-            return $"RaumID: {RoomID}, Raumname: {RoomName}, Stockwerk: {FloorOfRoom}, viel Licht im Raum: {RoomLight}";
+            return $"RaumID: {RoomID}, Raumname: {RoomName}, Stockwerk: {FloorOfRoom}, viel Licht im Raum: {RoomLight}, Sortier-Nummer: {RoomSortNumber}";
         }
 
     }

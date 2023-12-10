@@ -106,6 +106,7 @@ namespace PlantGenius.GUI
             int newSortID = 1;
             foreach (var room in sortedRooms)
             {
+                MessageBox.Show(room.ToString());
 
                 // Update Database
                 using (var connection = await dbConnectorInput.GetDatabaseConnectionAsync())
@@ -117,6 +118,25 @@ namespace PlantGenius.GUI
                     }
                 }
                 newSortID++;
+            }
+        }
+
+        /// <summary>
+        /// In this asynchronous task a query to get the room data is made to the DB.
+        /// Why asynchronous: This ensures that the application remains responsive and can handle other tasks while waiting for the database to return results.
+        ///  </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        public async static Task UpdateDBChangeRoomSortNumber(MySqlConnection connection, int roomIDSelected, int roomSortChanged)
+        {
+            // query to update the roomSortNumber of a specific room
+            string query = $"UPDATE `Room` SET `Room`.`RoomSort` = '{roomSortChanged}' WHERE `Room`.`RoomID` = {roomIDSelected}";
+
+            // Using MySqlCommand to execute the query on the specified connection
+            using (var command = new MySqlCommand(query, connection))
+            {
+                // Executing the query asynchronously
+                await command.ExecuteNonQueryAsync();
             }
         }
 
