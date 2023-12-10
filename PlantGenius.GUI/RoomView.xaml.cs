@@ -23,7 +23,7 @@ namespace PlantGenius.GUI
         // Generate a Collection with rooms
         private ObservableCollection<Room> roomList;
         // Create an instance of the DatabaseConnector class.
-        DatabaseConnector dbConnector;
+        private DatabaseConnector dbConnector;
 
         public RoomView()
         {
@@ -41,6 +41,11 @@ namespace PlantGenius.GUI
             Loaded += RoomView_Loaded;
         }
 
+        /// <summary>
+        /// Load the initial view including importing the data of the db.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void RoomView_Loaded(object sender, RoutedEventArgs e)
         {
             // Use the 'GetDatabaseConnectionAsync' method to asynchronously obtain a database connection.
@@ -53,13 +58,6 @@ namespace PlantGenius.GUI
             }
         }
 
-        // Go back to main window MainWindow.xaml
-        private void GoBackToHome(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = new MainWindow();
-            UIHelper.SwitchWindowKeepSizePosition(this, mainWindow);
-        }
-
         /// <summary>
         /// In this asynchronous task a query to get the room data is made to the DB.
         /// Why asynchronous: This ensures that the application remains responsive and can handle
@@ -67,7 +65,7 @@ namespace PlantGenius.GUI
         ///  </summary>
         /// <param name="connection"></param>
         /// <returns></returns>
-        private async Task GetRooms(MySqlConnection connection)
+        public async Task GetRooms(MySqlConnection connection)
         {
             // Sort by set RoomSort.
             string query = "SELECT * FROM Room ORDER BY RoomSort ASC";
@@ -94,34 +92,17 @@ namespace PlantGenius.GUI
             }
         }
 
-        //Open new window to add new room
-        //TODO create RoomAddingView based on RoomView (second Row, all Coloumns. Here you have to create a new .xaml File. Do not forget to name it directly correct.
-        //TODO implement the function so that the RoomAddingView is opened
-        private void OpenRoomAddingView(object sender, RoutedEventArgs e)
-        {
-            //TODO ALEX -> Perrine: I think not neccessary with this way right?
-        }
-
         /// <summary>
-        /// In this asynchronous task a query to get the room data is made to the DB.
-        /// Why asynchronous: This ensures that the application remains responsive and can handle
-        /// other tasks while waiting for the database to return results.
-        ///  </summary>
-        /// <param name="connection"></param>
-        /// <returns></returns>
-        private async Task ChangeSortRoomNumber(MySqlConnection connection, int roomIDSelected, int roomSortChanged)
+        /// go back to the mainpage
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GoBackToHome(object sender, RoutedEventArgs e)
         {
-            // query to update the roomSortNumber of a specific room
-            string query = $"UPDATE `Room` SET `Room`.`RoomSort` = '{roomSortChanged}' WHERE `Room`.`RoomID` = {roomIDSelected}";
-
-            // Using MySqlCommand to execute the query on the specified connection
-           using (var command = new MySqlCommand(query, connection))
-           {
-                // Executing the query asynchronously
-                await command.ExecuteNonQueryAsync();
-           }
+            MainWindow mainWindow = new MainWindow();
+            UIHelper.SwitchWindowKeepSizePosition(this, mainWindow);
         }
-        
+
         /// <summary>
         /// The SortID will be decreased(-1) or increased (1) and the direct neighbour will be swapped with the choosen room. 
         /// Why asynchronous: This ensures that the application remains responsive and can handle
@@ -163,14 +144,88 @@ namespace PlantGenius.GUI
             // Update DB for both rooms
             using (var connection = await dbConnector.GetDatabaseConnectionAsync())
             {
-                await ChangeSortRoomNumber(connection, currentRoom.RoomID, currentRoom.RoomSortNumber);
-                await ChangeSortRoomNumber(connection, neighbourRoom.RoomID, neighbourRoom.RoomSortNumber);
+                await UpdateDBChangeRoomSortNumber(connection, currentRoom.RoomID, currentRoom.RoomSortNumber);
+                await UpdateDBChangeRoomSortNumber(connection, neighbourRoom.RoomID, neighbourRoom.RoomSortNumber);
             }
 
             // Keep focus on moved object
             ListBox_RoomList.SelectedIndex = newIndex;
         }
 
+        /// <summary>
+        /// In this asynchronous task a query to get the room data is made to the DB.
+        /// Why asynchronous: This ensures that the application remains responsive and can handle
+        /// other tasks while waiting for the database to return results.
+        ///  </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        private async Task UpdateDBChangeRoomSortNumber(MySqlConnection connection, int roomIDSelected, int roomSortChanged)
+        {
+            // query to update the roomSortNumber of a specific room
+            string query = $"UPDATE `Room` SET `Room`.`RoomSort` = '{roomSortChanged}' WHERE `Room`.`RoomID` = {roomIDSelected}";
+
+            // Using MySqlCommand to execute the query on the specified connection
+           using (var command = new MySqlCommand(query, connection))
+           {
+                // Executing the query asynchronously
+                await command.ExecuteNonQueryAsync();
+           }
+        }       
+     
+        /// <summary>
+        /// Gets the tag from the button and its value -> adds it to the int direction. Will be handled from ChangeRoomSortNumber 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void DirectionOfRoomSortNumberChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                int direction = Convert.ToInt32(button.Tag);
+
+                // Call ChangeRoomSortNumber method with the direction parameter
+                await ChangeRoomSortNumber(sender, e, direction);
+                await OnRoomDeleteNewSort();
+            }
+        }
+
+                /// <summary>
+        /// This Method deletes a room entry from the database. Afterwards it will update the sorting numbers to avoid gaps
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Delete(object sender, RoutedEventArgs e)
+        {
+            //control if a room is chosen
+            if (ListBox_RoomList.SelectedItem == null)
+            {
+                MessageBox.Show("Bitte wählen Sie einen Raum aus.");
+                return;
+            }
+
+            Room currentRoom = (Room)ListBox_RoomList.SelectedItem;
+
+            // Remove the specified room from the ObservableCollection
+            roomList.Remove(currentRoom);
+
+            //delete the room from the database
+            string query = $"DELETE FROM Room WHERE RoomID = {currentRoom.RoomID}";
+
+            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
+            {
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                    //Call resorting method
+                    await OnRoomDeleteNewSort();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Update the SortNumber of the rooms, when a room is deleted.
+        /// </summary>
+        /// <returns></returns>
         private async Task OnRoomDeleteNewSort()
         {
             // Sort the Rooms by RoomSortNumber
@@ -195,22 +250,10 @@ namespace PlantGenius.GUI
         }
 
         /// <summary>
-        /// Gets the Tag from the Button and its value -> adds it to the int direction. Will be handlet from ChangeRoomSortNumber 
+        /// A new room is added to the list and the db.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void OnRoomSortNumberChanged(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button)
-            {
-                int direction = Convert.ToInt32(button.Tag);
-
-                // Call ChangeRoomSortNumber method with the direction parameter
-                await ChangeRoomSortNumber(sender, e, direction);
-                await OnRoomDeleteNewSort();
-            }
-        }
-
         private async void AddNewRoom_Click(object sender, RoutedEventArgs e)
         {
             
@@ -247,20 +290,21 @@ namespace PlantGenius.GUI
         }
 
         /// <summary>
-        /// Prevents to add non int values to a textfield
+        /// Prevents to add non int values to a textfield.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         //TODO unit test and Exception handling for this method 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            if (textBox != null)
+            if (sender != null)
             {
+                TextBox textBox = sender as TextBox;
                 // Allow "-" only if it's the first character, allow digits
                 if (e.Text == "-" && textBox.Text.Length == 0 && !textBox.Text.Contains("-"))
                 {
-                    e.Handled = false; // Allow input
+                    // Allow input
+                    e.Handled = false; 
                 }
                 else
                 {
@@ -269,7 +313,8 @@ namespace PlantGenius.GUI
                     {
                         if (!char.IsDigit(c))
                         {
-                            e.Handled = true; // Block input
+                            // Block input
+                            e.Handled = true; 
                             break;
                         }
                     }
@@ -277,37 +322,5 @@ namespace PlantGenius.GUI
             }
         }
 
-        /// <summary>
-        /// This Method deletes a room entry from the database. Afterwards it will update the sorting numbers to avoid gaps
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void Delete(object sender, RoutedEventArgs e)
-        {
-            //control if a room is chosen
-            if (ListBox_RoomList.SelectedItem == null)
-            {
-                MessageBox.Show("Bitte wählen Sie einen Raum aus.");
-                return;
-            }
-
-            Room currentRoom = (Room)ListBox_RoomList.SelectedItem;
-
-            // Remove the specified room from the ObservableCollection
-            roomList.Remove(currentRoom);
-
-            //delete the room from the database
-            string query = $"DELETE FROM Room WHERE RoomID = {currentRoom.RoomID}";
-
-            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
-            {
-                using (var command = new MySqlCommand(query, connection))
-                {
-                    await command.ExecuteNonQueryAsync();
-                    //Call resorting method
-                    await OnRoomDeleteNewSort();
-                }
-            }
-        }
     }
 }

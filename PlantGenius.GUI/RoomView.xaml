@@ -8,7 +8,7 @@
         Title="PlantGenius - RoomView"  Height="450" Width="500">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.11*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height= "0.1*"/>
             <RowDefinition Height= "0.05*"/>
@@ -36,7 +36,7 @@
                 <Button Click="GoBackToHome">
                     <Button.ContentTemplate>
                         <DataTemplate>
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE72B;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE72B;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="2"/>
                         </DataTemplate>
                     </Button.ContentTemplate>
                 </Button>
@@ -45,7 +45,7 @@
 
         <!-- ListBox Section 
         Bind the selectedItem to the Property SelectedRoom (not the object selectedRoom! -->
-        <ListBox x:Name="ListBox_RoomList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}" DisplayMemberPath="RoomName" IsSynchronizedWithCurrentItem="True" Margin="10,10,10,0" Background="#FF62775C" />
+        <ListBox x:Name="ListBox_RoomList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}" DisplayMemberPath="RoomName" IsSynchronizedWithCurrentItem="True" Margin="10,10,10,0" Background="#FFABC5A4" />
 
         <!-- Detail of Rooms Section -->
         <!-- Including a new Grid for nice proportions -->
@@ -60,7 +60,7 @@
 
 
                 <!-- Labeling of Rows -->
-                <StackPanel Grid.Column="0" Background="DarkGray">
+                <StackPanel Grid.Column="0" Background="#FFDDDDDD">
                     <TextBlock Text="Room-ID: "/>
                     <TextBlock Text="Raumname: "/>
                     <TextBlock Text="Sortier-Nummer: "/>
@@ -69,7 +69,7 @@
                 </StackPanel>
 
                 <!-- Content of given room -->
-                <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="DarkGray">
+                <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="#FFDDDDDD">
                     <TextBlock Text="{Binding Path=RoomID}"/>
                     <TextBlock Text="{Binding Path=RoomName}"/>
                     <TextBlock Text="{Binding Path=RoomSortNumber}"/>
@@ -105,11 +105,11 @@
 
                 <!-- Content of given room -->
                 <StackPanel Grid.Row="0" Grid.Column="1">
-                    <TextBox x:Name="inputNewRoomName" Text="" Height="25" Background="#FF62775C" />
-                    <TextBox x:Name="inputNewRoomFloor" Height="25" PreviewTextInput="TextBox_PreviewTextInput" Background="#FF62775C" />
-                    <ComboBox x:Name="comboBoxRoomLight" Margin="0,0,0,10" Height="25" Background="#FF62775C" >
-                        <ComboBoxItem Content="Schattenseite" Tag="False" Background="#FF62775C"> </ComboBoxItem>
-                        <ComboBoxItem Content="Sonnenseite" Tag="True" Background="#FF62775C"></ComboBoxItem>
+                    <TextBox x:Name="inputNewRoomName" Text="" Height="25" Background="#FFABC5A4" />
+                    <TextBox x:Name="inputNewRoomFloor" Height="25" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" />
+                    <ComboBox Style="{DynamicResource ComboBoxStyle1}" x:Name="comboBoxRoomLight" Margin="0,0,0,10" Height="25">                        
+                        <ComboBoxItem Content="Schattenseite" Tag="False"> </ComboBoxItem>
+                        <ComboBoxItem Content="Sonnenseite" Tag="True" ></ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
             </Grid>
@@ -121,25 +121,15 @@
 
 
         <!-- Menu to interact with database -->
-        <Grid  Grid.Row="2" Grid.Column="0" Background="#FF324A3B" Margin="10,0,10,0">
+        <Grid  Grid.Row="2" Grid.Column="0" Margin="10,0,10,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Add button; the Segoe MDL2 Assets font family includes various symbols. -->
-            <Button Click="OpenRoomAddingView" Grid.Row="0" Grid.Column="0">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE109;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
-
             <!-- RoomSortNumber -1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Click="OnRoomSortNumberChanged" Grid.Row="0" Grid.Column="1" Tag="-1">
+            <Button Click="DirectionOfRoomSortNumberChanged" Grid.Row="0" Grid.Column="0" Tag="-1">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE110;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
@@ -148,7 +138,7 @@
             </Button>
 
             <!-- RoomSortNumber +1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Click="OnRoomSortNumberChanged" Grid.Row="0" Grid.Column="2" Tag="1" >
+            <Button Click="DirectionOfRoomSortNumberChanged" Grid.Row="0" Grid.Column="1" Tag="1" >
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE74B;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
@@ -157,7 +147,7 @@
             </Button>
 
             <!-- Delete; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Click="Delete" Grid.Row="0" Grid.Column="3">
+            <Button Click="Delete" Grid.Row="0" Grid.Column="2">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE74D;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
@@ -168,7 +158,7 @@
 
         </Grid>
         <!-- Only for design reasons-->
-        <Grid  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Background="DarkGray" />
+        <Grid  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Background="#FFDDDDDD" />
 
     </Grid>
 </Window>

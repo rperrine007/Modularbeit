@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 
 namespace PlantGenius.GUI
@@ -9,9 +11,15 @@ namespace PlantGenius.GUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        //bool to check if the window already changes size.
+        private bool isResizing;
+
         public MainWindow()
         {
-            InitializeComponent();           
+            InitializeComponent();
+
+            // initialize boolean
+            isResizing = false;
         }
 
         /// Function: The window size can only be changed proportinally.
@@ -19,19 +27,31 @@ namespace PlantGenius.GUI
         /// <param name="e"></param>
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // If the height is changed set the width accordingly
-            if (e.HeightChanged)
+            
+            if (isResizing)
             {
-                //Ratio 0.9
-                double newWidth = e.NewSize.Height * (10.0 / 9.0); 
-                this.Width = newWidth;
+                return;
             }
-            // If the width is changed set height accordingly
-            else if (e.WidthChanged)
-            {
-                //Ratio 1.11
-                double newHeight = e.NewSize.Width * (9.0 / 10.0); 
-                this.Height = newHeight;
+            else
+            { 
+                // If the height is changed set the width accordingly
+                if (e.HeightChanged)
+                {
+                    isResizing = true;
+                    //Ratio 0.9
+                    this.Width = e.NewSize.Height * (10.0 / 9.0);
+                    
+                }
+                // If the width is changed set height accordingly
+                else if (e.WidthChanged)
+                {
+                    isResizing = true;
+                    //Ratio 1.11
+                    this.Height = e.NewSize.Width * (9.0 / 10.0);
+                }
+
+
+                isResizing = false;
             }
         }
 
