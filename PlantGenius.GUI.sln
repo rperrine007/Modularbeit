@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantGenius_User.GUI", "Pla
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantGeniusUser.GUI", "PlantGeniusUser.GUI\PlantGeniusUser.GUI.csproj", "{5535B1A8-4B87-4446-A54E-AEED38941A8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayerNUnitTests", "DataAccessLayerNUnitTests\DataAccessLayerNUnitTests.csproj", "{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{5535B1A8-4B87-4446-A54E-AEED38941A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5535B1A8-4B87-4446-A54E-AEED38941A8E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5535B1A8-4B87-4446-A54E-AEED38941A8E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
