@@ -22,6 +22,7 @@ namespace PlantGenius.GUI
         /// <returns></returns>
         public async static Task GetRooms(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput)
         {
+            roomListInput.Clear();
             // Use the 'GetDatabaseConnectionAsync' method to asynchronously obtain a database connection.
             // The 'await' keyword is used to await the completion of the asynchronous operation.
             using (var connection = await dbConnectorInput.GetDatabaseConnectionAsync())
@@ -91,6 +92,7 @@ namespace PlantGenius.GUI
                     await DataAccessLayer.OnRoomDeleteNewSort(dbConnectorInput, roomListInput);
                 }
             }
+            GetRooms(dbConnectorInput, roomListInput);
         }
 
         /// <summary>
@@ -106,8 +108,6 @@ namespace PlantGenius.GUI
             int newSortID = 1;
             foreach (var room in sortedRooms)
             {
-                MessageBox.Show(room.ToString());
-
                 // Update Database
                 using (var connection = await dbConnectorInput.GetDatabaseConnectionAsync())
                 {

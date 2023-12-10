@@ -1,6 +1,7 @@
 ﻿@startuml
 
-Plant --|> Room
+Room --|> DataAccessLayer
+DataAccessLayer --|> DatabaseConnector
 
 class Plant
 {
@@ -20,7 +21,6 @@ class Room
         public Room(string roomName);
         public Room(string roomName, int floorOfRoom)
         
-
         public string RoomName { get; set; }
         public int FloorOfRoom { get; set; }
 
@@ -28,5 +28,20 @@ class Room
 
 
 }
+
+class DatabaseConnector
+{
+     public async Task<MySqlConnection> GetDatabaseConnectionAsync();
+}
+
+class DataAccessLayer
+{
+      public async static Task GetRooms(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput);
+      public async static Task AddRoomToDB(DatabaseConnector dbConnectorInput, Room roomInput);
+      public async static Task DeleteRoomFromDB(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput, Room roomInput);
+      public async static Task OnRoomDeleteNewSort(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput);
+      public async static Task UpdateDBChangeRoomSortNumber(MySqlConnection connection, int roomIDSelected, int roomSortChanged);
+}
+
 
 @enduml
