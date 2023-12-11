@@ -37,7 +37,6 @@ namespace DataAccessLayerNUnitTests
 
             Room lastRoom = roomList[roomList.Count - 1];
 
-
             //perform tests
             Assert.AreEqual(addedRoom.RoomName, lastRoom.RoomName, "Added RoomName is not equal.");
             Assert.AreEqual(lastRoom.RoomSortNumber, addedRoom.RoomSortNumber, "Added RoomSortNumber is not equal.");
@@ -54,8 +53,5 @@ namespace DataAccessLayerNUnitTests
             Assert.AreNotEqual(lastRoom.RoomName, addedRoom.RoomName, $"LastRoom name: {lastRoom.RoomName} should not be equal to {addedRoom.RoomName}");
             Assert.AreNotEqual(lastRoom.RoomSortNumber, addedRoom.RoomSortNumber, $"LastRoom sort number: {lastRoom.RoomSortNumber} should not be equal to {addedRoom.RoomSortNumber}");
         }
-
-
-
     }
 }
