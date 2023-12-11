@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using MySql.Data.MySqlClient;
 
-namespace PlantGenius.GUI
+namespace PlantGenius.DAL
 {
     public class DataAccessLayer
     {

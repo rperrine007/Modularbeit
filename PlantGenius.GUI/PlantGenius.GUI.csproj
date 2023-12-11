@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -13,9 +13,13 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
 		<PackageReference Include="MySql.Data" Version="8.2.0" />
 		<PackageReference Include="MySqlConnector" Version="2.3.1" />	
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\PlantGenius.DAL\PlantGenius.DAL.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

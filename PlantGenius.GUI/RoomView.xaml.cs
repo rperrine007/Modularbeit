@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.VisualBasic;
 using MySql.Data.MySqlClient;
+using PlantGenius.DAL;
 
 namespace PlantGenius.GUI
 {
