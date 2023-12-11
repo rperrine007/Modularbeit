@@ -6,6 +6,7 @@ namespace PlantGeniusUser.GUI2
     {
         public static MauiApp CreateMauiApp()
         {
+            //Test
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
