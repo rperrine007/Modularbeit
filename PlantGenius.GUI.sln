@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantGenius.GUI", "PlantGen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayerNUnitTests", "DataAccessLayerNUnitTests\DataAccessLayerNUnitTests.csproj", "{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantGeniusUser.GUI", "PlantGeniusUser.GUI2\PlantGeniusUser.GUI.csproj", "{D7B9987B-D8A5-449D-9C11-4AEFD9D2FA93}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantGenius.DAL", "PlantGenius.DAL\PlantGenius.DAL.csproj", "{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}"
 EndProject
 Global
@@ -25,12 +23,6 @@ Global
 		{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D7B9987B-D8A5-449D-9C11-4AEFD9D2FA93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7B9987B-D8A5-449D-9C11-4AEFD9D2FA93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7B9987B-D8A5-449D-9C11-4AEFD9D2FA93}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{D7B9987B-D8A5-449D-9C11-4AEFD9D2FA93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7B9987B-D8A5-449D-9C11-4AEFD9D2FA93}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D7B9987B-D8A5-449D-9C11-4AEFD9D2FA93}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}.Release|Any CPU.ActiveCfg = Release|Any CPU
