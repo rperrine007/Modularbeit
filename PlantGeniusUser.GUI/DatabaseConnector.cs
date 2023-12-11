@@ -49,5 +49,15 @@ namespace PlantGeniusUser.GUI
 
 			return plants;
 		}
+		//public async Task<List<Plant>> GetPlantsAsync()
+		//{
+		//    // Return static data for testing
+		//    return new List<Plant>
+		//    {
+		//        new Plant("Rose", DateTime.Now, 7),
+		//        new Plant("Tulpe", DateTime.Now.AddDays(-30), 5),
+		//        new Plant("Kaktus", DateTime.Now.AddDays(-60), 30),
+		//    };
+		//}
 	}
 }
