@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -28,6 +29,8 @@ namespace PlantGenius.DAL.Model
 
         [Required]
         public int PlantRoom { get; set; }
+        [ForeignKey("PlantRoom")]
+        public Room Room { get; set; }
 
         public int PlantSort { get; set; }
 
