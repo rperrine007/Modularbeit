@@ -11,6 +11,7 @@ using System.Windows.Input;
 using Microsoft.VisualBasic;
 using MySql.Data.MySqlClient;
 using PlantGenius.DAL;
+using PlantGenius.DAL.Model;
 
 namespace PlantGenius.GUI
 {
@@ -50,7 +51,7 @@ namespace PlantGenius.GUI
         private async void RoomView_Loaded(object sender, RoutedEventArgs e)
         {
                 //import rooms from db and save into roomList
-                await DataAccessLayer.GetRooms(dbConnector, roomList);
+                await DataAccessLayer_OLD.GetRooms(dbConnector, roomList);
         }
 
         /// <summary>
@@ -105,8 +106,8 @@ namespace PlantGenius.GUI
             // Update DB for both rooms
             using (var connection = await dbConnector.GetDatabaseConnectionAsync())
             {
-                await DataAccessLayer.UpdateDBChangeRoomSortNumber(connection, currentRoom.RoomID, currentRoom.RoomSort);
-                await DataAccessLayer.UpdateDBChangeRoomSortNumber(connection, neighbourRoom.RoomID, neighbourRoom.RoomSort);
+                await DataAccessLayer_OLD.UpdateDBChangeRoomSortNumber(connection, currentRoom.RoomID, currentRoom.RoomSort);
+                await DataAccessLayer_OLD.UpdateDBChangeRoomSortNumber(connection, neighbourRoom.RoomID, neighbourRoom.RoomSort);
             }
 
             // Keep focus on moved object
@@ -126,7 +127,7 @@ namespace PlantGenius.GUI
 
                 // Call ChangeRoomSortNumber method with the direction parameter
                 await ChangeRoomSortNumber(sender, e, direction);
-                await DataAccessLayer.OnRoomDeleteNewSort(dbConnector, roomList);
+                await DataAccessLayer_OLD.OnRoomDeleteNewSort(dbConnector, roomList);
             }
         }
 
@@ -149,7 +150,7 @@ namespace PlantGenius.GUI
             // Remove the specified room from the ObservableCollection
             roomList.Remove(currentRoom);
 
-            await DataAccessLayer.DeleteRoomFromDB(dbConnector, roomList, currentRoom);
+            await DataAccessLayer_OLD.DeleteRoomFromDB(dbConnector, roomList, currentRoom);
         }
 
         /// <summary>
@@ -181,7 +182,7 @@ namespace PlantGenius.GUI
             roomList.Add(newRoom);
 
             //add Room to DB
-            await DataAccessLayer.AddRoomToDB(dbConnector, newRoom);
+            await DataAccessLayer_OLD.AddRoomToDB(dbConnector, newRoom);
         }
 
 

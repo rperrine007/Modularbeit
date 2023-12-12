@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantGenius.DAL
+namespace PlantGenius.DAL.Model
 {
     /// <summary>
     /// A room has a name. If an apartment or a house has different floors, the room also knows in which floor it is. 
@@ -13,13 +14,13 @@ namespace PlantGenius.DAL
     public class Room
     {
         public Room()
-        {}
+        { }
 
         /// Constructor
         /// <param name="roomName"></param>
         /// <param name="floorOfRoom"></param>
         /// <param name="roomLight"></param>
-        public Room(string roomName, int floorOfRoom, bool roomLight) 
+        public Room(string roomName, int floorOfRoom, bool roomLight)
         {
             RoomName = roomName;
             RoomFloor = floorOfRoom;
@@ -47,9 +48,16 @@ namespace PlantGenius.DAL
 
         //Properties
         public int RoomID { get; init; }
+
+        [Required]
+        [MaxLength(30)]
         public string RoomName { get; set; }
-        public int RoomSort {  get; set; }
+
+        public int RoomSort { get; set; }
+
+        [Required]
         public int RoomFloor { get; set; }
+
         public bool RoomLight { get; set; }
 
         //override ToString function

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantGenius.DAL
+namespace PlantGenius.DAL.Model
 {
     public class Plant
     {
@@ -17,11 +18,22 @@ namespace PlantGenius.DAL
         }
 
         public int PlantID { get; set; }
+
+        [Required]
+        [MaxLength(30)]
         public string PlantName { get; set; }
+
+        [MaxLength(50)]
         public string PlantNameScientific { get; set; }
-        public int PlantRoom {  get; set; }
-        public int PlantSort { get; set; }        
+
+        [Required]
+        public int PlantRoom { get; set; }
+
+        public int PlantSort { get; set; }
+
+        [Required]
         public int PlantWaterRequirement { get; set; }
+
         public DateTime PlantWaterLastTime { get; set; }
 
         public override string ToString()
@@ -30,4 +42,3 @@ namespace PlantGenius.DAL
         }
     }
 }
- 

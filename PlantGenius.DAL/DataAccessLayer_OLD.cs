@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MySql.Data.MySqlClient;
+using PlantGenius.DAL.Model;
 
 namespace PlantGenius.DAL
 {
-    public class DataAccessLayer
+    public class DataAccessLayer_OLD
     {
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace PlantGenius.DAL
 
                     await command.ExecuteNonQueryAsync();
                     //Call resorting method
-                    await DataAccessLayer.OnRoomDeleteNewSort(dbConnectorInput, roomListInput);
+                    await DataAccessLayer_OLD.OnRoomDeleteNewSort(dbConnectorInput, roomListInput);
                 }
             }
             GetRooms(dbConnectorInput, roomListInput);
