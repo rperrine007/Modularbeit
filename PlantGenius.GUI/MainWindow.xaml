@@ -27,7 +27,7 @@
 
         <!-- Button to get to next window -->
         <StackPanel Grid.Row="1" Grid.Column="0">
-            <Button x:Name="Button_ChangeToRoomView" Content="Räume bearbeiten" Height="40" FontSize="14" Margin="20" Click="ChangeToRoomView"/>
+            <Button x:Name="Button_ChangeToRoomView" Content="Räume bearbeiten" Height="40" FontSize="14" Margin="20" Click="ChangeToRoomView" BorderBrush="White" FontWeight="Bold" Foreground="White" Background="#FF2D4627"/>
         </StackPanel>
 
     </Grid>
