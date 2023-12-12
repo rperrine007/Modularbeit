@@ -5,6 +5,7 @@ using PlantGenius.DAL.Model;
 
 namespace PlantGenius.DAL
 {
+    //DB Context corresponds to a scheme in a DB. It sets the differents DbSets in relation to each other.
     public class AppDbContext : DbContext
     {
         public const string connectionString = "Server=49.12.196.20;Port=14501;Database=c1_zhaw2;User Id=c1_zhaw;Password=lQ9fKVoNK7ll!;";
@@ -14,6 +15,8 @@ namespace PlantGenius.DAL
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 
+        // DB Set corresponds to a table in the DB. It has a lot of useful functions but can cause performance problems.
+        // necessary DBSet-Properties.
         public DbSet<Plant> Plants { get; set; }
         public DbSet<Room> Rooms { get; set; }
     }

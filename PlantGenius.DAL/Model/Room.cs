@@ -9,7 +9,6 @@ namespace PlantGenius.DAL.Model
 {
     /// <summary>
     /// A room has a name. If an apartment or a house has different floors, the room also knows in which floor it is. 
-    /// 
     /// </summary>
     public class Room
     {
@@ -28,10 +27,7 @@ namespace PlantGenius.DAL.Model
             RoomSort = 0;
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
+        /// Constructor 2
         /// <param name="roomID"></param>
         /// <param name="roomName"></param>
         /// <param name="roomSortNumber"></param>

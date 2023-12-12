@@ -32,6 +32,23 @@ namespace PlantGenius.GUI
             Loaded += RoomView_Loaded;
         }
 
+
+        /// <summary>
+        /// Load the initial view including importing the data of the db.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void RoomView_Loaded(object sender, RoutedEventArgs e)
+        {
+            var rooms = await DataAccessLayer.GetRooms();
+            roomList.Clear();
+            foreach (var room in rooms)
+            {
+                roomList.Add(room);
+            }
+            TestConnection();
+        }
+
         /// <summary>
         /// Test the connection to the database
         /// </summary>
@@ -58,22 +75,6 @@ namespace PlantGenius.GUI
             }
         }
 
-
-        /// <summary>
-        /// Load the initial view including importing the data of the db.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void RoomView_Loaded(object sender, RoutedEventArgs e)
-        {
-            var rooms = await DataAccessLayer.GetRooms();
-            roomList.Clear();
-            foreach (var room in rooms)
-            {
-                roomList.Add(room);
-            }
-            TestConnection();
-        }
 
         /// <summary>
         /// go back to the mainpage
