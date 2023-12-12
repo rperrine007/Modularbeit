@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MySql.Data.MySqlClient;
+using PlantGenius.DAL.Model;
 
-namespace PlantGenius.GUI
+namespace PlantGenius.DAL
 {
-    public class DataAccessLayer
+    public class DataAccessLayer_OLD
     {
 
         /// <summary>
@@ -20,7 +21,7 @@ namespace PlantGenius.GUI
         ///  </summary>
         /// <param name="connection"></param>
         /// <returns></returns>
-        public async static Task GetRooms(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput)
+        public async static Task GetRooms(DatabaseConnector_OLD dbConnectorInput, Collection<Room> roomListInput)
         {
             roomListInput.Clear();
             // Use the 'GetDatabaseConnectionAsync' method to asynchronously obtain a database connection.
@@ -43,8 +44,8 @@ namespace PlantGenius.GUI
                             {
                                 RoomID = (int)reader["RoomID"],
                                 RoomName = (string)reader["RoomName"],
-                                RoomSortNumber = (int)reader["RoomSort"],
-                                FloorOfRoom = (int)reader["RoomFloor"],
+                                RoomSort = (int)reader["RoomSort"],
+                                RoomFloor = (int)reader["RoomFloor"],
                                 RoomLight = (bool)reader["RoomLight"]
                             });
                         }
@@ -58,12 +59,12 @@ namespace PlantGenius.GUI
         /// </summary>
         /// <param name="dbConnectorInput"></param>
         /// <param name="roomInput"></param>
-        public async static Task AddRoomToDB(DatabaseConnector dbConnectorInput, Room roomInput)
+        public async static Task AddRoomToDB(DatabaseConnector_OLD dbConnectorInput, Room roomInput)
         {
             // Insert into database
             using (var connection = await dbConnectorInput.GetDatabaseConnectionAsync())
             {
-                string query = $"INSERT INTO Room (RoomName, RoomSort, RoomFloor, RoomLight) VALUES ('{roomInput.RoomName}', {roomInput.RoomSortNumber}, {roomInput.FloorOfRoom}, {roomInput.RoomLight})";
+                string query = $"INSERT INTO Room (RoomName, RoomSort, RoomFloor, RoomLight) VALUES ('{roomInput.RoomName}', {roomInput.RoomSort}, {roomInput.RoomFloor}, {roomInput.RoomLight})";
                 using (var command = new MySqlCommand(query, connection))
                 {
                     await command.ExecuteNonQueryAsync();
@@ -77,7 +78,7 @@ namespace PlantGenius.GUI
         /// <param name="dbConnectorInput"></param>
         /// <param name="roomInput"></param>
         /// <returns></returns>
-        public async static Task DeleteRoomFromDB(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput, Room roomInput)
+        public async static Task DeleteRoomFromDB(DatabaseConnector_OLD dbConnectorInput, Collection<Room> roomListInput, Room roomInput)
         {
             //delete the room from the database
             string query = $"DELETE FROM Room WHERE RoomID = {roomInput.RoomID}";
@@ -89,20 +90,20 @@ namespace PlantGenius.GUI
 
                     await command.ExecuteNonQueryAsync();
                     //Call resorting method
-                    await DataAccessLayer.OnRoomDeleteNewSort(dbConnectorInput, roomListInput);
+                    await DataAccessLayer_OLD.OnRoomDeleteNewSort(dbConnectorInput, roomListInput);
                 }
             }
-            GetRooms(dbConnectorInput, roomListInput);
+            await GetRooms(dbConnectorInput, roomListInput);
         }
 
         /// <summary>
         /// Update the SortNumber of the rooms, when a room is deleted.
         /// </summary>
         /// <returns></returns>
-        public async static Task OnRoomDeleteNewSort(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput)
+        public async static Task OnRoomDeleteNewSort(DatabaseConnector_OLD dbConnectorInput, Collection<Room> roomListInput)
         {
             // Sort the Rooms by RoomSortNumber
-            var sortedRooms = roomListInput.OrderBy(room => room.RoomSortNumber).ToList();
+            var sortedRooms = roomListInput.OrderBy(room => room.RoomSort).ToList();
 
             // Adding a new sorting number to each room to avoid gaps
             int newSortID = 1;

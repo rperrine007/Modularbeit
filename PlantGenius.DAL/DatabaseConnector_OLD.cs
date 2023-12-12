@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantGenius.GUI
+namespace PlantGenius.DAL
 {
-    public class DatabaseConnector
+    public class DatabaseConnector_OLD
     {
         public async Task<MySqlConnection> GetDatabaseConnectionAsync()
         {

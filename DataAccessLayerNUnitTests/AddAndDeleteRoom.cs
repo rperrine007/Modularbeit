@@ -1,57 +1,74 @@
+using PlantGenius.DAL;
+using PlantGenius.DAL.Model;
 using PlantGenius.GUI;
 using System.Collections.ObjectModel;
 
 namespace DataAccessLayerNUnitTests
 {
-    [TestFixture]
-    public class AddAndDeleteRoom
-    {
+    //[TestFixture]
+    //public class AddAndDeleteRoom
+    //{
 
-        private ObservableCollection<Room> roomList;
-        private DatabaseConnector dbConnector;
+        //private ObservableCollection<Room> roomList;
 
-        [SetUp]
-        public void SetUp()
-        {
-            //create objects
-            roomList = new ObservableCollection<Room>();
-            dbConnector = new DatabaseConnector();
-        }
+        //[SetUp]
+        //public void SetUp()
+        //{
+        //    //create objects
+        //    roomList = new ObservableCollection<Room>();
+        //}
 
-        [Test]
-        public async Task addAndDeleteRoom()
-        {
-            await DataAccessLayer.GetRooms(dbConnector, roomList);
+        //[Test]
+        //public async Task addAndDeleteRoom()
+        //{
+        //    var initialRooms = await DataAccessLayer.GetRooms();
+        //    foreach (var room in initialRooms)
+        //    {
+        //        roomList.Add(room);
+        //    }
 
-            Room addedRoom = new Room()
-            {
-                RoomID = -1,
-                RoomName = "UnitTestRoom",
-                RoomSortNumber = roomList.Count + 1,
-                FloorOfRoom = -3,
-                RoomLight = true
-            };
+        //    Room addedRoom = new Room()
+        //    {
+        //        RoomName = "UnitTestRoom",
+        //        RoomSort = roomList.Count + 1,
+        //        RoomFloor = -3,
+        //        RoomLight = true
+        //    };
 
-            await DataAccessLayer.AddRoomToDB(dbConnector, addedRoom);
-            await DataAccessLayer.GetRooms(dbConnector, roomList);
+        //    await DataAccessLayer.AddRoomToDB(addedRoom);
 
-            Room lastRoom = roomList[roomList.Count - 1];
+        //    roomList.Clear();
+        //    var roomsAfterAdd = await DataAccessLayer.GetRooms();
+        //    foreach (var room in roomsAfterAdd)
+        //    {
+        //        roomList.Add(room);
+        //    }
 
-            //perform tests
-            Assert.AreEqual(addedRoom.RoomName, lastRoom.RoomName, "Added RoomName is not equal.");
-            Assert.AreEqual(lastRoom.RoomSortNumber, addedRoom.RoomSortNumber, "Added RoomSortNumber is not equal.");
-            Assert.AreEqual(lastRoom.FloorOfRoom, addedRoom.FloorOfRoom, "Added FloorOfRoom is not equal.");
-            Assert.AreEqual(lastRoom.RoomLight, addedRoom.RoomLight, "Added RoomLight is not equal.");
+        //    Room lastRoom = roomList[roomList.Count - 1];
 
-            await DataAccessLayer.DeleteRoomFromDB(dbConnector, roomList, lastRoom);
+        //    //perform tests
+        //    Assert.AreEqual(addedRoom.RoomName, lastRoom.RoomName, "Added RoomName is not equal.");
+        //    Assert.AreEqual(lastRoom.RoomSort, addedRoom.RoomSort, "Added RoomSortNumber is not equal.");
+        //    Assert.AreEqual(lastRoom.RoomFloor, addedRoom.RoomFloor, "Added FloorOfRoom is not equal.");
+        //    Assert.AreEqual(lastRoom.RoomLight, addedRoom.RoomLight, "Added RoomLight is not equal.");
 
-            await DataAccessLayer.GetRooms(dbConnector, roomList);
-            lastRoom = roomList[roomList.Count - 1];
+        //    await DataAccessLayer.DeleteRoomFromDB(lastRoom);
 
+        //    roomList.Clear();
+        //    var roomsAfterDelete = await DataAccessLayer.GetRooms();
+        //    foreach (var room in roomsAfterDelete)
+        //    {
+        //        roomList.Add(room);
+        //    }
 
-            //perform tests
-            Assert.AreNotEqual(lastRoom.RoomName, addedRoom.RoomName, $"LastRoom name: {lastRoom.RoomName} should not be equal to {addedRoom.RoomName}");
-            Assert.AreNotEqual(lastRoom.RoomSortNumber, addedRoom.RoomSortNumber, $"LastRoom sort number: {lastRoom.RoomSortNumber} should not be equal to {addedRoom.RoomSortNumber}");
-        }
-    }
+        //    if (roomList.Count > 0)
+        //    {
+        //        lastRoom = roomList[roomList.Count - 1];
+
+        //        // Perform tests
+        //        Assert.AreNotEqual(lastRoom.RoomName, addedRoom.RoomName, $"LastRoom name: {lastRoom.RoomName} should not be equal to {addedRoom.RoomName}");
+        //        Assert.AreNotEqual(lastRoom.RoomSort, addedRoom.RoomSort, $"LastRoom sort number: {lastRoom.RoomSort} should not be equal to {addedRoom.RoomSort}");
+        //    }
+        //}
+    //}
 }

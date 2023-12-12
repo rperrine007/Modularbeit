@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data.Common;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Microsoft.VisualBasic;
-using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
+using PlantGenius.DAL;
+using PlantGenius.DAL.Model;
 
 namespace PlantGenius.GUI
 {
@@ -22,24 +19,45 @@ namespace PlantGenius.GUI
 
         // Generate a Collection with rooms
         private ObservableCollection<Room> roomList;
-        // Create an instance of the DatabaseConnector class.
-        private DatabaseConnector dbConnector;
 
         public RoomView()
         {
             InitializeComponent();
-
-            //create objects
             roomList = new ObservableCollection<Room>();
-            dbConnector = new DatabaseConnector();
-
             //Set Datacontext for binding in WPF
             ListBox_RoomList.DataContext = roomList;
-            StackPanel_chosenRoom.DataContext = roomList;
+            StackPanel_chosenRoom.DataContext = ListBox_RoomList;
 
             //Load window and process function. The function includes the data import of the DB
             Loaded += RoomView_Loaded;
         }
+
+        /// <summary>
+        /// Test the connection to the database
+        /// </summary>
+        private async void TestConnection()
+        {
+            try
+            {
+                var result = await DataAccessLayer.TestDatabaseConnectionAsync();
+
+                if (result.connectionStatus)
+                {
+                    MessageBox.Show("Verbindung funktioniert.");
+                }
+                else
+                {
+                    await Console.Out.WriteLineAsync(result.errorMessage);
+                    MessageBox.Show($"Fehler: {result.errorMessage}");
+                }
+            }
+            catch (Exception e)
+            {
+                await Console.Out.WriteLineAsync(e.Message);
+                MessageBox.Show($"Unerwarteter Fehler: {e.Message}");
+            }
+        }
+
 
         /// <summary>
         /// Load the initial view including importing the data of the db.
@@ -48,8 +66,13 @@ namespace PlantGenius.GUI
         /// <param name="e"></param>
         private async void RoomView_Loaded(object sender, RoutedEventArgs e)
         {
-                //import rooms from db and save into roomList
-                await DataAccessLayer.GetRooms(dbConnector, roomList);
+            var rooms = await DataAccessLayer.GetRooms();
+            roomList.Clear();
+            foreach (var room in rooms)
+            {
+                roomList.Add(room);
+            }
+            TestConnection();
         }
 
         /// <summary>
@@ -93,20 +116,17 @@ namespace PlantGenius.GUI
             Room neighbourRoom = roomList[newIndex];
 
             // Swap sort numbers
-            int tempSortNumber = currentRoom.RoomSortNumber;
-            currentRoom.RoomSortNumber = neighbourRoom.RoomSortNumber;
-            neighbourRoom.RoomSortNumber = tempSortNumber;
+            int tempSortNumber = currentRoom.RoomSort;
+            currentRoom.RoomSort = neighbourRoom.RoomSort;
+            neighbourRoom.RoomSort = tempSortNumber;
 
             // Swap order
             roomList[currentIndex] = neighbourRoom;
             roomList[newIndex] = currentRoom;
 
             // Update DB for both rooms
-            using (var connection = await dbConnector.GetDatabaseConnectionAsync())
-            {
-                await DataAccessLayer.UpdateDBChangeRoomSortNumber(connection, currentRoom.RoomID, currentRoom.RoomSortNumber);
-                await DataAccessLayer.UpdateDBChangeRoomSortNumber(connection, neighbourRoom.RoomID, neighbourRoom.RoomSortNumber);
-            }
+            await DataAccessLayer.UpdateRoomSortNumber(currentRoom.RoomID, currentRoom.RoomSort);
+            await DataAccessLayer.UpdateRoomSortNumber(neighbourRoom.RoomID, neighbourRoom.RoomSort);
 
             // Keep focus on moved object
             ListBox_RoomList.SelectedIndex = newIndex;
@@ -122,10 +142,8 @@ namespace PlantGenius.GUI
             if (sender is Button button)
             {
                 int direction = Convert.ToInt32(button.Tag);
-
                 // Call ChangeRoomSortNumber method with the direction parameter
                 await ChangeRoomSortNumber(sender, e, direction);
-                await DataAccessLayer.OnRoomDeleteNewSort(dbConnector, roomList);
             }
         }
 
@@ -137,18 +155,16 @@ namespace PlantGenius.GUI
         private async void Delete(object sender, RoutedEventArgs e)
         {
             //control if a room is chosen
-            if (ListBox_RoomList.SelectedItem == null)
+            if (ListBox_RoomList.SelectedItem is Room selectedRoom)
+            {
+                await DataAccessLayer.DeleteRoomFromDB(selectedRoom);
+                // Remove the specified room from the ObservableCollection
+                roomList.Remove(selectedRoom);
+            }
+            else
             {
                 MessageBox.Show("Bitte wählen Sie einen Raum aus.");
-                return;
             }
-
-            Room currentRoom = (Room)ListBox_RoomList.SelectedItem;
-
-            // Remove the specified room from the ObservableCollection
-            roomList.Remove(currentRoom);
-
-            await DataAccessLayer.DeleteRoomFromDB(dbConnector, roomList, currentRoom);
         }
 
         /// <summary>
@@ -172,15 +188,16 @@ namespace PlantGenius.GUI
             Room newRoom = new Room()
             {
                 RoomName = inputNewRoomName.Text,
-                RoomSortNumber = roomList.Count + 1,
-                FloorOfRoom = int.Parse(inputNewRoomFloor.Text),
+                RoomSort = roomList.Count + 1,
+                RoomFloor = int.Parse(inputNewRoomFloor.Text),
                 RoomLight = roomLight
             };
-            // Add to ObservableCollection
-            roomList.Add(newRoom);
 
             //add Room to DB
-            await DataAccessLayer.AddRoomToDB(dbConnector, newRoom);
+            await DataAccessLayer.AddRoomToDB(newRoom);
+
+            // Add to ObservableCollection
+            roomList.Add(newRoom);
         }
 
 

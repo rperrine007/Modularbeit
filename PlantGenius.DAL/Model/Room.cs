@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantGeniusUser.GUI
+namespace PlantGenius.DAL.Model
 {
     /// <summary>
     /// A room has a name. If an apartment or a house has different floors, the room also knows in which floor it is. 
@@ -13,22 +14,24 @@ namespace PlantGeniusUser.GUI
     public class Room
     {
         public Room()
-        {}
+        { }
 
         /// Constructor
         /// <param name="roomName"></param>
         /// <param name="floorOfRoom"></param>
         /// <param name="roomLight"></param>
-        public Room(string roomName, int floorOfRoom, bool roomLight) 
+        public Room(string roomName, int floorOfRoom, bool roomLight)
         {
             RoomName = roomName;
-            FloorOfRoom = floorOfRoom;
+            RoomFloor = floorOfRoom;
             RoomLight = roomLight;
-            RoomSortNumber = 0;
+            RoomSort = 0;
         }
 
 
-        /// Constructor 2
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="roomID"></param>
         /// <param name="roomName"></param>
         /// <param name="roomSortNumber"></param>
@@ -38,22 +41,31 @@ namespace PlantGeniusUser.GUI
         {
             RoomID = roomID;
             RoomName = roomName;
-            RoomSortNumber = roomSortNumber;
-            FloorOfRoom = floorOfRoom;
+            RoomSort = roomSortNumber;
+            RoomFloor = floorOfRoom;
             RoomLight = roomLight;
         }
 
         //Properties
         public int RoomID { get; init; }
+
+        [Required]
+        [MaxLength(30)]
         public string RoomName { get; set; }
-        public int RoomSortNumber {  get; set; }
-        public int FloorOfRoom { get; set; }
+
+        public int RoomSort { get; set; }
+
+        [Required]
+        public int RoomFloor { get; set; }
+
         public bool RoomLight { get; set; }
+
+        public ICollection<Plant> Plants { get; set; }
 
         //override ToString function
         public override string ToString()
         {
-            return $"RaumID: {RoomID}, Raumname: {RoomName}, Stockwerk: {FloorOfRoom}, viel Licht im Raum: {RoomLight}";
+            return $"RaumID: {RoomID}, Raumname: {RoomName}, Stockwerk: {RoomFloor}, viel Licht im Raum: {RoomLight}, Sortier-Nummer: {RoomSort}";
         }
 
     }

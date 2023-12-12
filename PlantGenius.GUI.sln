@@ -5,9 +5,16 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantGenius.GUI", "PlantGenius.GUI\PlantGenius.GUI.csproj", "{179310D2-5792-4171-8952-C88DFB3ADE36}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantGeniusUser.GUI", "PlantGeniusUser.GUI\PlantGeniusUser.GUI.csproj", "{5535B1A8-4B87-4446-A54E-AEED38941A8E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayerNUnitTests", "DataAccessLayerNUnitTests\DataAccessLayerNUnitTests.csproj", "{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantGenius.DAL", "PlantGenius.DAL\PlantGenius.DAL.csproj", "{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantGeniusUser.GUI", "PlantGeniusUser.GUI\PlantGeniusUser.GUI.csproj", "{8224F71C-22B9-40A2-819D-EA9CE43A9201}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8F5A5FCF-654A-434F-9A85-5666A51CB6C5}"
+	ProjectSection(SolutionItems) = preProject
+		appsettings.json = appsettings.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,16 +26,20 @@ Global
 		{179310D2-5792-4171-8952-C88DFB3ADE36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{179310D2-5792-4171-8952-C88DFB3ADE36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{179310D2-5792-4171-8952-C88DFB3ADE36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5535B1A8-4B87-4446-A54E-AEED38941A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5535B1A8-4B87-4446-A54E-AEED38941A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5535B1A8-4B87-4446-A54E-AEED38941A8E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{5535B1A8-4B87-4446-A54E-AEED38941A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5535B1A8-4B87-4446-A54E-AEED38941A8E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5535B1A8-4B87-4446-A54E-AEED38941A8E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{713EEEB9-3D47-419C-8ADA-DCCE6BEAA295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
