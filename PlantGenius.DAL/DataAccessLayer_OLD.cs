@@ -21,7 +21,7 @@ namespace PlantGenius.DAL
         ///  </summary>
         /// <param name="connection"></param>
         /// <returns></returns>
-        public async static Task GetRooms(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput)
+        public async static Task GetRooms(DatabaseConnector_OLD dbConnectorInput, Collection<Room> roomListInput)
         {
             roomListInput.Clear();
             // Use the 'GetDatabaseConnectionAsync' method to asynchronously obtain a database connection.
@@ -59,7 +59,7 @@ namespace PlantGenius.DAL
         /// </summary>
         /// <param name="dbConnectorInput"></param>
         /// <param name="roomInput"></param>
-        public async static Task AddRoomToDB(DatabaseConnector dbConnectorInput, Room roomInput)
+        public async static Task AddRoomToDB(DatabaseConnector_OLD dbConnectorInput, Room roomInput)
         {
             // Insert into database
             using (var connection = await dbConnectorInput.GetDatabaseConnectionAsync())
@@ -78,7 +78,7 @@ namespace PlantGenius.DAL
         /// <param name="dbConnectorInput"></param>
         /// <param name="roomInput"></param>
         /// <returns></returns>
-        public async static Task DeleteRoomFromDB(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput, Room roomInput)
+        public async static Task DeleteRoomFromDB(DatabaseConnector_OLD dbConnectorInput, Collection<Room> roomListInput, Room roomInput)
         {
             //delete the room from the database
             string query = $"DELETE FROM Room WHERE RoomID = {roomInput.RoomID}";
@@ -100,7 +100,7 @@ namespace PlantGenius.DAL
         /// Update the SortNumber of the rooms, when a room is deleted.
         /// </summary>
         /// <returns></returns>
-        public async static Task OnRoomDeleteNewSort(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput)
+        public async static Task OnRoomDeleteNewSort(DatabaseConnector_OLD dbConnectorInput, Collection<Room> roomListInput)
         {
             // Sort the Rooms by RoomSortNumber
             var sortedRooms = roomListInput.OrderBy(room => room.RoomSort).ToList();
