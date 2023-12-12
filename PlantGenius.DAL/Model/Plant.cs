@@ -14,6 +14,7 @@ namespace PlantGenius.DAL.Model
 
         // EF needs this constructor even though it is never called. Else the "No suitable constructor found exception" is thrown.
         public Plant() { }
+
         public Plant(string plantName, DateTime waterLastTime, int waterRequirement)
         {
             PlantName = plantName;

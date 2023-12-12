@@ -12,6 +12,7 @@ namespace PlantGenius.DAL.Model
     /// </summary>
     public class Room
     {
+        // EF needs this constructor even though it is never called. Else the "No suitable constructor found exception" is thrown.
         public Room()
         { }
 
