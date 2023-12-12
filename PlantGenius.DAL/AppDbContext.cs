@@ -8,6 +8,7 @@ namespace PlantGenius.DAL
     //DB Context corresponds to a scheme in a DB. It sets the differents DbSets in relation to each other.
     public class AppDbContext : DbContext
     {
+
         public const string connectionString = "Server=49.12.196.20;Port=14501;Database=c1_zhaw2;User Id=c1_zhaw;Password=lQ9fKVoNK7ll!;";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

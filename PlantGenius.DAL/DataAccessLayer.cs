@@ -1,5 +1,6 @@
 ﻿using PlantGenius.DAL.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace PlantGenius.DAL
 {
@@ -18,6 +19,7 @@ namespace PlantGenius.DAL
                     if (entity != null)
                     {
                         return (true, "Connection successful");
+                        Console.WriteLine("Success!");
                     }
                     else
                     {
