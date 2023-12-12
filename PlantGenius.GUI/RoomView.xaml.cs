@@ -94,9 +94,9 @@ namespace PlantGenius.GUI
             Room neighbourRoom = roomList[newIndex];
 
             // Swap sort numbers
-            int tempSortNumber = currentRoom.RoomSortNumber;
-            currentRoom.RoomSortNumber = neighbourRoom.RoomSortNumber;
-            neighbourRoom.RoomSortNumber = tempSortNumber;
+            int tempSortNumber = currentRoom.RoomSort;
+            currentRoom.RoomSort = neighbourRoom.RoomSort;
+            neighbourRoom.RoomSort = tempSortNumber;
 
             // Swap order
             roomList[currentIndex] = neighbourRoom;
@@ -105,8 +105,8 @@ namespace PlantGenius.GUI
             // Update DB for both rooms
             using (var connection = await dbConnector.GetDatabaseConnectionAsync())
             {
-                await DataAccessLayer.UpdateDBChangeRoomSortNumber(connection, currentRoom.RoomID, currentRoom.RoomSortNumber);
-                await DataAccessLayer.UpdateDBChangeRoomSortNumber(connection, neighbourRoom.RoomID, neighbourRoom.RoomSortNumber);
+                await DataAccessLayer.UpdateDBChangeRoomSortNumber(connection, currentRoom.RoomID, currentRoom.RoomSort);
+                await DataAccessLayer.UpdateDBChangeRoomSortNumber(connection, neighbourRoom.RoomID, neighbourRoom.RoomSort);
             }
 
             // Keep focus on moved object
@@ -173,8 +173,8 @@ namespace PlantGenius.GUI
             Room newRoom = new Room()
             {
                 RoomName = inputNewRoomName.Text,
-                RoomSortNumber = roomList.Count + 1,
-                FloorOfRoom = int.Parse(inputNewRoomFloor.Text),
+                RoomSort = roomList.Count + 1,
+                RoomFloor = int.Parse(inputNewRoomFloor.Text),
                 RoomLight = roomLight
             };
             // Add to ObservableCollection

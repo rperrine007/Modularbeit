@@ -43,8 +43,8 @@ namespace PlantGenius.DAL
                             {
                                 RoomID = (int)reader["RoomID"],
                                 RoomName = (string)reader["RoomName"],
-                                RoomSortNumber = (int)reader["RoomSort"],
-                                FloorOfRoom = (int)reader["RoomFloor"],
+                                RoomSort = (int)reader["RoomSort"],
+                                RoomFloor = (int)reader["RoomFloor"],
                                 RoomLight = (bool)reader["RoomLight"]
                             });
                         }
@@ -63,7 +63,7 @@ namespace PlantGenius.DAL
             // Insert into database
             using (var connection = await dbConnectorInput.GetDatabaseConnectionAsync())
             {
-                string query = $"INSERT INTO Room (RoomName, RoomSort, RoomFloor, RoomLight) VALUES ('{roomInput.RoomName}', {roomInput.RoomSortNumber}, {roomInput.FloorOfRoom}, {roomInput.RoomLight})";
+                string query = $"INSERT INTO Room (RoomName, RoomSort, RoomFloor, RoomLight) VALUES ('{roomInput.RoomName}', {roomInput.RoomSort}, {roomInput.RoomFloor}, {roomInput.RoomLight})";
                 using (var command = new MySqlCommand(query, connection))
                 {
                     await command.ExecuteNonQueryAsync();
@@ -102,7 +102,7 @@ namespace PlantGenius.DAL
         public async static Task OnRoomDeleteNewSort(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput)
         {
             // Sort the Rooms by RoomSortNumber
-            var sortedRooms = roomListInput.OrderBy(room => room.RoomSortNumber).ToList();
+            var sortedRooms = roomListInput.OrderBy(room => room.RoomSort).ToList();
 
             // Adding a new sorting number to each room to avoid gaps
             int newSortID = 1;

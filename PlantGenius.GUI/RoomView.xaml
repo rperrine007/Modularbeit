@@ -72,8 +72,8 @@
                 <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="#FFDDDDDD">
                     <TextBlock Text="{Binding Path=RoomID}"/>
                     <TextBlock Text="{Binding Path=RoomName}"/>
-                    <TextBlock Text="{Binding Path=RoomSortNumber}"/>
-                    <TextBlock Text="{Binding Path=FloorOfRoom}"/>
+                    <TextBlock Text="{Binding Path=RoomSort}"/>
+                    <TextBlock Text="{Binding Path=RoomFloor}"/>
                     <TextBlock Text="{Binding Path=RoomLight}"/>
                 </StackPanel>
             </Grid>

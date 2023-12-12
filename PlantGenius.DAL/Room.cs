@@ -22,13 +22,15 @@ namespace PlantGenius.DAL
         public Room(string roomName, int floorOfRoom, bool roomLight) 
         {
             RoomName = roomName;
-            FloorOfRoom = floorOfRoom;
+            RoomFloor = floorOfRoom;
             RoomLight = roomLight;
-            RoomSortNumber = 0;
+            RoomSort = 0;
         }
 
 
-        /// Constructor 2
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="roomID"></param>
         /// <param name="roomName"></param>
         /// <param name="roomSortNumber"></param>
@@ -38,22 +40,22 @@ namespace PlantGenius.DAL
         {
             RoomID = roomID;
             RoomName = roomName;
-            RoomSortNumber = roomSortNumber;
-            FloorOfRoom = floorOfRoom;
+            RoomSort = roomSortNumber;
+            RoomFloor = floorOfRoom;
             RoomLight = roomLight;
         }
 
         //Properties
         public int RoomID { get; init; }
         public string RoomName { get; set; }
-        public int RoomSortNumber {  get; set; }
-        public int FloorOfRoom { get; set; }
+        public int RoomSort {  get; set; }
+        public int RoomFloor { get; set; }
         public bool RoomLight { get; set; }
 
         //override ToString function
         public override string ToString()
         {
-            return $"RaumID: {RoomID}, Raumname: {RoomName}, Stockwerk: {FloorOfRoom}, viel Licht im Raum: {RoomLight}, Sortier-Nummer: {RoomSortNumber}";
+            return $"RaumID: {RoomID}, Raumname: {RoomName}, Stockwerk: {RoomFloor}, viel Licht im Raum: {RoomLight}, Sortier-Nummer: {RoomSort}";
         }
 
     }
