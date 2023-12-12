@@ -22,9 +22,10 @@ namespace PlantGenius.GUI
         public RoomView()
         {
             InitializeComponent();
+            roomList = new ObservableCollection<Room>();
             //Set Datacontext for binding in WPF
             ListBox_RoomList.DataContext = roomList;
-            StackPanel_chosenRoom.DataContext = roomList;
+            StackPanel_chosenRoom.DataContext = ListBox_RoomList;
 
             //Load window and process function. The function includes the data import of the DB
             Loaded += RoomView_Loaded;
@@ -38,6 +39,7 @@ namespace PlantGenius.GUI
         private async void RoomView_Loaded(object sender, RoutedEventArgs e)
         {
             var rooms = await DataAccessLayer.GetRooms();
+            roomList.Clear();
             foreach (var room in rooms)
             {
                 roomList.Add(room);
