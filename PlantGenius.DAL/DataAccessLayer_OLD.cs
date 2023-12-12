@@ -93,7 +93,7 @@ namespace PlantGenius.DAL
                     await DataAccessLayer_OLD.OnRoomDeleteNewSort(dbConnectorInput, roomListInput);
                 }
             }
-            GetRooms(dbConnectorInput, roomListInput);
+            await GetRooms(dbConnectorInput, roomListInput);
         }
 
         /// <summary>
