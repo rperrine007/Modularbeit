@@ -26,7 +26,7 @@ namespace PlantGenius.GUI
             roomList = new ObservableCollection<Room>();
             //Set Datacontext for binding in WPF
             ListBox_RoomList.DataContext = roomList;
-            StackPanel_chosenRoom.DataContext = ListBox_RoomList;
+            StackPanel_chosenRoom.DataContext = roomList;
 
             //Load window and process function. The function includes the data import of the DB
             Loaded += RoomView_Loaded;
