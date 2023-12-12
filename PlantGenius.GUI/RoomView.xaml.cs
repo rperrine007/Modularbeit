@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MySqlX.XDevAPI.Common;
 using PlantGenius.DAL;
 using PlantGenius.DAL.Model;
 
@@ -32,6 +33,33 @@ namespace PlantGenius.GUI
         }
 
         /// <summary>
+        /// Test the connection to the database
+        /// </summary>
+        private async void TestConnection()
+        {
+            try
+            {
+                var result = await DataAccessLayer.TestDatabaseConnectionAsync();
+
+                if (result.connectionStatus)
+                {
+                    MessageBox.Show("Verbindung funktioniert.");
+                }
+                else
+                {
+                    await Console.Out.WriteLineAsync(result.errorMessage);
+                    MessageBox.Show($"Fehler: {result.errorMessage}");
+                }
+            }
+            catch (Exception e)
+            {
+                await Console.Out.WriteLineAsync(e.Message);
+                MessageBox.Show($"Unerwarteter Fehler: {e.Message}");
+            }
+        }
+
+
+        /// <summary>
         /// Load the initial view including importing the data of the db.
         /// </summary>
         /// <param name="sender"></param>
@@ -44,6 +72,7 @@ namespace PlantGenius.GUI
             {
                 roomList.Add(room);
             }
+            TestConnection();
         }
 
         /// <summary>

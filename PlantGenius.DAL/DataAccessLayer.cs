@@ -5,6 +5,32 @@ namespace PlantGenius.DAL
 {
     public class DataAccessLayer
     {
+        //TODO delete this method if connection works
+        public static async Task<(bool connectionStatus, string errorMessage)> TestDatabaseConnectionAsync()
+        {
+            try
+            {
+                using (var db = new AppDbContext())
+                {
+                    // Attempt to fetch the first entity from some table.
+                    var entity = await db.Rooms.FirstOrDefaultAsync();
+
+                    if (entity != null)
+                    {
+                        return (true, "Connection successful");
+                    }
+                    else
+                    {
+                        return (false, "Connection failed to retrieve data");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Database connection test failed: {ex.Message}");
+            }
+        }
+
         // Method to get rooms
         public static async Task<List<Room>> GetRooms()
         {
