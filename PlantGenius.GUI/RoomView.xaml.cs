@@ -52,6 +52,7 @@ namespace PlantGenius.GUI
         /// <summary>
         /// Test the connection to the database
         /// </summary>
+        //TODO Test if Method works even with wrong credentials
         private async void TestConnection()
         {
             try
@@ -60,9 +61,10 @@ namespace PlantGenius.GUI
 
                 if (result.connectionStatus)
                 {
-                    string title = "SQL Server";
-                    string message = "Verbindung OK!";
-                    MessageBox.Show(message, title);
+                    //For debugging only, shows if connection is ok
+                    //string title = "SQL Server";
+                    //string message = "Verbindung OK!";
+                    //MessageBox.Show(message, title);
                 }
                 else
                 {

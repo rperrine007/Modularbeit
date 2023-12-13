@@ -6,7 +6,6 @@ namespace PlantGenius.DAL
 {
     public class DataAccessLayer
     {
-        //TODO after developing -> no success message
         public static async Task<(bool connectionStatus, string errorMessage)> TestDatabaseConnectionAsync()
         {
             try
