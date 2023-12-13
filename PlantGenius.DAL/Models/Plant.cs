@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantGenius.DAL.Model
+namespace PlantGenius.DAL.Models
 {
     public class Plant
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MySql.EntityFrameworkCore;
-using PlantGenius.DAL.Model;
+using PlantGenius.DAL.Models;
 
 
 namespace PlantGenius.DAL

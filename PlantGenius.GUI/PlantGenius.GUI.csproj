@@ -13,6 +13,7 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -35,6 +36,10 @@
 
 	<ItemGroup>
 	  <Resource Include="Fotos\pexels-sohail-nachiti-807598.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Models\" />
 	</ItemGroup>
 
 </Project>

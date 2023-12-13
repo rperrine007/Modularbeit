@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MySql.Data.MySqlClient;
-using PlantGenius.DAL.Model;
+using PlantGenius.DAL.Models;
 
 namespace PlantGenius.DAL
 {

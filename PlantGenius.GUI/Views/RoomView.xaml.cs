@@ -6,7 +6,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using MySqlX.XDevAPI.Common;
 using PlantGenius.DAL;
-using PlantGenius.DAL.Model;
+using PlantGenius.DAL.Models;
+using PlantGenius.GUI.ViewModel;
+using PlantGenius.GUI.Views;
 
 namespace PlantGenius.GUI
 {
@@ -23,16 +25,18 @@ namespace PlantGenius.GUI
         public RoomView()
         {
             InitializeComponent();
-            roomList = new ObservableCollection<Room>();
+            RoomWindowViewModel roomViewModel = new RoomWindowViewModel();
+
+            roomList = roomViewModel.roomList;
             //Set Datacontext for binding in WPF
             ListBox_RoomList.DataContext = roomList;
             StackPanel_chosenRoom.DataContext = roomList;
 
             //Load window and process function. The function includes the data import of the DB
-            Loaded += RoomView_Loaded;
+            //Loaded += RoomView_Loaded;
         }
 
-
+        /*
         /// <summary>
         /// Load the initial view including importing the data of the db.
         /// </summary>
@@ -47,7 +51,7 @@ namespace PlantGenius.GUI
                 roomList.Add(room);
             }
             TestConnection();
-        }
+        }*/
 
         /// <summary>
         /// Test the connection to the database

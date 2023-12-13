@@ -1,4 +1,4 @@
-﻿using PlantGenius.DAL.Model;
+﻿using PlantGenius.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 

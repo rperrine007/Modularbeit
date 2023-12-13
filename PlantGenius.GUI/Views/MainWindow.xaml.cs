@@ -1,10 +1,10 @@
-﻿using System;
+﻿using PlantGenius.GUI.ViewModel;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
 
 
-namespace PlantGenius.GUI
+namespace PlantGenius.GUI.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -17,6 +17,9 @@ namespace PlantGenius.GUI
         public MainWindow()
         {
             InitializeComponent();
+
+            MainWindowViewModel mainViewModel = new MainWindowViewModel();
+            this.DataContext = mainViewModel;
 
             // initialize boolean
             isResizing = false;
@@ -57,6 +60,9 @@ namespace PlantGenius.GUI
             }
         }
 
+        //TODO delete when MVVM works
+
+        /*
         /// <summary>
         /// When the button "Räume bearbeiten" is clicked, change to the Room window.
         /// </summary>
@@ -66,7 +72,7 @@ namespace PlantGenius.GUI
         {
             RoomView roomView = new RoomView();
             UIHelper.SwitchWindowKeepSizePosition(this, roomView);
-        }
+        }*/
     }
 }
 

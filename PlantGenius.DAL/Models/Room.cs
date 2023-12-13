@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantGenius.DAL.Model
+namespace PlantGenius.DAL.Models
 {
     /// <summary>
     /// A room has a name. If an apartment or a house has different floors, the room also knows in which floor it is. 
