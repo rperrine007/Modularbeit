@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlantGenius.GUI"
         mc:Ignorable="d"        
-        Title="PlantGenius - Home" Height="450" Width="500" MinHeight="375" MinWidth="337.5" SizeChanged="Window_SizeChanged">
+        Title="PlantGenius - Home" Height="480" Width="500" MinHeight="375" MinWidth="337.5" SizeChanged="Window_SizeChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition  Height="3*"/>

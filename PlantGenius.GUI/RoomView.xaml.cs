@@ -101,7 +101,9 @@ namespace PlantGenius.GUI
             // Validation if room choosen
             if (ListBox_RoomList.SelectedItem == null)
             {
-                MessageBox.Show("Bitte wählen Sie einen Raum aus.");
+                string title = "Fehler";
+                string message = "Bitte wählen Sie einen Raum aus!";
+                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -111,7 +113,9 @@ namespace PlantGenius.GUI
             // Check index bandwith for up and down movement
             if (newIndex < 0 || newIndex >= roomList.Count)
             {
-                MessageBox.Show("Bewegung in diese Richtung nicht möglich.");
+                string title = "Fehler";
+                string message = "Bewegung in diese Richtung nicht möglich!";
+                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -151,32 +155,6 @@ namespace PlantGenius.GUI
         }
 
         /// <summary>
-        /// This Method updates a room to the database.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //TODO Alex: Logik Stockwerke mit TextBox_PreviewTextInput übernehmen
-        private async void SaveChanges_Click(object sender, RoutedEventArgs e)
-        {
-            if (ListBox_RoomList.SelectedItem is Room selectedRoom)
-            {
-                // Update the selected room with changes made in the editable fields
-                selectedRoom.RoomName = inputRoomName.Text;
-                selectedRoom.RoomFloor = int.Parse(inputRoomFloor.Text);
-                selectedRoom.RoomLight = bool.Parse(inputRoomLight.Text);
-
-                // Call the method to update the room in the database
-                await DataAccessLayer.UpdateRoomToDB(selectedRoom);
-
-                // Optionally, you can refresh the list or update the UI to reflect the changes
-            }
-            else
-            {
-                MessageBox.Show("Bitte zuerst einen Raum auswählen.");
-            }
-        }
-
-        /// <summary>
         /// This Method deletes a room entry from the database. Afterwards it will update the sorting numbers to avoid gaps
         /// </summary>
         /// <param name="sender"></param>
@@ -193,6 +171,43 @@ namespace PlantGenius.GUI
             else
             {
                 MessageBox.Show("Bitte wählen Sie einen Raum aus.");
+            }
+        }
+
+        /// <summary>
+        /// This Method updates a room to the database.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void SaveChanges_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListBox_RoomList.SelectedItem is Room selectedRoom)
+            {
+                bool roomLight = false;
+                var selectedItem = comboBoxRoomLight_edit.SelectedItem as ComboBoxItem;
+                if (selectedItem != null)
+                {
+                    // Use roomLight as Boolean value
+                    roomLight = bool.Parse(selectedItem.Tag.ToString());
+                }
+                // Update the selected room with changes made in the editable fields
+                selectedRoom.RoomName = inputRoomName.Text;
+                selectedRoom.RoomFloor = int.Parse(inputRoomFloor.Text);
+                selectedRoom.RoomLight = roomLight;
+
+                // Call the method to update the room in the database
+                await DataAccessLayer.UpdateRoomToDB(selectedRoom);
+
+
+                string title = "Update OK";
+                string message = "Update wurde durchgeführt!";
+                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                string title = "Update Fehler";
+                string message = "Bitte zuerst einen Raum auswählen!";
+                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -228,9 +243,6 @@ namespace PlantGenius.GUI
             // Add to ObservableCollection
             roomList.Add(newRoom);
         }
-
-
-
 
         /// <summary>
         /// Prevents to add non int values to a textfield.

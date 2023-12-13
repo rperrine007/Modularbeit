@@ -18,8 +18,8 @@ namespace PlantGenius.DAL
 
                     if (entity != null)
                     {
-                        return (true, "Connection successful");
                         Console.WriteLine("Success!");
+                        return (true, "Connection successful");                        
                     }
                     else
                     {
