@@ -70,12 +70,15 @@
 
                 <!-- Content of given room -->
                 <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="#FFDDDDDD">
-                    <TextBlock Text="{Binding Path=RoomID}"/>
-                    <TextBlock Text="{Binding Path=RoomName}"/>
-                    <TextBlock Text="{Binding Path=RoomSort}"/>
-                    <TextBlock Text="{Binding Path=RoomFloor}"/>
-                    <TextBlock Text="{Binding Path=RoomLight}"/>
+                    <TextBox Text="{Binding Path=RoomID}" IsReadOnly="True" />
+                    <TextBox x:Name="inputRoomSort" Text="{Binding Path=RoomSort}" IsReadOnly="True" />
+                    <TextBox x:Name="inputRoomName" Text="{Binding Path=RoomName}" Background="#FFABC5A4" IsReadOnly="False" />
+                    <TextBox x:Name="inputRoomFloor" Text="{Binding Path=RoomFloor}" Background="#FFABC5A4" IsReadOnly="False" />
+                    <TextBox x:Name="inputRoomLight" Text="{Binding Path=RoomLight}" IsReadOnly="True" />
+                    <Button Content="Speichern" Height="30" Click="SaveChanges_Click" />
+
                 </StackPanel>
+
             </Grid>
         </StackPanel>
         

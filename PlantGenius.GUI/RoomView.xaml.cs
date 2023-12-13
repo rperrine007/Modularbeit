@@ -60,12 +60,14 @@ namespace PlantGenius.GUI
 
                 if (result.connectionStatus)
                 {
-                    MessageBox.Show("Verbindung funktioniert.");
+                    string title = "SQL Server";
+                    string message = "Verbindung OK!";
+                    MessageBox.Show(message, title);
                 }
                 else
                 {
                     await Console.Out.WriteLineAsync(result.errorMessage);
-                    MessageBox.Show($"Fehler: {result.errorMessage}");
+                    MessageBox.Show($"Verbindungsfehler: {result.errorMessage}");
                 }
             }
             catch (Exception e)
@@ -149,6 +151,32 @@ namespace PlantGenius.GUI
         }
 
         /// <summary>
+        /// This Method updates a room to the database.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        //TODO Alex: Logik Stockwerke mit TextBox_PreviewTextInput übernehmen
+        private async void SaveChanges_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListBox_RoomList.SelectedItem is Room selectedRoom)
+            {
+                // Update the selected room with changes made in the editable fields
+                selectedRoom.RoomName = inputRoomName.Text;
+                selectedRoom.RoomFloor = int.Parse(inputRoomFloor.Text);
+                selectedRoom.RoomLight = bool.Parse(inputRoomLight.Text);
+
+                // Call the method to update the room in the database
+                await DataAccessLayer.UpdateRoomToDB(selectedRoom);
+
+                // Optionally, you can refresh the list or update the UI to reflect the changes
+            }
+            else
+            {
+                MessageBox.Show("Bitte zuerst einen Raum auswählen.");
+            }
+        }
+
+        /// <summary>
         /// This Method deletes a room entry from the database. Afterwards it will update the sorting numbers to avoid gaps
         /// </summary>
         /// <param name="sender"></param>
@@ -200,6 +228,8 @@ namespace PlantGenius.GUI
             // Add to ObservableCollection
             roomList.Add(newRoom);
         }
+
+
 
 
         /// <summary>

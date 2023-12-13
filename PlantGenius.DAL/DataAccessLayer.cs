@@ -6,7 +6,7 @@ namespace PlantGenius.DAL
 {
     public class DataAccessLayer
     {
-        //TODO delete this method if connection works
+        //TODO after developing -> no success message
         public static async Task<(bool connectionStatus, string errorMessage)> TestDatabaseConnectionAsync()
         {
             try
@@ -59,6 +59,23 @@ namespace PlantGenius.DAL
             {
                 db.Rooms.Add(roomInput);
                 await db.SaveChangesAsync();
+            }
+        }
+
+        // Method to update a room
+        public static async Task UpdateRoomToDB(Room roomInput)
+        {
+            using (var db = new AppDbContext())
+            {
+                // Mark the room as modified
+                db.Rooms.Attach(roomInput);
+                db.Entry(roomInput).Property(r => r.RoomName).IsModified = true;
+                db.Entry(roomInput).Property(r => r.RoomFloor).IsModified = true;
+                db.Entry(roomInput).Property(r => r.RoomLight).IsModified = true;
+
+                // Save changes to the database
+                await db.SaveChangesAsync();
+
             }
         }
 
