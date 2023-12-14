@@ -38,7 +38,6 @@ namespace PlantGenius.GUI.Views
             //Loaded += RoomView_Loaded;
         }
 
-
         /// <summary>
         /// Test the connection to the database
         /// </summary>
@@ -169,5 +168,12 @@ namespace PlantGenius.GUI.Views
             }
         }
 
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textBox.Text = string.Empty;
+            // Oder, wenn Sie einen bestimmten Standardtext haben:
+            // textBox.Text = "Neuer Standardtext";
+        }
     }
 }

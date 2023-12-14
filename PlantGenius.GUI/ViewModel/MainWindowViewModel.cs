@@ -7,20 +7,16 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PlantGenius.GUI;
 using PlantGenius.DAL.Models;
-using PlantGenius.GUI.Commands;
 using PlantGenius.GUI.Views;
 using System.Windows;
+using CommunityToolkit.Mvvm.Input;
 
 namespace PlantGenius.GUI.ViewModel
 {
-        class MainWindowViewModel
+        public partial class MainWindowViewModel : ObservableObject
     {
-
-        public ICommand ShowWindowCommand { get; set; }
-
         public MainWindowViewModel() 
         {
-            ShowWindowCommand = new RelayCommand(ShowWindow, CanShowWindow);
         }
 
         private bool CanShowWindow(object obj)
@@ -28,7 +24,8 @@ namespace PlantGenius.GUI.ViewModel
             //We always want to execute the command.
             return true;
         }
-        
+
+        [RelayCommand(CanExecute = nameof(CanShowWindow))]
         private void ShowWindow(object obj)
         {
             RoomView roomViewWin = new RoomView();
@@ -37,15 +34,22 @@ namespace PlantGenius.GUI.ViewModel
             //initialize variabel with defined command parameter and cast it as type Window
             var mainWindow = obj as Window;
 
-            // Save the position of the window to keep size and position
-            roomViewWin.Left = mainWindow.Left;
-            roomViewWin.Top = mainWindow.Top;
-            roomViewWin.Width = mainWindow.Width;
-            roomViewWin.Height = mainWindow.Height;
+            try
+            {
+                // Save the position of the window to keep size and position
+                roomViewWin.Left = mainWindow.Left;
+                roomViewWin.Top = mainWindow.Top;
+                roomViewWin.Width = mainWindow.Width;
+                roomViewWin.Height = mainWindow.Height;
 
-            // Open the new window and close old one
-            roomViewWin.Show();
-            mainWindow.Close();
+                // Open the new window and close old one
+                roomViewWin.Show();
+                mainWindow.Close();
+            }
+            catch(ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
     }

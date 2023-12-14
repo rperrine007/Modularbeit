@@ -102,7 +102,7 @@
             </Button>
 
             <!-- RoomSortNumber +1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Grid.Row="0" Grid.Column="1" Tag="1" CommandParameter="{x:Reference Name=ListBox_RoomList}" Command="{Binding ChangeRoomSortNumberCommand_Down}" >
+            <Button Grid.Row="0" Grid.Column="1" Tag="1" CommandParameter="{x:Reference Name=ListBox_RoomList}" Command="{Binding ChangeRoomSortNumber_DownCommand}" >
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE74B;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
@@ -117,7 +117,7 @@
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE74D;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
                     </DataTemplate>
                 </Button.ContentTemplate>
-            </Button>            
+            </Button>
         </Grid>
         <Grid  Grid.Row="2" Grid.Column="1" Margin="0,0,10,0">
             <Button Click="SaveChanges_Click">
@@ -152,10 +152,10 @@
                 <!-- Content of given room -->
                 <StackPanel Grid.Row="0" Grid.Column="1">
                     <TextBox x:Name="inputNewRoomName" Text="{Binding RoomName}" Height="25" Background="#FFABC5A4" />
-                    <TextBox x:Name="inputNewRoomFloor" Text="{Binding RoomFloor}" Height="25" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" />
+                    <TextBox x:Name="inputNewRoomFloor" Text="{Binding RoomFloor}" Height="25" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" GotFocus="TextBox_GotFocus" />
                     <ComboBox Style="{DynamicResource ComboBoxStyle1}" x:Name="comboBoxRoomLight" Margin="0,0,0,10" Height="25" SelectedValue="{Binding RoomLight}" SelectedValuePath="Tag">
-                        <ComboBoxItem Content="Schattenseite" Tag="False"></ComboBoxItem>
-                        <ComboBoxItem Content="Sonnenseite" Tag="True" ></ComboBoxItem>
+                        <ComboBoxItem Content="Schattenseite" Tag="False"/>
+                        <ComboBoxItem Content="Sonnenseite" Tag="True" />
                     </ComboBox>
                 </StackPanel>
             </Grid>

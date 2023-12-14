@@ -9,84 +9,80 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using PlantGenius.DAL;
 using PlantGenius.DAL.Models;
-using PlantGenius.GUI.Commands;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace PlantGenius.GUI.ViewModel
 {
     /// <summary>
     /// When the RoomView Window is opened, the data of the DB is loaded into an observable collection.
     /// </summary>
-    public class RoomWindowViewModel
+    
+    //by inheriting from the ObservableObject the INotifyPeopweryChanged Interface is implemented easily. This interface usually ensures a two was data binding.
+    public partial class RoomWindowViewModel : ObservableObject
     {
         //Datavariables
         public ObservableCollection<Room> roomList {  get; set; }
+
         public string RoomName { get; set; }
+
         public int RoomSort { get; set; }
-        public int RoomFloor { get; set; }
+
+        public string RoomFloor { get; set; }
+
         public bool RoomLight { get; set; }
 
-        //Commands
-        public ICommand AddRoomCommand {  get; set; }
-        public ICommand DeleteRoomCommand { get; set; }
-        public ICommand ChangeRoomSortNumberCommand { get; set; }
-        public ICommand ChangeRoomSortNumberCommand_Down { get; set; }
-        public ICommand SaveChangesCommand { get; set; }
-
-
+        // Commands
+        public IAsyncRelayCommand AddRoomCommand => new AsyncRelayCommand(AddRoom);
 
         public RoomWindowViewModel()
         {
             //initialize datavariables
             roomList = new ObservableCollection<Room>();
-            this.RoomName = "Benutzereingabe";
-            this.RoomSort = 0;
-            this.RoomFloor = 0;
-            this.RoomLight = false;
 
+            this.RoomName = string.Empty;
+            this.RoomSort = 999;
 
-            //Initialize commands
-            AddRoomCommand = new RelayCommand(AddRoom, CanAddRoom);
-            DeleteRoomCommand = new RelayCommand(DeleteRoom, CanDeleteRoom);
-            ChangeRoomSortNumberCommand = new RelayCommand(ChangeRoomSortNumber, CanChangeRoomSortNumber);
-            ChangeRoomSortNumberCommand_Down = new RelayCommand(ChangeRoomSortNumber_Down, CanChangeRoomSortNumber_Down);
-            //TODO dekommentiere wenn Functionen richtig implementiert sind.
-            //SaveChangesCommand = new RelayCommand(SaveChanges, CanSaveChanges);
+            //TODO ändere zu string und mache ein parse. 
+            this.RoomFloor = string.Empty;
+            this.RoomLight = true;
 
             //gert rooms from DB
             getRoomFromDB();
         }
 
         /// <summary>
-        /// Get data through the RoomManager
+        /// Get data through the RoomManager; the data will be reloaded from time to time. The Observable Properties and Collection ensure that the view also get the new data. 
         /// </summary>
+        /// 
+
+        //TODO "WHILE(TRUE)"
         private async void getRoomFromDB()
         {
+            while (true)
+            { 
             var rooms = await DataAccessLayer.GetRooms();
             roomList.Clear();
             foreach (var room in rooms)
             {
                 roomList.Add(room);
             }
-        }
-
-
-        private bool CanAddRoom(object obj)
-        {
-            return true;
+                await Task.Delay(100000);
+            }
         }
 
         /// <summary>
         /// Adds a new room to the roomList and the DB.
         /// </summary>
         /// <param name="obj"></param>
-        private async void AddRoom(object obj)
+        private async Task AddRoom()
         {
             // Create a new Room object from the input
             Room newRoom = new Room()
             {
                 RoomName = this.RoomName,
                 RoomSort = roomList.Count + 1,
-                RoomFloor = this.RoomFloor,
+                RoomFloor = int.Parse(this.RoomFloor),
                 RoomLight = this.RoomLight
             };
 
@@ -103,7 +99,9 @@ namespace PlantGenius.GUI.ViewModel
             return true;
         }
 
-            private async void DeleteRoom(object obj)
+        // Delete Room
+        [RelayCommand(CanExecute = nameof(CanDeleteRoom))]
+        private async Task DeleteRoom(object obj)
         {    
             var listBox = obj as ListBox;
 
@@ -121,7 +119,6 @@ namespace PlantGenius.GUI.ViewModel
                 MessageBox.Show("Bitte wählen Sie einen Raum aus.");
                 Console.WriteLine(e.Message);
             }
-
         }
 
         private bool CanChangeRoomSortNumber(object obj)
@@ -134,7 +131,8 @@ namespace PlantGenius.GUI.ViewModel
         /// Why asynchronous: This ensures t hat the application remains responsive and can handle
         /// </summary>
         /// <param name="obj"></param>
-        private async void ChangeRoomSortNumber(object obj)
+        [RelayCommand(CanExecute = nameof(CanChangeRoomSortNumber))]
+        private async Task ChangeRoomSortNumber(object obj)
         {
             var listBox = obj as ListBox;
             //Gerüst für zwei Paramter
@@ -176,7 +174,7 @@ namespace PlantGenius.GUI.ViewModel
             Room neighbourRoom = roomList[newIndex];
 
             // Swap sort numbers
-            int tempSortNumber = currentRoom.RoomSort;
+            int? tempSortNumber = currentRoom.RoomSort;
             currentRoom.RoomSort = neighbourRoom.RoomSort;
             neighbourRoom.RoomSort = tempSortNumber;
 
@@ -185,8 +183,8 @@ namespace PlantGenius.GUI.ViewModel
             roomList[newIndex] = currentRoom;
 
             // Update DB for both rooms
-            await DataAccessLayer.UpdateRoomSortNumber(currentRoom.RoomID, currentRoom.RoomSort);
-            await DataAccessLayer.UpdateRoomSortNumber(neighbourRoom.RoomID, neighbourRoom.RoomSort);
+            await DataAccessLayer.UpdateRoomSortNumber(currentRoom.RoomID, currentRoom.RoomSort ?? roomList.Count + 1);
+            await DataAccessLayer.UpdateRoomSortNumber(neighbourRoom.RoomID, neighbourRoom.RoomSort ?? roomList.Count);
 
             // Keep focus on moved object
             listBox.SelectedIndex = newIndex;
@@ -203,7 +201,8 @@ namespace PlantGenius.GUI.ViewModel
         /// Why asynchronous: This ensures t hat the application remains responsive and can handle
         /// </summary>
         /// <param name="obj"></param>
-        private async void ChangeRoomSortNumber_Down(object obj)
+        [RelayCommand(CanExecute = nameof(CanChangeRoomSortNumber_Down))]
+        private async Task ChangeRoomSortNumber_Down(object obj)
         {
             var listBox = obj as ListBox;
             //Gerüst für zwei Paramter
@@ -245,7 +244,7 @@ namespace PlantGenius.GUI.ViewModel
             Room neighbourRoom = roomList[newIndex];
 
             // Swap sort numbers
-            int tempSortNumber = currentRoom.RoomSort;
+            int? tempSortNumber = currentRoom.RoomSort;
             currentRoom.RoomSort = neighbourRoom.RoomSort;
             neighbourRoom.RoomSort = tempSortNumber;
 
@@ -254,8 +253,9 @@ namespace PlantGenius.GUI.ViewModel
             roomList[newIndex] = currentRoom;
 
             // Update DB for both rooms
-            await DataAccessLayer.UpdateRoomSortNumber(currentRoom.RoomID, currentRoom.RoomSort);
-            await DataAccessLayer.UpdateRoomSortNumber(neighbourRoom.RoomID, neighbourRoom.RoomSort);
+            // Update DB for both rooms
+            await DataAccessLayer.UpdateRoomSortNumber(currentRoom.RoomID, currentRoom.RoomSort ?? roomList.Count - 1);
+            await DataAccessLayer.UpdateRoomSortNumber(neighbourRoom.RoomID, neighbourRoom.RoomSort ?? roomList.Count);
 
             // Keep focus on moved object
             listBox.SelectedIndex = newIndex;
