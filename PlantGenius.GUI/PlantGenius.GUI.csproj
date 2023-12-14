@@ -38,8 +38,4 @@
 	  <Resource Include="Fotos\pexels-sohail-nachiti-807598.jpg" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Models\" />
-	</ItemGroup>
-
 </Project>

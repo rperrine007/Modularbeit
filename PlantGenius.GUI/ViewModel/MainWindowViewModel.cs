@@ -9,6 +9,7 @@ using PlantGenius.GUI;
 using PlantGenius.DAL.Models;
 using PlantGenius.GUI.Commands;
 using PlantGenius.GUI.Views;
+using System.Windows;
 
 namespace PlantGenius.GUI.ViewModel
 {
@@ -28,23 +29,23 @@ namespace PlantGenius.GUI.ViewModel
             return true;
         }
         
-        // TODO close mainwindow
         private void ShowWindow(object obj)
         {
             RoomView roomViewWin = new RoomView();
             roomViewWin.Show();
 
+            //initialize variabel with defined command parameter and cast it as type Window
+            var mainWindow = obj as Window;
 
-            /*
             // Save the position of the window to keep size and position
-            roomViewWin.Left = currentWindow.Left;
-            roomViewWin.Top = currentWindow.Top;
-            roomViewWin.Width = currentWindow.Width;
-            roomViewWin.Height = currentWindow.Height;
+            roomViewWin.Left = mainWindow.Left;
+            roomViewWin.Top = mainWindow.Top;
+            roomViewWin.Width = mainWindow.Width;
+            roomViewWin.Height = mainWindow.Height;
 
             // Open the new window and close old one
             roomViewWin.Show();
-            //currentWindow.Close();*/
+            mainWindow.Close();
         }
 
     }

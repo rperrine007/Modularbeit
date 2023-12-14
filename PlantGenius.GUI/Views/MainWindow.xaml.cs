@@ -59,20 +59,6 @@ namespace PlantGenius.GUI.Views
                 isResizing = false;
             }
         }
-
-        //TODO delete when MVVM works
-
-        /*
-        /// <summary>
-        /// When the button "Räume bearbeiten" is clicked, change to the Room window.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ChangeToRoomView(object sender, RoutedEventArgs e)
-        {
-            RoomView roomView = new RoomView();
-            UIHelper.SwitchWindowKeepSizePosition(this, roomView);
-        }*/
     }
 }
 

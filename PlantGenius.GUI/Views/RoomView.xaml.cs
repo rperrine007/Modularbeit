@@ -27,8 +27,11 @@ namespace PlantGenius.GUI
             InitializeComponent();
             RoomWindowViewModel roomViewModel = new RoomWindowViewModel();
 
-            roomList = roomViewModel.roomList;
             //Set Datacontext for binding in WPF
+            this.DataContext = roomViewModel;
+
+            //Set sub-datacontext
+            roomList = roomViewModel.roomList;
             ListBox_RoomList.DataContext = roomList;
             StackPanel_chosenRoom.DataContext = roomList;
 
@@ -36,22 +39,6 @@ namespace PlantGenius.GUI
             //Loaded += RoomView_Loaded;
         }
 
-        /*
-        /// <summary>
-        /// Load the initial view including importing the data of the db.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void RoomView_Loaded(object sender, RoutedEventArgs e)
-        {
-            var rooms = await DataAccessLayer.GetRooms();
-            roomList.Clear();
-            foreach (var room in rooms)
-            {
-                roomList.Add(room);
-            }
-            TestConnection();
-        }*/
 
         /// <summary>
         /// Test the connection to the database
@@ -92,12 +79,13 @@ namespace PlantGenius.GUI
         private void GoBackToHome(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
-            UIHelper.SwitchWindowKeepSizePosition(this, mainWindow);
+            //UIHelper.SwitchWindowKeepSizePosition(this, mainWindow);
         }
 
+        
         /// <summary>
         /// The SortID will be decreased(-1) or increased (1) and the direct neighbour will be swapped with the choosen room. 
-        /// Why asynchronous: This ensures that the application remains responsive and can handle
+        /// Why asynchronous: This ensures t hat the application remains responsive and can handle
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -143,7 +131,7 @@ namespace PlantGenius.GUI
 
             // Keep focus on moved object
             ListBox_RoomList.SelectedIndex = newIndex;
-        }      
+        }   
      
         /// <summary>
         /// Gets the tag from the button and its value -> adds it to the int direction. Will be handled from ChangeRoomSortNumber 
@@ -157,26 +145,6 @@ namespace PlantGenius.GUI
                 int direction = Convert.ToInt32(button.Tag);
                 // Call ChangeRoomSortNumber method with the direction parameter
                 await ChangeRoomSortNumber(sender, e, direction);
-            }
-        }
-
-        /// <summary>
-        /// This Method deletes a room entry from the database. Afterwards it will update the sorting numbers to avoid gaps
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void Delete(object sender, RoutedEventArgs e)
-        {
-            //control if a room is chosen
-            if (ListBox_RoomList.SelectedItem is Room selectedRoom)
-            {
-                await DataAccessLayer.DeleteRoomFromDB(selectedRoom);
-                // Remove the specified room from the ObservableCollection
-                roomList.Remove(selectedRoom);
-            }
-            else
-            {
-                MessageBox.Show("Bitte wählen Sie einen Raum aus.");
             }
         }
 
@@ -215,39 +183,6 @@ namespace PlantGenius.GUI
                 string message = "Bitte zuerst einen Raum auswählen!";
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        /// <summary>
-        /// A new room is added to the list and the db.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void AddNewRoom_Click(object sender, RoutedEventArgs e)
-        {
-            
-            // Retriving the data from the dropdown and handle it
-            bool roomLight = false;
-            var selectedItem = comboBoxRoomLight.SelectedItem as ComboBoxItem;
-            if (selectedItem != null)
-            {
-                // Use roomLight as Boolean value
-                roomLight = bool.Parse(selectedItem.Tag.ToString());
-            }
-
-            // Create a new Room object from the input
-            Room newRoom = new Room()
-            {
-                RoomName = inputNewRoomName.Text,
-                RoomSort = roomList.Count + 1,
-                RoomFloor = int.Parse(inputNewRoomFloor.Text),
-                RoomLight = roomLight
-            };
-
-            //add Room to DB
-            await DataAccessLayer.AddRoomToDB(newRoom);
-
-            // Add to ObservableCollection
-            roomList.Add(newRoom);
         }
 
         /// <summary>

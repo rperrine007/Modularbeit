@@ -8,9 +8,8 @@ using System.Windows.Input;
 namespace PlantGenius.GUI.Commands
 {
     /// <summary>
-    /// When a comman is invoked the two methods 1. CanExecute and 2. Execute will be executed. 
-    /// The class will help us to point us to the method to invoke.
-    /// There is no further logic in this class.
+    /// When a command is invoked the two methods 1. CanExecute and 2. Execute will be executed. 
+    /// With this class more special conditions before just executing a function can be immplemented.
     /// </summary>
     public class RelayCommand : ICommand
     {

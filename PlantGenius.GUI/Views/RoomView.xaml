@@ -62,8 +62,8 @@
                 <!-- Labeling of Rows -->
                 <StackPanel Grid.Column="0" Background="#FFDDDDDD">
                     <TextBlock Height="25" Text="Room-ID: "/>
-                    <TextBlock Height="25" Text="Raumname: "/>
                     <TextBlock Height="25" Text="Sortier-Nummer: "/>
+                    <TextBlock Height="25" Text="Raumname: "/>
                     <TextBlock Height="25" Text="Stockwerk: "/>
                     <TextBlock Height="400" Text="Lichtverhältnisse: "/>
                 </StackPanel>
@@ -92,7 +92,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- RoomSortNumber -1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Click="DirectionOfRoomSortNumberChanged" Grid.Row="0" Grid.Column="0" Tag="-1">
+            <Button Grid.Row="0" Grid.Column="0" Tag="-1" Command="{Binding ChangeRoomSortNumberCommand}" CommandParameter="{x:Reference Name=ListBox_RoomList}">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE110;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
@@ -110,7 +110,7 @@
             </Button>
 
             <!-- Delete; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Click="Delete" Grid.Row="0" Grid.Column="2">
+            <Button Grid.Row="0" Grid.Column="2" CommandParameter="{x:Reference Name=ListBox_RoomList}" Command="{Binding DeleteRoomCommand}">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE74D;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
@@ -150,15 +150,15 @@
 
                 <!-- Content of given room -->
                 <StackPanel Grid.Row="0" Grid.Column="1">
-                    <TextBox x:Name="inputNewRoomName" Text="" Height="25" Background="#FFABC5A4" />
-                    <TextBox x:Name="inputNewRoomFloor" Height="25" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" />
-                    <ComboBox Style="{DynamicResource ComboBoxStyle1}" x:Name="comboBoxRoomLight" Margin="0,0,0,10" Height="25">
+                    <TextBox x:Name="inputNewRoomName" Text="{Binding RoomName}" Height="25" Background="#FFABC5A4" />
+                    <TextBox x:Name="inputNewRoomFloor" Text="{Binding RoomFloor}" Height="25" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" />
+                    <ComboBox Style="{DynamicResource ComboBoxStyle1}" x:Name="comboBoxRoomLight" Margin="0,0,0,10" Height="25" SelectedValue="{Binding RoomLight}" SelectedValuePath="Tag">
                         <ComboBoxItem Content="Schattenseite" Tag="False"></ComboBoxItem>
                         <ComboBoxItem Content="Sonnenseite" Tag="True" ></ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
             </Grid>
-            <Button Height="30" Click="AddNewRoom_Click">
+            <Button Height="30" Command="{Binding AddRoomCommand}">
                 <TextBlock FontSize="14" Text="Raum hinzufügen" Margin="0,3,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Height="22"/>
             </Button>
         </StackPanel>
