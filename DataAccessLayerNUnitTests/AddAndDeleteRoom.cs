@@ -1,5 +1,5 @@
 using PlantGenius.DAL;
-using PlantGenius.DAL.Model;
+using PlantGenius.DAL.Models;
 using PlantGenius.GUI;
 using System.Collections.ObjectModel;
 

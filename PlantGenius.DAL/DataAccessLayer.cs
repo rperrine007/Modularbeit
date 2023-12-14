@@ -101,5 +101,32 @@ namespace PlantGenius.DAL
                 }
             }
         }
-    }
+
+        //TODO implement this function in DAL to ensure that the roomsort number is continuous,
+        /*
+        /// <summary>
+        /// Update the SortNumber of the rooms, when a room is deleted.
+        /// </summary>
+        /// <returns></returns>
+        public async static Task OnRoomDeleteNewSort(DatabaseConnector_OLD dbConnectorInput, Collection<Room> roomListInput)
+        {
+            // Sort the Rooms by RoomSortNumber
+            var sortedRooms = roomListInput.OrderBy(room => room.RoomSort).ToList();
+
+            // Adding a new sorting number to each room to avoid gaps
+            int newSortID = 1;
+            foreach (var room in sortedRooms)
+            {
+                // Update Database
+                using (var connection = await dbConnectorInput.GetDatabaseConnectionAsync())
+                {
+                    string query = $"UPDATE Room SET RoomSort = {newSortID} WHERE RoomID = {room.RoomID}";
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+                newSortID++;
+            }*/
+        }
 }

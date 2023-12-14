@@ -8,9 +8,8 @@ using MySqlX.XDevAPI.Common;
 using PlantGenius.DAL;
 using PlantGenius.DAL.Models;
 using PlantGenius.GUI.ViewModel;
-using PlantGenius.GUI.Views;
 
-namespace PlantGenius.GUI
+namespace PlantGenius.GUI.Views
 {
     /// <summary>
     /// Interaction logic for RoomView.xaml
@@ -83,56 +82,8 @@ namespace PlantGenius.GUI
         }
 
         
-        /// <summary>
-        /// The SortID will be decreased(-1) or increased (1) and the direct neighbour will be swapped with the choosen room. 
-        /// Why asynchronous: This ensures t hat the application remains responsive and can handle
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <param name="direction"></param>
-        private async Task ChangeRoomSortNumber(object sender, RoutedEventArgs e, int direction)
-        {
-            // Validation if room choosen
-            if (ListBox_RoomList.SelectedItem == null)
-            {
-                string title = "Fehler";
-                string message = "Bitte wählen Sie einen Raum aus!";
-                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            int currentIndex = ListBox_RoomList.SelectedIndex;
-            int newIndex = currentIndex + direction;
-
-            // Check index bandwith for up and down movement
-            if (newIndex < 0 || newIndex >= roomList.Count)
-            {
-                string title = "Fehler";
-                string message = "Bewegung in diese Richtung nicht möglich!";
-                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            Room currentRoom = roomList[currentIndex];
-            Room neighbourRoom = roomList[newIndex];
-
-            // Swap sort numbers
-            int tempSortNumber = currentRoom.RoomSort;
-            currentRoom.RoomSort = neighbourRoom.RoomSort;
-            neighbourRoom.RoomSort = tempSortNumber;
-
-            // Swap order
-            roomList[currentIndex] = neighbourRoom;
-            roomList[newIndex] = currentRoom;
-
-            // Update DB for both rooms
-            await DataAccessLayer.UpdateRoomSortNumber(currentRoom.RoomID, currentRoom.RoomSort);
-            await DataAccessLayer.UpdateRoomSortNumber(neighbourRoom.RoomID, neighbourRoom.RoomSort);
-
-            // Keep focus on moved object
-            ListBox_RoomList.SelectedIndex = newIndex;
-        }   
-     
+        //TODO könnte noch einmal nützlich sein wenn die zwei Parameter übergabe an Functionen in RoomWindowViewModel functioniert.
+      /*
         /// <summary>
         /// Gets the tag from the button and its value -> adds it to the int direction. Will be handled from ChangeRoomSortNumber 
         /// </summary>
@@ -146,7 +97,7 @@ namespace PlantGenius.GUI
                 // Call ChangeRoomSortNumber method with the direction parameter
                 await ChangeRoomSortNumber(sender, e, direction);
             }
-        }
+        }*/
 
         /// <summary>
         /// This Method updates a room to the database.
