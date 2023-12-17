@@ -26,7 +26,7 @@ namespace PlantGenius.GUI.Views
         }
 
         //TODO Flackern bei der Verstellung der Grösse (eine Richtung, andere nicht).
-
+        /*
         /// Function: The window size can only be changed proportinally.
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -58,7 +58,7 @@ namespace PlantGenius.GUI.Views
 
                 isResizing = false;
             }
-        }
+        }*/
     }
 }
 

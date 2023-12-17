@@ -5,7 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlantGenius.GUI.Views"
         mc:Ignorable="d"
-        Title="PlantGenius - RoomView"  Height="480" Width="500">
+        Title="PlantGenius - RoomView"  Height="480" Width="500"
+        Name="roomView">
+
+    <!-- multiple parameters can be given to a RelayCommand.-->
+    <Window.Resources>
+        <local:MultiParameterValueConverter x:Key="MultiParameterValueConverter"/>
+    </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -34,7 +40,7 @@
 
             <!-- Go back button; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
             <StackPanel Grid.Row="0" Grid.Column="0">
-                <Button Click="GoBackToHome">
+                <Button Command="{Binding ShowMainWindowCommand}" CommandParameter="{x:Reference roomView}">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE72B;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="2"/>
@@ -72,7 +78,7 @@
                 <!-- Content of given room -->
                 <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="#FFDDDDDD">
                     <TextBox Height="25" Text="{Binding Path=RoomID}" IsReadOnly="True" />
-                    <TextBox Height="25" x:Name="inputRoomSort" Text="{Binding Path=RoomSort}" IsReadOnly="True" />
+                    <TextBox Height="25" x:Name="inputRoomSort" Text="{Binding Path=RoomSort}" IsReadOnly="True" DataContext="{}" />
                     <TextBox Height="25" x:Name="inputRoomName" Text="{Binding Path=RoomName}" Background="#FFABC5A4" IsReadOnly="False" />
                     <TextBox Height="25" x:Name="inputRoomFloor" Text="{Binding Path=RoomFloor}" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" IsReadOnly="False" />
                     <ComboBox Style="{DynamicResource ComboBoxStyle1}" SelectedValue="{Binding Path=RoomLight}" SelectedValuePath="Tag" x:Name="comboBoxRoomLight_edit" Margin="0,0,0,10" Height="25">
@@ -93,7 +99,14 @@
             </Grid.ColumnDefinitions>
 
             <!-- RoomSortNumber -1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Grid.Row="0" Grid.Column="0" Tag="-1" CommandParameter="{x:Reference Name=ListBox_RoomList}" Command="{Binding ChangeRoomSortNumberCommand}" >
+            <Button Grid.Row="0" Grid.Column="0" Tag="-1" Command="{Binding ChangeRoomSortNumberCommand}" Grid.ColumnSpan="2" Margin="0,0,65,0" >
+                <!-- Multiple parameters can be given to the RelayComman using an array which will be converted to a tulple-->
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiParameterValueConverter}">
+                        <Binding ElementName="ListBox_RoomList"></Binding>
+                        <Binding Path="Tag" RelativeSource="{RelativeSource Self}"></Binding>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE110;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
@@ -102,7 +115,14 @@
             </Button>
 
             <!-- RoomSortNumber +1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Grid.Row="0" Grid.Column="1" Tag="1" CommandParameter="{x:Reference Name=ListBox_RoomList}" Command="{Binding ChangeRoomSortNumber_DownCommand}" >
+            <Button Grid.Row="0" Grid.Column="1" Tag="1" Command="{Binding ChangeRoomSortNumberCommand}" >
+                <!-- Multiple parameters can be given to the RelayComman using an array which will be converted to a tulple-->
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiParameterValueConverter}">
+                        <Binding ElementName="ListBox_RoomList"></Binding>
+                        <Binding Path="Tag" RelativeSource="{RelativeSource Self}"></Binding>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE74B;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
@@ -120,8 +140,12 @@
             </Button>
         </Grid>
         <Grid  Grid.Row="2" Grid.Column="1" Margin="0,0,10,0">
-            <Button Click="SaveChanges_Click">
-                <TextBlock FontSize="14" Text="Änderung speichern" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Height="22"/>
+            <Button Command="{Binding SaveChangesCommand}" CommandParameter="{x:Reference Name=ListBox_RoomList}" >
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <TextBlock FontSize="14" Text="Änderung speichern" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Height="22"/>
+                    </DataTemplate>
+                 </Button.ContentTemplate>                 
             </Button>
         </Grid>
         <!-- Only for design reasons-->

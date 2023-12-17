@@ -29,7 +29,6 @@ namespace PlantGenius.GUI.ViewModel
         private void ShowWindow(object obj)
         {
             RoomView roomViewWin = new RoomView();
-            roomViewWin.Show();
 
             //initialize variabel with defined command parameter and cast it as type Window
             var mainWindow = obj as Window;
