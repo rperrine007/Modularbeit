@@ -1,25 +1,15 @@
-﻿namespace PlantGeniusUser.GUI
+﻿using System;
+using Microsoft.Maui.Controls;
+using PlantGeniusUser.GUI.ViewModel;
+
+namespace PlantGeniusUser.GUI
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
-        }
-
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            this.BindingContext = new MainViewModel();
         }
     }
-
 }

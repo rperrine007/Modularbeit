@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantGeniusUser.GUI.Views.PlantPage"
+             xmlns:vm="clr-namespace:PlantGeniusUser.GUI.ViewModel">
+
+
+    <VerticalStackLayout>
+        <Label Text="Plant List"
+               VerticalOptions="Start" 
+               HorizontalOptions="Center" />
+
+        <ListView ItemsSource="{Binding Plants}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="10">
+                            <Label Text="{Binding PlantName}" VerticalOptions="Center" />
+                            <Button Text="Edit" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PlantsViewModel}}, Path=EditCommand}" CommandParameter="{Binding .}" />
+                            <Label Text="..." VerticalOptions="Center" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </VerticalStackLayout>
+</ContentView>
