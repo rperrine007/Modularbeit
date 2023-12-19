@@ -5,12 +5,12 @@ using PlantGeniusUser.GUI.Views;
 
 namespace PlantGeniusUser.GUI.ViewModel
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class SettingViewModel : INotifyPropertyChanged
     {
         public ICommand NavigateToPlantPageCommand { get; }
         public ICommand NavigateToSettingsPageCommand { get; }
 
-        public MainViewModel()
+        public SettingViewModel()
         {
             NavigateToPlantPageCommand = new Command(NavigateToPlantPage);
             NavigateToSettingsPageCommand = new Command(NavigateToSettingsPage);
@@ -18,13 +18,21 @@ namespace PlantGeniusUser.GUI.ViewModel
 
         private async void NavigateToPlantPage()
         {
-            await Shell.Current.GoToAsync("///PlantPage");
+            try
+            {
+                await Shell.Current.GoToAsync("///PlantPage");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or display an alert
+                Console.WriteLine(ex.Message);
+            }
         }
 
 
-        private async void NavigateToSettingsPage()
+        private void NavigateToSettingsPage()
         {
-            await Shell.Current.GoToAsync("///SettingPage");
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

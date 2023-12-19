@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PlantGeniusUser.GUI.MainPage">
+             x:Class="PlantGeniusUser.GUI.Views.MainPage">
 
 
 <VerticalStackLayout Spacing="25" Padding="30">
@@ -19,12 +19,8 @@
                    HorizontalOptions="Center" />
         </Frame>
 
-        <Button Text="Anzeige aller Pflanzen"
-                Command="{Binding NavigateToPlantPageCommand}" />
-
-
-        <Button Text="Einstellungen"
-                Command="{Binding NavigateToSettingsPageCommand}" />
+        <Button Text="Anzeige aller Pflanzen" Command="{Binding NavigateToPlantPageCommand}" />
+        <Button Text="Einstellungen" Command="{Binding NavigateToSettingsPageCommand}" />
 
     </VerticalStackLayout>
 

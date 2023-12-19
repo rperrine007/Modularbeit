@@ -2,14 +2,14 @@
 using Microsoft.Maui.Controls;
 using PlantGeniusUser.GUI.ViewModel;
 
-namespace PlantGeniusUser.GUI
+namespace PlantGeniusUser.GUI.Views
 {
     public partial class MainPage : ContentPage
     {
         public MainPage()
         {
             InitializeComponent();
-            this.BindingContext = new MainViewModel();
+            BindingContext = new MainViewModel();
         }
     }
 }

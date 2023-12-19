@@ -1,8 +1,8 @@
 namespace PlantGeniusUser.GUI.Views
 {
-    public partial class PlantPage : ContentPage
+    public partial class SettingPage : ContentPage
     {
-        public PlantPage()
+        public SettingPage()
         {
             InitializeComponent();
         }

@@ -82,15 +82,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\PlantPage.xaml.cs">
-	    <DependentUpon>PlantPage.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="Views\PlantPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<Compile Update="Views\SettingPage.xaml.cs">
+		  <DependentUpon>SettingPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\PlantPage.xaml.cs">
+			<DependentUpon>PlantPage.xaml</DependentUpon>
+		</Compile>
+		<MauiXaml Update="Views\SettingPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\PlantPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>

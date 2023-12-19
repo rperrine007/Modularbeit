@@ -74,7 +74,7 @@ namespace PlantGenius.GUI.ViewModel
         /// </summary>
         /// 
 
-        //TODO "WHILE(TRUE)"
+        //TODO "WHILE(TRUE)" -- For later for GUI and user.GUI
         private async void getRoomFromDB()
         {
             while (true)
@@ -85,7 +85,8 @@ namespace PlantGenius.GUI.ViewModel
                 {
                     roomList.Add(room);
                 }
-                await Task.Delay(100000);
+                await Task.Delay(1000);
+
             }
         }
 
