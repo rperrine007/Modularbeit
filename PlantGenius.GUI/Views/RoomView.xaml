@@ -78,7 +78,7 @@
                 <!-- Content of given room -->
                 <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="#FFDDDDDD">
                     <TextBox Height="25" Text="{Binding Path=RoomID}" IsReadOnly="True" />
-                    <TextBox Height="25" x:Name="inputRoomSort" Text="{Binding Path=RoomSort}" IsReadOnly="True" DataContext="{}" />
+                    <TextBox Height="25" x:Name="inputRoomSort" Text="{Binding Path=RoomSort}" IsReadOnly="True"/>
                     <TextBox Height="25" x:Name="inputRoomName" Text="{Binding Path=RoomName}" Background="#FFABC5A4" IsReadOnly="False" />
                     <TextBox Height="25" x:Name="inputRoomFloor" Text="{Binding Path=RoomFloor}" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" IsReadOnly="False" />
                     <ComboBox Style="{DynamicResource ComboBoxStyle1}" SelectedValue="{Binding Path=RoomLight}" SelectedValuePath="Tag" x:Name="comboBoxRoomLight_edit" Margin="0,0,0,10" Height="25">

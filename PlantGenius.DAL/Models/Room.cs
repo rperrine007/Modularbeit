@@ -57,15 +57,13 @@ namespace PlantGenius.DAL.Models
         // Required: must have a non-null value to be saved to the database
         [Required]
         [MaxLength(30)]
-        public string? RoomName { get; set; }
+        public string RoomName { get; set; }
 
         public int? RoomSort { get; set; }
 
-        [Required]
-        public int RoomFloor { get; set; }
+        public int? RoomFloor { get; set; }
 
-        [Required]
-        public bool RoomLight { get; set; }
+        public bool? RoomLight { get; set; }
 
         public ICollection<Plant> Plants { get; set; }
 

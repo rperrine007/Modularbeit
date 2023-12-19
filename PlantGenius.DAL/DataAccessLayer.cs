@@ -18,7 +18,7 @@ namespace PlantGenius.DAL
                     if (entity != null)
                     {
                         Console.WriteLine("Success!");
-                        return (true, "Connection successful");                        
+                        return (true, "Connection successful");
                     }
                     else
                     {
@@ -35,12 +35,11 @@ namespace PlantGenius.DAL
         // Method to get rooms
         public static async Task<List<Room>> GetRooms()
         {
-            while (true)
-            {
                 try
                 {
                     using (var context = new AppDbContext())
                     {
+                        await RefreshSortRooms();
                         return await context.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
                     }
                 }
@@ -49,15 +48,14 @@ namespace PlantGenius.DAL
                     Console.WriteLine($"Error fetching rooms: {ex.Message}");
                     Console.WriteLine(ex.StackTrace);
                     return new List<Room>();
-                }
-
-            }
+                }            
         }
 
 
         // Method to add a room
         public static async Task AddRoomToDB(Room roomInput)
         {
+
             using (var db = new AppDbContext())
             {
                 db.Rooms.Add(roomInput);
@@ -90,6 +88,8 @@ namespace PlantGenius.DAL
                 db.Rooms.Remove(roomInput);
                 await db.SaveChangesAsync();
             }
+            //Refresh the RoomSort Number
+            await RefreshSortRooms();
         }
 
         // Method to update room sort number
@@ -106,31 +106,39 @@ namespace PlantGenius.DAL
             }
         }
 
-        //TODO implement this function in DAL to ensure that the roomsort number is continuous,
-        /*
-        /// <summary>
+        ///summary>
         /// Update the SortNumber of the rooms, when a room is deleted.
         /// </summary>
         /// <returns></returns>
-        public async static Task OnRoomDeleteNewSort(DatabaseConnector_OLD dbConnectorInput, Collection<Room> roomListInput)
+        public async static Task RefreshSortRooms()
         {
-            // Sort the Rooms by RoomSortNumber
-            var sortedRooms = roomListInput.OrderBy(room => room.RoomSort).ToList();
+            List<Room> sortedRooms = null;
 
-            // Adding a new sorting number to each room to avoid gaps
-            int newSortID = 1;
-            foreach (var room in sortedRooms)
+            try
             {
-                // Update Database
-                using (var connection = await dbConnectorInput.GetDatabaseConnectionAsync())
+                using (var db = new AppDbContext())
                 {
-                    string query = $"UPDATE Room SET RoomSort = {newSortID} WHERE RoomID = {room.RoomID}";
-                    using (var command = new MySqlCommand(query, connection))
+
+                    // Sort the Rooms by RoomSortNumber
+                    sortedRooms = await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
+                    // Adding a new sorting number to each room to avoid gaps
+                    int newSortID = 1;
+                    foreach (var room in sortedRooms)
                     {
-                        await command.ExecuteNonQueryAsync();
+                        room.RoomSort = newSortID;
+                        await db.SaveChangesAsync();
+                        // Update Database
+                        newSortID++;
                     }
                 }
-                newSortID++;
-            }*/
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching rooms: {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
+            }
         }
+
+        
+    }
 }
