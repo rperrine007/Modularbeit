@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using PlantGenius.DAL;
 using PlantGenius.DAL.Models;
 
+
 namespace PlantGeniusUser.GUI.ViewModel
 {
     public class PlantsViewModel : INotifyPropertyChanged
@@ -22,8 +23,10 @@ namespace PlantGeniusUser.GUI.ViewModel
             WaterCommand = new Command<Plant>(WaterPlant);
 
             // Now get the plants from database
-            //LoadPlants();
-            LoadDemoData();
+            LoadPlants();
+
+            //TODO delete demo method after testing
+            //LoadDemoData();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -61,7 +64,7 @@ namespace PlantGeniusUser.GUI.ViewModel
             }
 
         }
-
+        //TODO delete demo method after testing
         private void LoadDemoData()
         {
             // Create and add demo plants

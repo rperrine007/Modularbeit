@@ -2,38 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PlantGeniusUser.GUI.Views.PlantPage">
 
-    <ContentPage.Resources>
-        <!-- Define a sample array of plants -->
-        <x:Array x:Key="SamplePlants" Type="{x:Type x:String}">
-            <x:String>Rose</x:String>
-            <x:String>Tulpe</x:String>
-            <x:String>Sonnenblume</x:String>
-        </x:Array>
-    </ContentPage.Resources>
-
-    <VerticalStackLayout>
-        <Label Text="Plant List" VerticalOptions="Start" HorizontalOptions="Center" />
-
-        <!-- Bind the ListView to the sample plants array -->
-        <ListView ItemsSource="{StaticResource SamplePlants}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="10">
-                            <Label Text="{Binding}" VerticalOptions="Center" />
-                            <Button Text="Edit" Command="{Binding BindingContext.EditCommand, Source={x:Reference Name=ThisPage}}" CommandParameter="{Binding .}" />
-                            <Label Text="..." VerticalOptions="Center" />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </VerticalStackLayout>
-</ContentPage>
-
-<!--<VerticalStackLayout>
-    <Label Text="Plant List" VerticalOptions="Start" HorizontalOptions="Center" />
-
+    
+<VerticalStackLayout>
+<Label Text="Plant List" VerticalOptions="Start" HorizontalOptions="Center" />
     <ListView ItemsSource="{Binding Plants}">
         <ListView.ItemTemplate>
             <DataTemplate>
@@ -48,5 +19,36 @@
         </ListView.ItemTemplate>
     </ListView>
 </VerticalStackLayout>
+</ContentPage>
+
+    <!--<ContentPage.Resources>
+        --><!-- Define a sample array of plants --><!--
+        <x:Array x:Key="SamplePlants" Type="{x:Type x:String}">
+            <x:String>Rose</x:String>
+            <x:String>Tulpe</x:String>
+            <x:String>Sonnenblume</x:String>
+        </x:Array>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout>
+        <Label Text="Plant List" VerticalOptions="Start" HorizontalOptions="Center" />
+
+        --><!-- Bind the ListView to the sample plants array --><!--
+        <ListView ItemsSource="{StaticResource SamplePlants}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="10">
+                            <Label Text="{Binding}" VerticalOptions="Center" />
+                            <Button Text="Edit" Command="{Binding BindingContext.EditCommand, Source={x:Reference Name=ThisPage}}" CommandParameter="{Binding .}" />
+                            <Label Text="..." VerticalOptions="Center" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </VerticalStackLayout>
 </ContentPage>-->
+
+
 
