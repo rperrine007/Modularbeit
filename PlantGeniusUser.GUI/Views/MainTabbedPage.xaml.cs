@@ -4,13 +4,11 @@ using PlantGeniusUser.GUI.ViewModel;
 
 namespace PlantGeniusUser.GUI.Views
 {
-    public partial class PlantPage : ContentPage
+    public partial class MainTabbedPage : TabbedPage
     {
-        public PlantPage()
+        public MainTabbedPage()
         {
             InitializeComponent();
-            BindingContext = new PlantsViewModel();
         }
     }
-
 }

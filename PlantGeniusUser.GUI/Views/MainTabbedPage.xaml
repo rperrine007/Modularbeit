@@ -1,0 +1,12 @@
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:views="clr-namespace:PlantGeniusUser.GUI.Views"
+            x:Class="PlantGeniusUser.GUI.Views.MainTabbedPage">
+
+    <TabbedPage.Children>
+        <views:MainPage Title="Main" IconImageSource="home_icon.png"/>
+        <views:PlantPage Title="Plants" IconImageSource="plants_icon.png"/>
+        <views:SettingPage Title="Settings" IconImageSource="settings_icon.png"/>
+    </TabbedPage.Children>
+
+</TabbedPage>

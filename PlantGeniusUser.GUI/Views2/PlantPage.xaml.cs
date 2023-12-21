@@ -1,5 +1,3 @@
-using System;
-using Microsoft.Maui.Controls;
 using PlantGeniusUser.GUI.ViewModel;
 
 namespace PlantGeniusUser.GUI.Views
@@ -11,6 +9,6 @@ namespace PlantGeniusUser.GUI.Views
             InitializeComponent();
             BindingContext = new PlantsViewModel();
         }
-    }
 
+    }
 }

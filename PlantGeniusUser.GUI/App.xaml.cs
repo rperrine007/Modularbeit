@@ -9,5 +9,5 @@
             MainPage = new AppShell();
         }
     }
+
 }
-//TODO AppShell.xaml Menü Button nicht sichtbar

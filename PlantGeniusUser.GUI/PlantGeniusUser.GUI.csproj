@@ -11,7 +11,7 @@
 		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
 		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
 		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
-		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+		<!-- For Main: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
 		<OutputType>Exe</OutputType>
 		<RootNamespace>PlantGeniusUser.GUI</RootNamespace>
@@ -57,6 +57,29 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Views2\**" />
+	  <Compile Remove="Views2\**" />
+	  <EmbeddedResource Remove="Views2\**" />
+	  <MauiCss Remove="Views2\**" />
+	  <MauiXaml Remove="Views2\**" />
+	  <None Remove="Views2\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Views\TabbedPage.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Remove="Views\TabbedPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\Images\flower_plant_icon.svg" />
+	  <None Remove="Resources\Images\home_icon.svg" />
+	  <None Remove="Resources\Images\settings_icon.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
 		  <PrivateAssets>all</PrivateAssets>
@@ -82,22 +105,31 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Views\SettingPage.xaml.cs">
-		  <DependentUpon>SettingPage.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="Views\PlantPage.xaml.cs">
-			<DependentUpon>PlantPage.xaml</DependentUpon>
-		</Compile>
+		<MauiXaml Update="AppShell.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\MainPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\MainTabbedPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\SettingPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\PlantPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\PlantGenius.DAL\PlantGenius.DAL.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\SettingPage.xaml.cs">
+	    <DependentUpon>SettingPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 </Project>

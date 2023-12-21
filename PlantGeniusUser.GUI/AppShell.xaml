@@ -3,9 +3,16 @@
        xmlns:views="clr-namespace:PlantGeniusUser.GUI.Views"
        x:Class="PlantGeniusUser.GUI.AppShell">
 
-    <ShellContent Title="Home" ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" />
-    <ShellContent Title="PlantPage" ContentTemplate="{DataTemplate views:PlantPage}" Route="PlantPage" />
-    <ShellContent Title="SettingPage" ContentTemplate="{DataTemplate views:SettingPage}" Route="SettingPage" />
-
-   
+    <TabBar>
+        <Tab Title="Main" Icon="home_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
+        </Tab>
+        <Tab Title="Plants" Icon="flower_plant_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:PlantPage}" />
+        </Tab>
+        <Tab Title="Settings" Icon="settings_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:SettingPage}" />
+        </Tab>
+    </TabBar>
 </Shell>
+

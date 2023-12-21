@@ -1,32 +1,44 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
-using PlantGeniusUser.GUI.Views;
 
 namespace PlantGeniusUser.GUI.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public ICommand NavigateToPlantPageCommand { get; }
-        public ICommand NavigateToSettingsPageCommand { get; }
+        private string _MainProperty;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public MainViewModel()
         {
-            NavigateToPlantPageCommand = new Command(NavigateToPlantPage);
-            NavigateToSettingsPageCommand = new Command(NavigateToSettingsPage);
+            // Initialize commands
+            MainCommand = new Command(OnMainCommandExecuted);
         }
 
-        private async void NavigateToPlantPage()
+        public string MainProperty
         {
-            await Shell.Current.GoToAsync("///PlantPage");
+            get => _MainProperty;
+            set
+            {
+                if (_MainProperty != value)
+                {
+                    _MainProperty = value;
+                    OnPropertyChanged(nameof(MainProperty));
+                }
+            }
         }
 
+        public ICommand MainCommand { get; }
 
-        private async void NavigateToSettingsPage()
+        private void OnMainCommandExecuted()
         {
-            await Shell.Current.GoToAsync("///SettingPage");
+            // Command execution logic here
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
