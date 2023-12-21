@@ -57,6 +57,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Views\TabbedPage.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Remove="Views\TabbedPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\Images\flower_plant_icon.svg" />
+	  <None Remove="Resources\Images\home_icon.svg" />
+	  <None Remove="Resources\Images\settings_icon.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
 		  <PrivateAssets>all</PrivateAssets>
@@ -82,12 +96,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="Views\NavPage.xaml.cs">
+		  <DependentUpon>NavPage.xaml</DependentUpon>
+		</Compile>
 		<Compile Update="Views\SettingPage.xaml.cs">
 		  <DependentUpon>SettingPage.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="Views\PlantPage.xaml.cs">
 			<DependentUpon>PlantPage.xaml</DependentUpon>
 		</Compile>
+		<MauiXaml Update="Views\NavPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\SettingPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
