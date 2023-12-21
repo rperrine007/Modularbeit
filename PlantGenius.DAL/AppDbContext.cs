@@ -11,6 +11,14 @@ namespace PlantGenius.DAL
 
         public const string connectionString = "Server=49.12.196.20;Port=14501;Database=c1_zhaw2;User Id=c1_zhaw;Password=lQ9fKVoNK7ll!;";
 
+        //Constructors
+        public AppDbContext(){}
+
+
+        public AppDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
