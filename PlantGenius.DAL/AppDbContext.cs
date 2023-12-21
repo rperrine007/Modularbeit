@@ -9,19 +9,25 @@ namespace PlantGenius.DAL
     public class AppDbContext : DbContext
     {
 
-        public const string connectionString = "Server=49.12.196.20;Port=14501;Database=c1_zhaw2;User Id=c1_zhaw;Password=lQ9fKVoNK7ll!;";
+        private string connectionString = "Server=49.12.196.20;Port=14501;Database=c1_zhaw2;User Id=c1_zhaw;Password=lQ9fKVoNK7ll!;";
 
         //Constructors
         public AppDbContext(){}
 
-
+        //For The NUnit test I need another connection string to set.
+        //Modifies the DbContext to support an in-memory database
         public AppDbContext(DbContextOptions options) : base(options)
         {
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            //To create a in memory DB this function should not be called as the options will already be build. 
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            }
         }
 
         // DB Set corresponds to a table in the DB. It has a lot of useful functions but can cause performance problems.
