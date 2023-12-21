@@ -2,53 +2,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PlantGeniusUser.GUI.Views.PlantPage">
 
-    
-<VerticalStackLayout>
-<Label Text="Plant List" VerticalOptions="Start" HorizontalOptions="Center" />
-    <ListView ItemsSource="{Binding Plants}">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal" Padding="10">
-                        <Label Text="{Binding PlantName}" VerticalOptions="Center" />
-                        <Button Text="Edit" Command="{Binding BindingContext.EditCommand, Source={x:Reference Name=ThisPage}}" CommandParameter="{Binding .}" />
-                        <Label Text="..." VerticalOptions="Center" />
-                    </StackLayout>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
-</VerticalStackLayout>
-</ContentPage>
-
-    <!--<ContentPage.Resources>
-        --><!-- Define a sample array of plants --><!--
-        <x:Array x:Key="SamplePlants" Type="{x:Type x:String}">
-            <x:String>Rose</x:String>
-            <x:String>Tulpe</x:String>
-            <x:String>Sonnenblume</x:String>
-        </x:Array>
-    </ContentPage.Resources>
-
     <VerticalStackLayout>
-        <Label Text="Plant List" VerticalOptions="Start" HorizontalOptions="Center" />
+        <Label VerticalOptions="Start" 
+               HorizontalOptions="Center" 
+               FontAttributes="Bold"
+               FontSize="Large"/>
 
-        --><!-- Bind the ListView to the sample plants array --><!--
-        <ListView ItemsSource="{StaticResource SamplePlants}">
+        <ListView ItemsSource="{Binding Plants}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="10">
-                            <Label Text="{Binding}" VerticalOptions="Center" />
-                            <Button Text="Edit" Command="{Binding BindingContext.EditCommand, Source={x:Reference Name=ThisPage}}" CommandParameter="{Binding .}" />
-                            <Label Text="..." VerticalOptions="Center" />
-                        </StackLayout>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0"
+                                   Text="{Binding PlantName}"
+                                   VerticalOptions="Center" 
+                                   FontAttributes="Bold"/>
+
+                            <Label Grid.Column="1"
+                                   Text="{Binding PlantWaterNextTime}" 
+                                   VerticalOptions="Start"/>
+
+                            <Button Grid.Column="2"
+                                    Text="Edit" 
+                                    TextColor="White"
+                                    BackgroundColor="Blue"
+                                    FontSize="Medium"
+                                    Command="{Binding BindingContext.EditCommand, Source={x:Reference Name=ThisPage}}" 
+                                    CommandParameter="{Binding .}" 
+                                    HorizontalOptions="End"/>
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button Text="Update" 
+        TextColor="White"
+        BackgroundColor="Blue"
+        FontSize="Medium"
+        Command="{Binding UpdateCommand}"
+        HorizontalOptions="End"/>
     </VerticalStackLayout>
-</ContentPage>-->
-
-
-
+</ContentPage>

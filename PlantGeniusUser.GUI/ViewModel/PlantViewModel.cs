@@ -14,6 +14,7 @@ namespace PlantGeniusUser.GUI.ViewModel
         public ObservableCollection<Plant> Plants { get; set; }
         public ICommand EditCommand { get; private set; }
         public ICommand WaterCommand { get; private set; }
+        public ICommand UpdateCommand { get; private set; }
 
         public PlantsViewModel()
         {
@@ -21,12 +22,10 @@ namespace PlantGeniusUser.GUI.ViewModel
             Plants = new ObservableCollection<Plant>();
             EditCommand = new Command<Plant>(EditPlant);
             WaterCommand = new Command<Plant>(WaterPlant);
+            UpdateCommand = new Command(UpdatePlantList);
 
             // Now get the plants from database
             LoadPlants();
-
-            //TODO delete demo method after testing
-            //LoadDemoData();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -41,37 +40,48 @@ namespace PlantGeniusUser.GUI.ViewModel
             // 
         }
 
+        /// <summary>
+        /// This method loads first all rooms and then load into each room the plants
+        /// </summary>
         private void LoadPlants()
         {
             try
             {
                 using (var dbContext = new AppDbContext())
                 {
-                    var plants = dbContext.Plants
-                        .Include(p => p.Room)
-                        .ToList();
+                    // Get all rooms
+                    var rooms = dbContext.Rooms
+                                         .OrderBy(r => r.RoomSort) 
+                                         .ToList();
 
-                    // Add items to the collection
-                    foreach (var plant in plants)
+                    foreach (var room in rooms)
                     {
-                        Plants.Add(plant);
+                        // Get all plants for each room
+                        var plantsInRoom = dbContext.Plants
+                                                    .Where(p => p.PlantRoom == room.RoomID)
+                                                    .Include(p => p.Room)
+                                                    .OrderBy(p => p.PlantSort)
+                                                    .ToList();
+                        
+                        foreach (var plant in plantsInRoom)
+                        {
+                            Plants.Add(plant);
+                        }
                     }
                 }
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex}");
             }
-
         }
-        //TODO delete demo method after testing
-        private void LoadDemoData()
+
+        private void UpdatePlantList()
         {
-            // Create and add demo plants
-            Plants.Add(new Plant("Rose", DateTime.Now, 7));
-            Plants.Add(new Plant("Kaktus", DateTime.Now, 5));
-            Plants.Add(new Plant("Testblume", DateTime.Now, 10));
-        }
+            Plants.Clear();
+            LoadPlants();
 
+        }
     }
 }
