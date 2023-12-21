@@ -41,11 +41,28 @@ namespace PlantGenius.DAL.Models
         [Required]
         public int PlantWaterRequirement { get; set; }
 
+        // Calculation for next watering time
         public DateTime PlantWaterLastTime { get; set; }
+                 
+        private DateTime CalculatePlantWaterNextTime()
+        {
+            return PlantWaterLastTime.AddDays(PlantWaterRequirement);
+        }
+
+        public string PlantWaterNextTime
+        {
+            get
+            {
+                return CalculatePlantWaterNextTime().ToString("g");
+            }
+        }
+                
 
         public override string ToString()
         {
             return $"Pflanzenname: {PlantName}, Zuletzt gewässert {PlantWaterLastTime}, Giessintervall {PlantWaterRequirement} Tage";
         }
+
+
     }
 }

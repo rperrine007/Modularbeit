@@ -3,20 +3,49 @@
              x:Class="PlantGeniusUser.GUI.Views.PlantPage">
 
     <VerticalStackLayout>
-        <Label Text="Plant List" VerticalOptions="Start" HorizontalOptions="Center" />
+        <Label VerticalOptions="Start" 
+               HorizontalOptions="Center" 
+               FontAttributes="Bold"
+               FontSize="Large"/>
 
         <ListView ItemsSource="{Binding Plants}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="10">
-                            <Label Text="{Binding PlantName}" VerticalOptions="Center" />
-                            <Button Text="Edit" Command="{Binding BindingContext.EditCommand, Source={x:Reference Name=ThisPage}}" CommandParameter="{Binding .}" />
-                            <Label Text="..." VerticalOptions="Center" />
-                        </StackLayout>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0"
+                                   Text="{Binding PlantName}"
+                                   VerticalOptions="Center" 
+                                   FontAttributes="Bold"/>
+
+                            <Label Grid.Column="1"
+                                   Text="{Binding PlantWaterNextTime}" 
+                                   VerticalOptions="Start"/>
+
+                            <Button Grid.Column="2"
+                                    Text="Edit" 
+                                    TextColor="White"
+                                    BackgroundColor="Blue"
+                                    FontSize="Medium"
+                                    Command="{Binding BindingContext.EditCommand, Source={x:Reference Name=ThisPage}}" 
+                                    CommandParameter="{Binding .}" 
+                                    HorizontalOptions="End"/>
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button Text="Update" 
+        TextColor="White"
+        BackgroundColor="Blue"
+        FontSize="Medium"
+        Command="{Binding UpdateCommand}"
+        HorizontalOptions="End"/>
     </VerticalStackLayout>
 </ContentPage>
