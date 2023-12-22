@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayerNUnitTests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantGenius.DAL", "PlantGenius.DAL\PlantGenius.DAL.csproj", "{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlantGeniusUser.GUI", "PlantGeniusUser.GUI\PlantGeniusUser.GUI.csproj", "{8224F71C-22B9-40A2-819D-EA9CE43A9201}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8F5A5FCF-654A-434F-9A85-5666A51CB6C5}"
 	ProjectSection(SolutionItems) = preProject
 		appsettings.json = appsettings.json
@@ -36,12 +34,6 @@ Global
 		{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1950DC1-DEC7-40E9-A6C1-2A4CD70FC932}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8224F71C-22B9-40A2-819D-EA9CE43A9201}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{13A89C0F-57CC-43F4-B510-2AD044C4B636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13A89C0F-57CC-43F4-B510-2AD044C4B636}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13A89C0F-57CC-43F4-B510-2AD044C4B636}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
