@@ -11,9 +11,9 @@
                         <Grid Padding="10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="0.5*"/>
                             </Grid.ColumnDefinitions>
 
                             <Label Grid.Column="0"
@@ -30,14 +30,10 @@
                                    Source="{Binding WaterIconPath}"
                                    VerticalOptions="Center"/>
 
+                            <Image Grid.Column="3"
+                                   Source="pencil_icon.svg"
+                                   VerticalOptions="End"/>
 
-
-                            <Button Grid.Column="3"
-                                    Text="Edit"
-                                    Command="{Binding BindingContext.EditCommand, Source={x:Reference Name=PlantPage}}"
-                                    CommandParameter="{Binding .}"
-                                    HorizontalOptions="End"
-                                    VerticalOptions="Center"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
