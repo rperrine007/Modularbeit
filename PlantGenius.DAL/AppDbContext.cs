@@ -18,7 +18,6 @@ namespace PlantGenius.DAL
         //Modifies the DbContext to support an in-memory database
         public AppDbContext(DbContextOptions options) : base(options)
         {
-
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

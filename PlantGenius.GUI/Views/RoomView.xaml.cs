@@ -21,11 +21,13 @@ namespace PlantGenius.GUI.Views
 
         // Generate a Collection with rooms
         private ObservableCollection<Room> roomList;
+        private DataAccessLayer DAL;
 
         public RoomView()
         {
             InitializeComponent();
             RoomWindowViewModel roomViewModel = new RoomWindowViewModel();
+            DAL = new DataAccessLayer();
 
             //Set Datacontext for binding in WPF
             this.DataContext = roomViewModel;
@@ -44,7 +46,7 @@ namespace PlantGenius.GUI.Views
         {
             try
             {
-                var result = await DataAccessLayer.TestDatabaseConnectionAsync();
+                var result = await DAL.TestDatabaseConnectionAsync();
 
                 if (result.connectionStatus)
                 {
