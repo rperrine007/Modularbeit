@@ -30,9 +30,7 @@
                                     Command="{Binding BindingContext.EditCommand, Source={x:Reference Name=PlantPage}}"
                                     CommandParameter="{Binding .}"
                                     HorizontalOptions="End"
-                                    VerticalOptions="Center"
-                                    BackgroundColor="Blue"
-                                    TextColor="White"/>
+                                    VerticalOptions="Center"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
@@ -41,8 +39,6 @@
 
         <Button Text="Update"
                 Command="{Binding UpdateCommand}"
-                HorizontalOptions="Fill"
-                BackgroundColor="Blue"
-                TextColor="White"/>
+                HorizontalOptions="Fill"/>
     </VerticalStackLayout>
 </ContentPage>

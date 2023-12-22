@@ -9,15 +9,18 @@
     Title="PlantGeniusUserApp.GUI">
 
     <TabBar>
-        <Tab Title="Main" Icon="home_icon.svg">
+        <Tab Title="Home" Icon="home_icon.svg">
             <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
-
         </Tab>
-        <Tab Title="Plants" Icon="flower_plant_icon.svg">
+        <Tab Title="Pflanzen" Icon="flower_plant_icon.svg">
             <ShellContent ContentTemplate="{DataTemplate views:PlantPage}" />
         </Tab>
-        <Tab Title="Settings" Icon="settings_icon.svg">
+        <Tab Title="Räume" Icon="furniture_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:SettingPage}" />
+        </Tab>
+        <Tab Title="Einstellungen" Icon="settings_icon.svg">
             <ShellContent ContentTemplate="{DataTemplate views:SettingPage}" />
         </Tab>
     </TabBar>
 </Shell>
+<!-- https://uxwing.com/home-icon/ -->
