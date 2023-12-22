@@ -28,6 +28,7 @@ namespace PlantGenius.GUI.ViewModel
         private string inputRoomName;
         private int inputRoomSort;
         HashSet<string> existingNames = new HashSet<string>();
+        private DataAccessLayer DAL;
 
         //Properties
         public ObservableCollection<Room> roomList { get; set; }
@@ -53,6 +54,7 @@ namespace PlantGenius.GUI.ViewModel
         {
             //initialize datavariables
             roomList = new ObservableCollection<Room>();
+            DAL = new DataAccessLayer();
 
             this.RoomName = string.Empty;
             this.RoomSort = string.Empty;
@@ -76,7 +78,7 @@ namespace PlantGenius.GUI.ViewModel
         {
             while (true)
             {
-                var rooms = await DataAccessLayer.GetRooms();
+                var rooms = await DAL.GetRooms();
                 roomList.Clear();
                 foreach (var room in rooms)
                 {
@@ -131,7 +133,7 @@ namespace PlantGenius.GUI.ViewModel
 
 
             //add Room to DB
-            await DataAccessLayer.AddRoomToDB(newRoom);
+            await DAL.AddRoomToDB(newRoom);
 
             // Add to ObservableCollection
             roomList.Add(newRoom);
@@ -153,7 +155,7 @@ namespace PlantGenius.GUI.ViewModel
             try
             {
                 var selectedRoom = listBox.SelectedItem as Room;
-                await DataAccessLayer.DeleteRoomFromDB(selectedRoom);
+                await DAL.DeleteRoomFromDB(selectedRoom);
                 // Remove the specified room from the ObservableCollection
                 roomList.Remove(selectedRoom);
 
@@ -165,7 +167,7 @@ namespace PlantGenius.GUI.ViewModel
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             //update view again. Else the SortNumber would not be correct.
-            var rooms = await DataAccessLayer.GetRooms();
+            var rooms = await DAL.GetRooms();
             roomList.Clear();
             foreach (var room in rooms)
             {
@@ -220,8 +222,8 @@ namespace PlantGenius.GUI.ViewModel
 
 
             // Update DB for both rooms
-            await DataAccessLayer.UpdateRoomSortNumber(currentRoom.RoomID, currentRoom.RoomSort ?? roomList.Count - 1);
-            await DataAccessLayer.UpdateRoomSortNumber(neighbourRoom.RoomID, neighbourRoom.RoomSort ?? roomList.Count);
+            await DAL.UpdateRoomSortNumber(currentRoom.RoomID, currentRoom.RoomSort ?? roomList.Count - 1);
+            await DAL.UpdateRoomSortNumber(neighbourRoom.RoomID, neighbourRoom.RoomSort ?? roomList.Count);
 
             // Keep focus on moved object
             listBox.SelectedIndex = newIndex;
@@ -290,7 +292,7 @@ namespace PlantGenius.GUI.ViewModel
                 RoomLight = selectedRoom.RoomLight
             };
             // Call the method to update the room in the database
-            await DataAccessLayer.UpdateRoomToDB(userInputBoxRoom);
+            await DAL.UpdateRoomToDB(userInputBoxRoom);
         }
 
         private bool CanShowMainWindow(object obj)

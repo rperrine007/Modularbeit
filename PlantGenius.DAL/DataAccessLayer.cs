@@ -1,16 +1,25 @@
 ﻿using PlantGenius.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Org.BouncyCastle.Asn1.Crmf;
+using Microsoft.VisualBasic;
 
 namespace PlantGenius.DAL
 {
     public class DataAccessLayer
     {
-        public static async Task<(bool connectionStatus, string errorMessage)> TestDatabaseConnectionAsync()
+        private AppDbContext db;
+        public DataAccessLayer() { 
+            db =  new AppDbContext();
+        }
+        public DataAccessLayer(AppDbContext context) { 
+            db = context;
+        }
+        public async Task<(bool connectionStatus, string errorMessage)> TestDatabaseConnectionAsync()
         {
             try
             {
-                using (var db = new AppDbContext())
+                using (db)
                 {
                     // Attempt to fetch the first entity from some table.
                     var entity = await db.Rooms.FirstOrDefaultAsync();
@@ -33,15 +42,12 @@ namespace PlantGenius.DAL
         }
 
         // Method to get rooms
-        public static async Task<List<Room>> GetRooms()
+        public async Task<List<Room>> GetRooms()
         {
                 try
                 {
-                    using (var context = new AppDbContext())
-                    {
                         await RefreshSortRooms();
-                        return await context.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
-                    }
+                        return await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
                 }
                 catch (Exception ex)
                 {
@@ -53,21 +59,15 @@ namespace PlantGenius.DAL
 
 
         // Method to add a room
-        public static async Task AddRoomToDB(Room roomInput)
+        public async Task AddRoomToDB(Room roomInput)
         {
-
-            using (var db = new AppDbContext())
-            {
                 db.Rooms.Add(roomInput);
                 await db.SaveChangesAsync();
-            }
         }
 
         // Method to update a room
-        public static async Task UpdateRoomToDB(Room roomInput)
+        public async Task UpdateRoomToDB(Room roomInput)
         {
-            using (var db = new AppDbContext())
-            {
                 // Mark the room as modified
                 db.Rooms.Attach(roomInput);
                 db.Entry(roomInput).Property(r => r.RoomName).IsModified = true;
@@ -76,49 +76,38 @@ namespace PlantGenius.DAL
 
                 // Save changes to the database
                 await db.SaveChangesAsync();
-
-            }
         }
 
         // Method to delete a room
-        public static async Task DeleteRoomFromDB(Room roomInput)
+        public async Task DeleteRoomFromDB(Room roomInput)
         {
-            using (var db = new AppDbContext())
-            {
-                db.Rooms.Remove(roomInput);
-                await db.SaveChangesAsync();
-            }
+             db.Rooms.Remove(roomInput);
+            await db.SaveChangesAsync();
             //Refresh the RoomSort Number
             await RefreshSortRooms();
         }
 
         // Method to update room sort number
-        public static async Task UpdateRoomSortNumber(int roomId, int newSortNumber)
+        public async Task UpdateRoomSortNumber(int roomId, int newSortNumber)
         {
-            using (var db = new AppDbContext())
-            {
                 var room = await db.Rooms.FirstOrDefaultAsync(r => r.RoomID == roomId);
                 if (room != null)
                 {
                     room.RoomSort = newSortNumber;
                     await db.SaveChangesAsync();
                 }
-            }
         }
 
         ///summary>
         /// Update the SortNumber of the rooms, when a room is deleted.
         /// </summary>
         /// <returns></returns>
-        public async static Task RefreshSortRooms()
+        public async Task RefreshSortRooms()
         {
             List<Room> sortedRooms = null;
 
             try
             {
-                using (var db = new AppDbContext())
-                {
-
                     // Sort the Rooms by RoomSortNumber
                     sortedRooms = await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
                     // Adding a new sorting number to each room to avoid gaps
@@ -130,7 +119,6 @@ namespace PlantGenius.DAL
                         // Update Database
                         newSortID++;
                     }
-                }
             }
             catch (Exception ex)
             {
