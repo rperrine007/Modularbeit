@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="PlantGeniusUserApp.GUI.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:PlantGeniusUserApp.GUI"
+    xmlns:views="clr-namespace:PlantGeniusUserApp.GUI.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="PlantGeniusUserApp.GUI">
+
+    <TabBar>
+        <Tab Title="Main" Icon="home_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
+
+        </Tab>
+        <Tab Title="Plants" Icon="flower_plant_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:PlantPage}" />
+        </Tab>
+        <Tab Title="Settings" Icon="settings_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate views:SettingPage}" />
+        </Tab>
+    </TabBar>
+</Shell>
