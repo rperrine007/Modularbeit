@@ -139,6 +139,20 @@ namespace PlantGenius.DAL
             }
         }
 
-        
+        // Method to update PlantWaterLastTime
+        public static async Task UpdatePlantWaterLastTime(int plantId)
+        {
+            using (var db = new AppDbContext())
+            {
+                var plant = await db.Plants.FirstOrDefaultAsync(r => r.PlantID == plantId);
+                if (plant != null)
+                {
+                    plant.PlantWaterLastTime = DateTime.Today;
+                    await db.SaveChangesAsync();
+                }
+            }
+        }
+
+
     }
 }
