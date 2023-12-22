@@ -63,6 +63,24 @@ namespace PlantGenius.DAL.Models
             return $"Pflanzenname: {PlantName}, Zuletzt gewässert {PlantWaterLastTime}, Giessintervall {PlantWaterRequirement} Tage";
         }
 
+        /// <summary>
+        /// The path for the watering can is set depending on the date
+        /// </summary>
+        public string WaterIconPath
+        {
+            get
+            {
+                var nextWaterTime = CalculatePlantWaterNextTime();
+                var today = DateTime.Today;
 
+                if (nextWaterTime.Date == today)
+                    return "watering_icon_orange.svg"; // Path to the icon -> today
+                else if (nextWaterTime.Date < today)
+                    return "watering_icon_red.svg"; // Path to the icon -> past
+                else
+                    return "watering_icon_green.svg"; // Path to the icon -> future
+
+            }
+        }
     }
 }
