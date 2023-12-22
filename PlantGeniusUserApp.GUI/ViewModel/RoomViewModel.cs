@@ -9,7 +9,7 @@ using PlantGeniusUserApp.GUI.Views;
 
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
-    public class SettingViewModel
+    public class RoomViewModel
     {
         
     }

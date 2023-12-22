@@ -16,7 +16,7 @@
             <ShellContent ContentTemplate="{DataTemplate views:PlantPage}" />
         </Tab>
         <Tab Title="Räume" Icon="furniture_icon.svg">
-            <ShellContent ContentTemplate="{DataTemplate views:SettingPage}" />
+            <ShellContent ContentTemplate="{DataTemplate views:RoomPage}" />
         </Tab>
         <Tab Title="Einstellungen" Icon="settings_icon.svg">
             <ShellContent ContentTemplate="{DataTemplate views:SettingPage}" />

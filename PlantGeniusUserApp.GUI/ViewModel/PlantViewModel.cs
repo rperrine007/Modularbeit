@@ -34,33 +34,41 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             // 
         }
 
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private void WaterPlant(Plant plant)
         {
-            // 
+            if (plant != null)
+            {
+                // Await the asynchronous database update operation
+                DataAccessLayer.UpdatePlantWaterLastTime(plant.PlantID);
+                UpdatePlantList();
+            }
         }
+
 
         /// <summary>
         /// This method loads first all rooms and then load into each room the plants
         /// </summary>
-        private void LoadPlants()
+        private async Task LoadPlants()
         {
             try
             {
                 using (var dbContext = new AppDbContext())
                 {
-                    // Get all rooms
-                    var rooms = dbContext.Rooms
-                                         .OrderBy(r => r.RoomSort)
-                                         .ToList();
+                    // Async database operations
+                    var rooms = await dbContext.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
 
                     foreach (var room in rooms)
                     {
-                        // Get all plants for each room
-                        var plantsInRoom = dbContext.Plants
-                                                    .Where(p => p.PlantRoom == room.RoomID)
-                                                    .Include(p => p.Room)
-                                                    .OrderBy(p => p.PlantSort)
-                                                    .ToList();
+                        var plantsInRoom = await dbContext.Plants
+                                                          .Where(p => p.PlantRoom == room.RoomID)
+                                                          .Include(p => p.Room)
+                                                          .OrderBy(p => p.PlantSort)
+                                                          .ToListAsync();
 
                         foreach (var plant in plantsInRoom)
                         {
@@ -68,7 +76,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -76,11 +83,13 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             }
         }
 
+
         private void UpdatePlantList()
         {
             Plants.Clear();
             LoadPlants();
-
         }
+
+
     }
 }

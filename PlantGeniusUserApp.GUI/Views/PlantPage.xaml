@@ -1,10 +1,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PlantGeniusUserApp.GUI.Views.PlantPage"
-             Title="Plants">
+             Title="Pflanzen">
 
     <VerticalStackLayout Spacing="10" Padding="10">
-        <ListView ItemsSource="{Binding Plants}">
+        <ListView x:Name="PlantsList" ItemsSource="{Binding Plants}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -28,12 +28,16 @@
 
                             <Image Grid.Column="2"
                                    Source="{Binding WaterIconPath}"
-                                   VerticalOptions="Center"/>
+                                   VerticalOptions="Center">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WaterCommand, Source={x:Reference PlantsList}}"
+                                                          CommandParameter="{Binding .}" />
+                                </Image.GestureRecognizers>
+                            </Image>
 
                             <Image Grid.Column="3"
                                    Source="pencil_icon.svg"
                                    VerticalOptions="End"/>
-
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
