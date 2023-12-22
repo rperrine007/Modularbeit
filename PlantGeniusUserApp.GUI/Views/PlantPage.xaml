@@ -4,19 +4,13 @@
              Title="Plants">
 
     <VerticalStackLayout Spacing="10" Padding="10">
-        <Label Text="Plant List" 
-               FontSize="Large" 
-               HorizontalOptions="Center" 
-               VerticalOptions="Start" 
-               FontAttributes="Bold" />
-
         <ListView ItemsSource="{Binding Plants}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Grid Padding="10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
@@ -27,8 +21,9 @@
                                    FontAttributes="Bold"/>
 
                             <Label Grid.Column="1"
-                                   Text="{Binding NextWateringDate}"
-                                   VerticalOptions="Center"/>
+                                   Text="{Binding PlantWaterNextTime}"
+                                   VerticalOptions="Center"/>           
+
 
                             <Button Grid.Column="2"
                                     Text="Edit"

@@ -53,7 +53,7 @@ namespace PlantGenius.DAL.Models
         {
             get
             {
-                return CalculatePlantWaterNextTime().ToString("g");
+                return CalculatePlantWaterNextTime().ToString("dd.MM.yyyy");
             }
         }
                 

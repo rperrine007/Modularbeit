@@ -11,5 +11,6 @@ namespace PlantGeniusUserApp.GUI.Views
             InitializeComponent();
             BindingContext = new PlantsViewModel();
         }
+
     }
 }
