@@ -73,7 +73,7 @@ namespace PlantGenius.GUI.ViewModel
         /// </summary>
         /// 
 
-        //TODO "WHILE(TRUE)" -- For later for GUI and user.GUI
+        //TODO "WHILE(TRUE)" -- For later for GUI and user.GUI - Für später aufheben
         private async void getRoomFromDB()
         {
             while (true)
