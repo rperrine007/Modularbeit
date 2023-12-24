@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using PlantGenius.DAL;
 using PlantGenius.DAL.Models;
+using PlantGeniusUserApp.GUI.Views;
 
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
@@ -31,8 +32,15 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
         private void EditPlant(Plant plant)
         {
-            // 
+            if (plant != null)
+            {
+                var editViewModel = new PlantEditViewModel(plant);
+                var editPage = new PlantPageEdit { BindingContext = editViewModel };
+
+                App.Current.MainPage.Navigation.PushAsync(editPage);
+            }
         }
+
 
         private void OnPropertyChanged(string propertyName)
         {

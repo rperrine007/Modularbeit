@@ -139,7 +139,7 @@ namespace PlantGenius.GUI.ViewModel
             roomList.Add(newRoom);
         }
 
-
+        //TODO Perrine Raum darf nur gelöscht werden, wenn keine Pflanze enthalten ist. 
         private bool CanDeleteRoom(object obj)
         {
             return true;

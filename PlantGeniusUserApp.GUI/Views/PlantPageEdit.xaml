@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantGeniusUserApp.GUI.Views.PlantPageEdit"
+             Title="Pflanze editieren">
+    <VerticalStackLayout>
+        <Entry 
+            Placeholder="Plant Name"
+            Text="{Binding SelectedPlant.PlantName, Mode=TwoWay}" />
+
+        <Entry 
+            Placeholder="Water Next Time"
+            Text="{Binding SelectedPlant.PlantWaterNextTime, Mode=TwoWay}" />
+
+        <Button 
+            Text="Save"
+            Command="{Binding SaveCommand}"
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
