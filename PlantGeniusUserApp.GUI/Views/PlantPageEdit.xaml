@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantGeniusUserApp.GUI.Views.PlantPageEdit"
+             Title="Pflanze editieren">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="10">
+
+            <Label Text="Pflanzenname" FontAttributes="Bold"/>
+            <Entry Placeholder="Pflanzenname"
+                   Text="{Binding SelectedPlant.PlantName, Mode=TwoWay}" />
+
+            <Label Text="Wissenschaftlicher Name" FontAttributes="Bold"/>
+            <Entry Placeholder="Wissenschaftlicher Name"
+                   Text="{Binding SelectedPlant.PlantNameScientific, Mode=TwoWay}" />
+
+            <Picker Title="Select Room"
+                    ItemsSource="{Binding Rooms}"
+                    ItemDisplayBinding="{Binding RoomName}" SelectedItem="{Binding SelectedRoom, Mode=TwoWay}"/>
+
+            <Label Text="Sortiernummer" FontAttributes="Bold"/>
+            <Entry Placeholder="Sortiernummer / Nur Zahleneingabe!"
+                   TextChanged="OnEntryTextChanged"
+                   Text="{Binding SelectedPlant.PlantSort, Mode=TwoWay}"/>
+
+            <Label Text="Wasserbedarf (Tage)" FontAttributes="Bold"/>
+            <Entry Placeholder="Wasserbedarf (Tage) / Nur Zahleneingabe!" TextChanged="OnEntryTextChanged"
+                   Text="{Binding SelectedPlant.PlantWaterRequirement, Mode=TwoWay}"/>
+
+            <Label Text="Letztes Giessdatum" FontAttributes="Bold"/>
+            <Entry Placeholder="Letztes Giessdatum"
+                   Text="{Binding SelectedPlant.PlantWaterLastTime, Mode=TwoWay}" />
+
+            <Button Text="Save"
+                    Command="{Binding SaveCommand}"
+                    HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

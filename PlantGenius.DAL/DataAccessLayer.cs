@@ -143,6 +143,23 @@ namespace PlantGenius.DAL
             }
         }
 
+        // Method to update a plant
+        public async Task UpdatePlantsToDB(Plant plantInput)
+        {
+            // Mark the plant as modified
+            //TODO Perrine the room is not stored correctly
+            db.Plants.Attach(plantInput);
+            db.Entry(plantInput).Property(r => r.PlantName).IsModified = true;
+            db.Entry(plantInput).Property(r => r.PlantNameScientific).IsModified = true;
+            db.Entry(plantInput).Property(p => p.PlantRoom).IsModified = true;
+            db.Entry(plantInput).Property(r => r.PlantSort).IsModified = true;
+            db.Entry(plantInput).Property(r => r.PlantWaterRequirement).IsModified = true;
+            db.Entry(plantInput).Property(r => r.PlantWaterLastTime).IsModified = true;
+
+            // Save changes to the database
+            await db.SaveChangesAsync();
+        }
+
 
     }
 }

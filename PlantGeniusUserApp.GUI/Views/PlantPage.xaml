@@ -37,7 +37,12 @@
 
                             <Image Grid.Column="3"
                                    Source="pencil_icon.svg"
-                                   VerticalOptions="End"/>
+                                   VerticalOptions="End">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.EditCommand, Source={x:Reference PlantsList}}"
+                                                          CommandParameter="{Binding .}" />
+                                </Image.GestureRecognizers>
+                            </Image>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

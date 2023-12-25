@@ -72,18 +72,23 @@ namespace PlantGenius.GUI.ViewModel
         /// Get data through the RoomManager; the data will be reloaded from time to time. The Observable Properties and Collection ensure that the view also get the new data. 
         /// </summary>
         /// 
-        //TODO "WHILE(TRUE)" -- For later for GUI and user.GUI
+
+        //TODO "WHILE(TRUE)" -- For later for GUI and user.GUI - Für später aufheben
         private async void getRoomFromDB()
         {
-                //always clear the roomlist first.
-                roomList.Clear();
-                existingNames.Clear();
+            while (true)
+            {
                 var rooms = await DAL.GetRooms();
+                roomList.Clear();
                 foreach (var room in rooms)
                 {
                     roomList.Add(room);
                     existingNames.Add(room.RoomName);
+
                 }
+                await Task.Delay(100000);
+
+            }
         }
 
         private bool CanAddRoom(object obj)
@@ -125,8 +130,6 @@ namespace PlantGenius.GUI.ViewModel
                     RoomFloor = this.RoomFloor == string.Empty ? null : int.Parse(RoomFloor),
                     RoomLight = this.RoomFloor == string.Empty ? null : bool.Parse(this.RoomLight)
                 };
-            //add new roomname also to HashSet existingNames.
-            existingNames.Add(this.RoomName);
 
 
             //add Room to DB
@@ -136,7 +139,7 @@ namespace PlantGenius.GUI.ViewModel
             roomList.Add(newRoom);
         }
 
-
+        //TODO Perrine Raum darf nur gelöscht werden, wenn keine Pflanze enthalten ist. 
         private bool CanDeleteRoom(object obj)
         {
             return true;
@@ -164,7 +167,12 @@ namespace PlantGenius.GUI.ViewModel
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             //update view again. Else the SortNumber would not be correct.
-            getRoomFromDB();
+            var rooms = await DAL.GetRooms();
+            roomList.Clear();
+            foreach (var room in rooms)
+            {
+                roomList.Add(room);
+            }
         }
 
 
@@ -241,7 +249,7 @@ namespace PlantGenius.GUI.ViewModel
         {
 
             ListBox? listBox = null;
-            Room? selectedRoom = null;
+            Room selectedRoom = null;
 
             //Exception handling in case: no item of the listBox is chosen by the user, object is not
             try
@@ -263,22 +271,28 @@ namespace PlantGenius.GUI.ViewModel
                 return;
             }
 
-            //TODO does not work properly. 
-            // Check if a Room with the given name already exists and is not the current room.
-            if (existingNames.Contains(selectedRoom?.RoomName) && !selectedRoom.RoomName.Equals(this.RoomName))
+
+            //check if a Room with the given name already exists.
+            if (existingNames.Contains(selectedRoom.RoomName))
             {
                 string title = "Fehler";
-                string message = "Raum konnte nicht hinzugefügt werden. \n Es gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
-                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);                
+                string message = "Raum konnte nicht hinzugefügt werden. \nEs gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
+                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                // TODO Could that be a little bit insufficent?
+                getRoomFromDB();
+                return;
             }
-            else
+
+            //Create Rooom
+            Room userInputBoxRoom = new Room()
             {
-                // Call the method to update the room in the database
-                await DAL.UpdateRoomToDB(selectedRoom);
-
-            }
-
-            getRoomFromDB();
+                RoomName = selectedRoom.RoomName,
+                RoomSort = selectedRoom.RoomSort,
+                RoomFloor = selectedRoom.RoomFloor,
+                RoomLight = selectedRoom.RoomLight
+            };
+            // Call the method to update the room in the database
+            await DAL.UpdateRoomToDB(userInputBoxRoom);
         }
 
         private bool CanShowMainWindow(object obj)
