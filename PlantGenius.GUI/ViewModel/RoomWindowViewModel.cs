@@ -80,6 +80,7 @@ namespace PlantGenius.GUI.ViewModel
             {
                 var rooms = await DAL.GetRooms();
                 roomList.Clear();
+                existingNames.Clear();
                 foreach (var room in rooms)
                 {
                     roomList.Add(room);
@@ -137,6 +138,9 @@ namespace PlantGenius.GUI.ViewModel
 
             // Add to ObservableCollection
             roomList.Add(newRoom);
+
+            //add to exsiting names Set so we can make sure not two rooms with the same name exist.
+            existingNames.Add(this.RoomName);
         }
 
         //TODO Perrine Raum darf nur gelöscht werden, wenn keine Pflanze enthalten ist. 
@@ -166,13 +170,9 @@ namespace PlantGenius.GUI.ViewModel
                 string message = "Bitte wählen Sie einen Raum aus!";
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
             //update view again. Else the SortNumber would not be correct.
-            var rooms = await DAL.GetRooms();
-            roomList.Clear();
-            foreach (var room in rooms)
-            {
-                roomList.Add(room);
-            }
+            getRoomFromDB();
         }
 
 
@@ -278,7 +278,27 @@ namespace PlantGenius.GUI.ViewModel
                 string title = "Fehler";
                 string message = "Raum konnte nicht hinzugefügt werden. \nEs gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-                // TODO Could that be a little bit insufficent?
+
+                //find out which room name was changed
+                var difference = existingNames.Except(roomList.Select(rooms => rooms.RoomName));
+
+                //there should only be one changed roomName. Get this one.
+                string changedRoomName = difference.FirstOrDefault();
+
+                // check if more than one difference was found
+                if(difference.Count() > 1)
+                {
+                    title = "Achtung";
+                    message = "Die gezeigten Raumname stimmen nicht mit der Datenbank überein. Es wird empfohlen die Applikatino neu zu starten.";
+                    MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                // check if only one difference was found.
+                else if (!string.IsNullOrEmpty(changedRoomName) && difference.Count() == 1)
+                {
+                    selectedRoom.RoomName = changedRoomName;
+                }
+
+                //update to make sure the observable roomList has the correct data and everything is showed properly.
                 getRoomFromDB();
                 return;
             }
