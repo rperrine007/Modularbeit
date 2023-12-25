@@ -28,7 +28,7 @@ namespace DataAccessLayerNUnitTests
         }
 
         [Test]
-        public async Task InsertRoom()
+        public async Task InsertRoomTestTask()
         {
             //Add room for test
             var record = new Room()

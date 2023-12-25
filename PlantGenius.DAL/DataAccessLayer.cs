@@ -15,6 +15,9 @@ namespace PlantGenius.DAL
         public DataAccessLayer(AppDbContext context) { 
             db = context;
         }
+
+        // By problems with DB use this method.
+
         public async Task<(bool connectionStatus, string errorMessage)> TestDatabaseConnectionAsync()
         {
             try
@@ -46,7 +49,6 @@ namespace PlantGenius.DAL
         {
                 try
                 {
-                        await RefreshSortRooms();
                         return await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
                 }
                 catch (Exception ex)

@@ -40,7 +40,7 @@ namespace DataAccessLayerNUnitTests
         }
 
         [Test]
-        public void InsertRoom()
+        public void DeleteRoomTestTask()
         {
             var addedRoom = context.Rooms.Single(x => x.RoomName == "DALTest");
             //Remove room
@@ -50,7 +50,7 @@ namespace DataAccessLayerNUnitTests
             // In this case it looks for a room with the name "DALTest"
             var found = context.Rooms.SingleOrDefault(x => x.RoomName == "DALTest");
 
-            Assert.IsNull(found);
+            Assert.IsNull(found, "Deleted room was found.");
         }
 
         //Delete the in memory DB

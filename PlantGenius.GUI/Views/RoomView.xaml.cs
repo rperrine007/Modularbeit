@@ -41,7 +41,8 @@ namespace PlantGenius.GUI.Views
         /// <summary>
         /// Test the connection to the database
         /// </summary>
-        //TODO Test if Method works even with wrong credentials
+        // By problems with DB use this method.
+        /*
         private async void TestConnection()
         {
             try
@@ -66,7 +67,7 @@ namespace PlantGenius.GUI.Views
                 await Console.Out.WriteLineAsync(e.Message);
                 MessageBox.Show($"Unerwarteter Fehler: {e.Message}");
             }
-        }
+        }*/
 
         /// <summary>
         /// Prevents to add non int values to a textfield.
