@@ -1,39 +1,145 @@
-﻿@startuml
+﻿# PlantGenius.GUI Sample Solution
 
-Room --|> DataAccessLayer
-DataAccessLayer --|> DatabaseConnector
+## Beschreibung
+Wer kennt das nicht? Deine Pflanze ist entweder vertrocknet oder steht im Wasser.​​
+PlantGenius bietet dir die perfekte Unterstützung für die Bewässerung deiner Pflanzen. 
+Vertraue auf diese App und gewährleiste die ideale Wassermenge für jede Pflanze. Mit einer übersichtlichen To-Do-Liste behältst du leicht im Blick, welche deiner Pflanzen wann gegossen werden müssen.
+
+## Projekte
+### PlantGenius.DAl
+Besteht im essenziellen aus zwei Teilen mit unterschiedlichen Klassen:
+- AppDBContext & DataAccessLayer: Verbindung zu DB wird hergestellt und Methoden zur Interaktion mit der DB erstellt.
+- Ordner Models: Enthält die Klassen Pflanzen und Räume
+
+PlantGenius.GUI-Projekt und PlantGeniusUserApp.GUI-Projekt können auf alle Klassen in diesem Projekt zugreifen. 
+
+### DataAccessLayerNUnitTests
+NUnit Tests der Klasse DataAccessLayer.
+
+### PlantGenius.GUI
+WPF Applikation zur Verwaltung der Räume. Änderungen werden in der DB gespeichert. 
+
+### PlantGeniusUserApp.GUI
+.NET MAUI Applikation mit welcher eine bearbeitbare Übersicht der gespeicherten Pflanzen in der DB gegeben wird. Die Daten können bearbeitet werden wobei die Änderungen in der DB abgespeichert wird.
+Es wird angegeben, wann welche Pflanze gegossen werden muss. 
+
+Es sind vier verschiedene Ansichten vorhanden: 
+- Home: Willkommens-Bildschirm.
+- Pflanzen: Auflistung wichtigsten Daten der Pflanzen.
+- Räume: Auflistung der wichtigsten Daten der Pflanzen, die Pflanzen sind in die zugewiesenen Räume gruppiert.
+- Optionen: Noch nichts, wäre eine Erweiterungsmöglichkeit.
+- Pflanzen editieren: Maske um Pflanzen-Daten zu bearbeiten.
+
+## Klassendiagramm
+@startuml
 
 class Plant
 {
-
-        public Plant(string plantName, DateTime waterLastTime, int waterRequirement);
+        public int PlantID { get; set; }
         public string PlantName { get; set; }
-        public DateTime WaterLastTime { get; set; }
-        public int WaterRequirement { get; set; }
-
-        public override string ToString();
-
+        public string PlantNameScientific { get; set; }
+        public int PlantRoom { get; set; }
+        public Room Room { get; set; }
+        public int PlantSort { get; set; }
+        public int PlantWaterRequirement { get; set; }
+        public DateTime PlantWaterLastTime { get; set; }
+       
+        public Plant()
+        public Plant(...)
+        private DateTime CalculatePlantWaterNextTime()
+        public string PlantWaterNextTime()  
+        public override string ToString()
+        public string WaterIconPath()
+        public void UpdatePlantSort()
 }
 
 class Room
 {
-
-        public Room(string roomName);
-        public Room(string roomName, int floorOfRoom)
-        
+        public int RoomID { get; init; }
         public string RoomName { get; set; }
-        public int FloorOfRoom { get; set; }
+        public int? RoomSort { get; set; }
+        public int? RoomFloor { get; set; }
+        public bool? RoomLight { get; set; }
+        public ICollection<Plant> Plants { get; set; }
 
-        public override string ToString();
-
-
+        public Room()
+        public Room(...)
+        public Room(....)
+        public override string ToString()
 }
 
-class DatabaseConnector
+class AppDbContext:DbContext
+    {
+        private string connectionString;
+        public DbSet<Plant> Plants { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+
+        public AppDbContext(){}
+        public AppDbContext(...) : base(...){}
+        protected override void OnConfiguring(...)
+    }
+
+
+@enduml
+
+## Detaillierter Inhalt der verschiedenen Klassen.
+### Klasse Plant
+public class Plant
 {
-     public async Task<MySqlConnection> GetDatabaseConnectionAsync();
+
+        public Plant()
+        public Plant(string plantName, DateTime waterLastTime, int waterRequirement)
+
+        public int PlantID { get; set; }
+        public string PlantName { get; set; }
+        public string PlantNameScientific { get; set; }
+        public int PlantRoom { get; set; }
+        public Room Room { get; set; }
+        public int PlantSort { get; set; }
+        public int PlantWaterRequirement { get; set; }
+        public DateTime PlantWaterLastTime { get; set; }
+       
+        private DateTime CalculatePlantWaterNextTime()
+        public string PlantWaterNextTime()  
+        public override string ToString()
+        public string WaterIconPath()
+        public void UpdatePlantSort()
+
 }
 
+### Klasse Room
+public class Room
+{
+
+        public Room()
+        public Room(string roomName, int floorOfRoom, bool roomLight)
+        public Room(int roomID, string roomName, int roomSortNumber, int floorOfRoom, bool roomLight)
+
+        public int RoomID { get; init; }
+        public string RoomName { get; set; }
+        public int? RoomSort { get; set; }
+        public int? RoomFloor { get; set; }
+        public bool? RoomLight { get; set; }
+        public ICollection<Plant> Plants { get; set; }
+
+        public override string ToString()
+}
+
+### Klasse AppDbContext
+public class AppDbContext : DbContext
+    {
+
+        private string connectionString = *censored*;
+        public DbSet<Plant> Plants { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+
+        public AppDbContext(){}
+        public AppDbContext(DbContextOptions options) : base(options){}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    }
+
+
+### Klasse DataAccessLayer
 class DataAccessLayer
 {
       public async static Task GetRooms(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput);
@@ -42,6 +148,3 @@ class DataAccessLayer
       public async static Task OnRoomDeleteNewSort(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput);
       public async static Task UpdateDBChangeRoomSortNumber(MySqlConnection connection, int roomIDSelected, int roomSortChanged);
 }
-
-
-@enduml

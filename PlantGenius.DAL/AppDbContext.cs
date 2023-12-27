@@ -5,21 +5,33 @@ using PlantGenius.DAL.Models;
 
 namespace PlantGenius.DAL
 {
-    //DB Context corresponds to a scheme in a DB. It sets the differents DbSets in relation to each other.
+    /// <summary>
+    /// DB Context corresponds to a scheme in a DB. It sets the differents DbSets in relation to each other.
+    /// </summary>
     public class AppDbContext : DbContext
     {
 
         private string connectionString = "Server=49.12.196.20;Port=14501;Database=c1_zhaw2;User Id=c1_zhaw;Password=lQ9fKVoNK7ll!;";
 
-        //Constructors
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public AppDbContext(){}
 
-        //For The NUnit test I need another connection string to set.
-        //Modifies the DbContext to support an in-memory database
+        /// <summary>
+        /// For The NUnit test I need another connection string to set.
+        /// Modifies the DbContext to support an in-memory database
+        /// </summary>
+        /// <param name="options"></param>
+
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
 
+        /// <summary>
+        /// Overriden function to build options. Options are only build when there are not yet any.
+        /// </summary>
+        /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //To create a in memory DB this function should not be called as the options will already be build. 

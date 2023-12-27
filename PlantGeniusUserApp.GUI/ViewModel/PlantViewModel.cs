@@ -69,10 +69,19 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         /// virtuals: function can be overriden by child-classes
         /// </summary>
         protected virtual async Task LoadPlants()
-        { 
-            var plants = await DAL.LoadPlantsFromDB();
+        {
             Plants.Clear();
+            var plants = await DAL.LoadPlantsFromDB();
+            //Update PlantSortNumber
             foreach (var plant in plants)
+            {
+                plant.UpdatePlantSort();
+            }
+
+            // Sort the plants by PlantSort in ascending order
+            var sortedPlants = plants.OrderBy(p => p.PlantSort);
+
+            foreach (var plant in sortedPlants)
             {
                 Plants.Add(plant);
             }

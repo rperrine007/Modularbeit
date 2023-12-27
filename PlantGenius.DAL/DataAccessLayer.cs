@@ -8,12 +8,25 @@ using Google.Protobuf.WellKnownTypes;
 
 namespace PlantGenius.DAL
 {
+    /// <summary>
+    /// In this class all methods are stored with which data from the backend of the application to the DB is transfered.
+    /// </summary>
     public class DataAccessLayer
     {
+        // datavaribale db which will contain the connection to the DB. 
         private AppDbContext db;
+
+        /// <summary>
+        /// Constructor, the connection string of db is in AppDbContext contained.
+        /// </summary>
         public DataAccessLayer() { 
             db =  new AppDbContext();
         }
+
+        /// <summary>
+        /// Constructor if the context of the DB is ^given. With this e.g. a InMemoryDataBase can be connected.
+        /// </summary>
+        /// <param name="context"></param>
         public DataAccessLayer(AppDbContext context) { 
             db = context;
         }
@@ -162,7 +175,24 @@ namespace PlantGenius.DAL
                 using (var db = new AppDbContext())
                 {
                     // Async database operations
-                    return await db.Plants.OrderBy(r => r.PlantSort).ToListAsync();
+                    var rooms = await GetRooms();
+                    var plantList = new List<Plant>();
+
+                    foreach (var room in rooms)
+                    {
+
+                        var plantsInRoom = await db.Plants
+                                     .Where(p => p.PlantRoom == room.RoomID)
+                                     .Include(p => p.Room)
+                                     .ToListAsync();
+
+                        foreach (var plant in plantsInRoom)
+                        {
+                            plantList.Add(plant);
+                        }
+
+                    }
+                    return plantList;
                 }
             }
             catch (Exception ex)
@@ -173,7 +203,11 @@ namespace PlantGenius.DAL
             return new List<Plant>();
         }
 
-        // Method to update PlantWaterLastTime
+        /// <summary>
+        /// Method to update PlantWaterLastTime.
+        /// </summary>
+        /// <param name="plantId"></param>
+        /// <returns></returns>
         public async Task UpdatePlantWaterLastTime(int plantId)
         {
             using (var db = new AppDbContext())
@@ -187,18 +221,22 @@ namespace PlantGenius.DAL
             }
         }
 
-        // Method to update a plant
+        /// <summary>
+        /// Method to update a plant
+        /// </summary>
+        /// <param name="plantInput"></param>
+        /// <returns></returns>
         public async Task UpdatePlantsToDB(Plant plantInput)
         {
             // Mark the plant as modified
             //TODO Perrine the room is not stored correctly
             db.Plants.Attach(plantInput);
-            db.Entry(plantInput).Property(r => r.PlantName).IsModified = true;
-            db.Entry(plantInput).Property(r => r.PlantNameScientific).IsModified = true;
+            db.Entry(plantInput).Property(p => p.PlantName).IsModified = true;
+            db.Entry(plantInput).Property(p => p.PlantNameScientific).IsModified = true;
             db.Entry(plantInput).Property(p => p.PlantRoom).IsModified = true;
-            db.Entry(plantInput).Property(r => r.PlantSort).IsModified = true;
-            db.Entry(plantInput).Property(r => r.PlantWaterRequirement).IsModified = true;
-            db.Entry(plantInput).Property(r => r.PlantWaterLastTime).IsModified = true;
+            //db.Entry(plantInput).Property(p => p.PlantSort).IsModified = true;
+            db.Entry(plantInput).Property(p => p.PlantWaterRequirement).IsModified = true;
+            db.Entry(plantInput).Property(p => p.PlantWaterLastTime).IsModified = true;
 
             // Save changes to the database
             await db.SaveChangesAsync();

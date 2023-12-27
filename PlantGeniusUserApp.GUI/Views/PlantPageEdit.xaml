@@ -19,11 +19,14 @@
             <Picker Title="Select Room"
                     ItemsSource="{Binding Rooms}"
                     ItemDisplayBinding="{Binding RoomName}" SelectedItem="{Binding SelectedRoom, Mode=TwoWay}"/>
-
-            <Label Text="Sortiernummer" FontAttributes="Bold"/>
+            
+            <!-- Plant Sort should not be set by user -->
+            
+            <!--<Label Text="Sortiernummer" FontAttributes="Bold"/>
             <Entry Placeholder="Sortiernummer / Nur Zahleneingabe!"
                    TextChanged="OnEntryTextChanged"
-                   Text="{Binding SelectedPlant.PlantSort, Mode=TwoWay}"/>
+                   Text="{Binding SelectedPlant.PlantSort, Mode=TwoWay}"/>-->
+
 
             <Label Text="Wasserbedarf (Tage)" FontAttributes="Bold"/>
             <Entry Placeholder="Wasserbedarf (Tage) / Nur Zahleneingabe!" TextChanged="OnEntryTextChanged"
