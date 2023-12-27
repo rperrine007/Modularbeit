@@ -11,10 +11,15 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 {
     public class PlantsViewModel : INotifyPropertyChanged
     {
+        //Datavariables
+        private DataAccessLayer DAL;
+
+        //Properties
         public ObservableCollection<Plant> Plants { get; set; }
         public ICommand EditCommand { get; private set; }
         public ICommand WaterCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
+
 
         public PlantsViewModel()
         {
@@ -23,6 +28,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             EditCommand = new Command<Plant>(EditPlant);
             WaterCommand = new Command<Plant>(WaterPlant);
             UpdateCommand = new Command(UpdatePlantList);
+            DAL = new DataAccessLayer();
 
             // Now get the plants from database
             LoadPlants();
@@ -52,7 +58,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             if (plant != null)
             {
                 // Await the asynchronous database update operation
-                await DataAccessLayer.UpdatePlantWaterLastTime(plant.PlantID);
+                await DAL.UpdatePlantWaterLastTime(plant.PlantID);
                 UpdatePlantList();
             }
         }
@@ -63,33 +69,12 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         /// virtuals: function can be overriden by child-classes
         /// </summary>
         protected virtual async Task LoadPlants()
-        {
+        { 
+            var plants = await DAL.LoadPlantsFromDB();
             Plants.Clear();
-            try
+            foreach (var plant in plants)
             {
-                using (var dbContext = new AppDbContext())
-                {
-                    // Async database operations
-                    var rooms = await dbContext.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
-
-                    foreach (var room in rooms)
-                    {
-                        var plantsInRoom = await dbContext.Plants
-                                                          .Where(p => p.PlantRoom == room.RoomID)
-                                                          .Include(p => p.Room)
-                                                          .OrderBy(p => p.PlantSort)
-                                                          .ToListAsync();
-
-                        foreach (var plant in plantsInRoom)
-                        {
-                            Plants.Add(plant);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex}");
+                Plants.Add(plant);
             }
         }
 

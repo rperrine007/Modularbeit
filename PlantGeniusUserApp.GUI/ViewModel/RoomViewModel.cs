@@ -19,18 +19,17 @@ using PlantGeniusUserApp.GUI.Views;
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
     /// <summary>
-    /// RoomViewModel is a childclass of PlantsViewModel as it is basically the same but in the childclass, the plant get also sorted after there room property.
+    /// RoomViewModel is a child-class of PlantsViewModel as it is basically the same but in the childclass, the plant get also sorted after there room property.
     /// </summary>
     public class RoomViewModel : PlantsViewModel
-    { 
-
+    {
+        //This is a special Typ of the CommunityToolkit.Mvvm.Collections which merges the functionality GroupedCollection with Observable Collection.
         public ObservableGroupedCollection<string, Plant> groupedPlants { get; set; } = new ObservableGroupedCollection<string, Plant>();
 
 
         public RoomViewModel()
         {
             // contstructor of PlantsViewmodel is called automatically as it has no parameters.
-
         }
 
 
@@ -64,6 +63,9 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Override function so it can be called easily in the .xaml file.
+        /// </summary>
         protected override async void UpdatePlantList()
         {
             await LoadPlants();

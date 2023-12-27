@@ -87,8 +87,6 @@ namespace PlantGenius.GUI.ViewModel
                     existingNames.Add(room.RoomName);
 
                 }
-                await Task.Delay(100000);
-
             }
         }
 

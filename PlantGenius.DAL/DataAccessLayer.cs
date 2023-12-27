@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Org.BouncyCastle.Asn1.Crmf;
 using Microsoft.VisualBasic;
+using System.Numerics;
+using Google.Protobuf.WellKnownTypes;
 
 namespace PlantGenius.DAL
 {
@@ -17,7 +19,7 @@ namespace PlantGenius.DAL
         }
 
         // By problems with DB use this method.
-
+        /*
         public async Task<(bool connectionStatus, string errorMessage)> TestDatabaseConnectionAsync()
         {
             try
@@ -42,32 +44,43 @@ namespace PlantGenius.DAL
             {
                 return (false, $"Database connection test failed: {ex.Message}");
             }
-        }
+        }*/
 
-        // Method to get rooms
+        /// <summary>
+        /// Method to get rooms.
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Room>> GetRooms()
         {
                 try
                 {
-                        return await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
+                    return await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error fetching rooms: {ex.Message}");
+                    Console.WriteLine($"$\"Fehler bei download von Raum-Daten: : {ex.Message}");
                     Console.WriteLine(ex.StackTrace);
-                    return new List<Room>();
-                }            
+                }
+            return new List<Room>();
         }
 
 
-        // Method to add a room
+        /// <summary>
+        /// Method to add a room.
+        /// </summary>
+        /// <param name="roomInput"></param>
+        /// <returns></returns>
         public async Task AddRoomToDB(Room roomInput)
         {
                 db.Rooms.Add(roomInput);
                 await db.SaveChangesAsync();
         }
 
-        // Method to update a room
+        /// <summary>
+        /// Method to update rooms.
+        /// </summary>
+        /// <param name="roomInput"></param>
+        /// <returns></returns>
         public async Task UpdateRoomToDB(Room roomInput)
         {
                 // Mark the room as modified
@@ -80,7 +93,11 @@ namespace PlantGenius.DAL
                 await db.SaveChangesAsync();
         }
 
-        // Method to delete a room
+        /// <summary>
+        /// Method to delete a room.
+        /// </summary>
+        /// <param name="roomInput"></param>
+        /// <returns></returns>
         public async Task DeleteRoomFromDB(Room roomInput)
         {
              db.Rooms.Remove(roomInput);
@@ -89,7 +106,12 @@ namespace PlantGenius.DAL
             await RefreshSortRooms();
         }
 
-        // Method to update room sort number
+        /// <summary>
+        /// Method to update room sort number
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <param name="newSortNumber"></param>
+        /// <returns></returns>
         public async Task UpdateRoomSortNumber(int roomId, int newSortNumber)
         {
                 var room = await db.Rooms.FirstOrDefaultAsync(r => r.RoomID == roomId);
@@ -129,8 +151,30 @@ namespace PlantGenius.DAL
             }
         }
 
+        /// <summary>
+        /// This method loads first all rooms and then load into each room the plants.
+        /// virtuals: function can be overriden by child-classes
+        /// </summary>
+        public async Task<List<Plant>> LoadPlantsFromDB()
+        {
+            try
+            {
+                using (var db = new AppDbContext())
+                {
+                    // Async database operations
+                    return await db.Plants.OrderBy(r => r.PlantSort).ToListAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Fehler bei download von Pflanzen-Daten: {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
+            }
+            return new List<Plant>();
+        }
+
         // Method to update PlantWaterLastTime
-        public static async Task UpdatePlantWaterLastTime(int plantId)
+        public async Task UpdatePlantWaterLastTime(int plantId)
         {
             using (var db = new AppDbContext())
             {
