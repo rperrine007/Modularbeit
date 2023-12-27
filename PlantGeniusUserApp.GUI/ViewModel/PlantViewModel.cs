@@ -64,6 +64,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         /// </summary>
         protected virtual async Task LoadPlants()
         {
+            Plants.Clear();
             try
             {
                 using (var dbContext = new AppDbContext())
@@ -93,7 +94,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         }
 
 
-        protected async void UpdatePlantList()
+        protected virtual async void UpdatePlantList()
         {
             Plants.Clear();
             await LoadPlants();

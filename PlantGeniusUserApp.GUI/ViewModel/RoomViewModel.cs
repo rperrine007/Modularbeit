@@ -64,6 +64,11 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             }
         }
 
+        protected override async void UpdatePlantList()
+        {
+            await LoadPlants();
+        }
+
 
     }
 }

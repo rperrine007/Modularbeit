@@ -46,7 +46,7 @@
                                    Source="pencil_icon.svg"
                                    VerticalOptions="End">
                                 <Image.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.EditCommand}"
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.EditCommand, Source={x:Reference Name=PlantsListByRooms}}"
                                                           CommandParameter="{Binding .}" />
                                 </Image.GestureRecognizers>
                             </Image>
@@ -57,7 +57,7 @@
         </ListView>
 
         <Button Text="Update"
-                Command="{Binding UpdatePlantListCommand}"
+                Command="{Binding UpdateCommand}"
                 HorizontalOptions="Fill"/>
     </VerticalStackLayout>
 </ContentPage>
