@@ -20,7 +20,7 @@
                                    Text="{Binding PlantName}"
                                    VerticalOptions="Center"
                                    FontAttributes="Bold"/>
-                            
+
                             <Label Grid.Column="1"
                                    Text="{Binding PlantWaterNextTime}"
                                    VerticalOptions="Center"

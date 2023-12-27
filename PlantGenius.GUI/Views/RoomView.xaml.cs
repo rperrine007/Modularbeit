@@ -74,7 +74,6 @@ namespace PlantGenius.GUI.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        //TODO unit test and Exception handling for this method 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (sender != null)
@@ -110,6 +109,9 @@ namespace PlantGenius.GUI.Views
             // textBox.Text = "Neuer Standardtext";
         }
 
+        private void ListBox_RoomList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
+        }
     }
 }

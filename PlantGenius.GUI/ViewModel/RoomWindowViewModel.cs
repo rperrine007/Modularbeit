@@ -65,7 +65,7 @@ namespace PlantGenius.GUI.ViewModel
             ChangeRoomSortNumberCommand = new RelayCommand<(object, object)>((parameters) => ChangeRoomSortNumber(parameters.Item1, parameters.Item2));
 
             //gert rooms from DB
-            getRoomFromDB();
+            GetRoomFromDB();
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace PlantGenius.GUI.ViewModel
         /// 
 
         //TODO "WHILE(TRUE)" -- For later for GUI and user.GUI - Für später aufheben
-        private async void getRoomFromDB()
+        private async void GetRoomFromDB()
         {
             while (true)
             {
@@ -172,7 +172,7 @@ namespace PlantGenius.GUI.ViewModel
             }
 
             //update view again. Else the SortNumber would not be correct.
-            getRoomFromDB();
+            GetRoomFromDB();
         }
 
 
@@ -299,7 +299,7 @@ namespace PlantGenius.GUI.ViewModel
                 }
 
                 //update to make sure the observable roomList has the correct data and everything is showed properly.
-                getRoomFromDB();
+                GetRoomFromDB();
                 return;
             }
 

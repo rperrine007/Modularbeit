@@ -3,10 +3,61 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PlantGeniusUserApp.GUI.Views.RoomPage"
              Title="Räume">
-    <VerticalStackLayout>
-        <Label 
-            Text="Hier eine super coole Raumübersicht :-)"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+
+    <VerticalStackLayout Spacing="10" Padding="10">
+        <ListView x:Name="PlantsListByRooms"
+                  IsGroupingEnabled="True"
+                  GroupDisplayBinding="{Binding Key}"
+                  ItemsSource="{Binding groupedPlants}">
+            
+            
+            <!-- DataTemplate for Items -->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Label Grid.Column="0"
+                                   Text="{Binding PlantName}"
+                                   VerticalOptions="Center"
+                                   FontAttributes="Bold"/>
+
+                            <Label Grid.Column="1"
+                                   Text="{Binding PlantWaterNextTime}"
+                                   VerticalOptions="Center"
+                                   FontAttributes="Bold"/>
+
+                            <Image Grid.Column="2"
+                                   Source="{Binding WaterIconPath}"
+                                   VerticalOptions="Center">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WaterCommand, Source={x:Reference Name=PlantsListByRooms}}"
+                                                          CommandParameter="{Binding .}" />
+                                </Image.GestureRecognizers>
+                            </Image>
+
+                            <Image Grid.Column="3"
+                                   Source="pencil_icon.svg"
+                                   VerticalOptions="End">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.EditCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Text="Update"
+                Command="{Binding UpdatePlantListCommand}"
+                HorizontalOptions="Fill"/>
     </VerticalStackLayout>
 </ContentPage>

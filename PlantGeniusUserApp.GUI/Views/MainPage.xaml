@@ -3,9 +3,13 @@
              x:Class="PlantGeniusUserApp.GUI.Views.MainPage">
 
 
-    <VerticalStackLayout Spacing="25" Padding="30">
+    <Grid>
+        <!-- Add background picture-->
+        <Image Source="..\Images\background_picture.jpg" Aspect="AspectFill"/>
 
-        <Label Text="Willkommen PlantGenius!"
+        <VerticalStackLayout Spacing="25" Padding="30">
+
+        <Label Text="Willkommen bei PlantGenius!"
                FontSize="Large"
                HorizontalOptions="Center" />
 
@@ -19,6 +23,7 @@
         </Frame>
 
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
 
 </ContentPage>

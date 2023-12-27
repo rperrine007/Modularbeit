@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Numerics;
 using System.Windows.Input;
@@ -30,38 +30,39 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private void EditPlant(Plant plant)
+        protected async void EditPlant(Plant plant)
         {
             if (plant != null)
             {
                 var editViewModel = new PlantEditViewModel(plant);
                 var editPage = new PlantPageEdit { BindingContext = editViewModel };
 
-                App.Current.MainPage.Navigation.PushAsync(editPage);
+                await App.Current.MainPage.Navigation.PushAsync(editPage);
             }
         }
 
 
-        private void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void WaterPlant(Plant plant)
+        protected async void WaterPlant(Plant plant)
         {
             if (plant != null)
             {
                 // Await the asynchronous database update operation
-                DataAccessLayer.UpdatePlantWaterLastTime(plant.PlantID);
+                await DataAccessLayer.UpdatePlantWaterLastTime(plant.PlantID);
                 UpdatePlantList();
             }
         }
 
 
         /// <summary>
-        /// This method loads first all rooms and then load into each room the plants
+        /// This method loads first all rooms and then load into each room the plants.
+        /// virtuals: function can be overriden by child-classes
         /// </summary>
-        private async Task LoadPlants()
+        protected virtual async Task LoadPlants()
         {
             try
             {
@@ -92,10 +93,10 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         }
 
 
-        private void UpdatePlantList()
+        protected async void UpdatePlantList()
         {
             Plants.Clear();
-            LoadPlants();
+            await LoadPlants();
         }
 
 

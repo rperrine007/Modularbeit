@@ -57,6 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\background_picture.jpg" />
 	  <None Remove="Resources\Images\exclamation_round_icon.svg" />
 	  <None Remove="Resources\Images\furniture_icon.svg" />
 	  <None Remove="Resources\Images\home_icon.svg" />

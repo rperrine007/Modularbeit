@@ -25,6 +25,11 @@ namespace PlantGenius.GUI.Views
             isResizing = false;
         }
 
+        private void Button_ChangeToRoomView_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         //TODO Flackern bei der Verstellung der Grösse (eine Richtung, andere nicht).
         /*
         /// Function: The window size can only be changed proportinally.

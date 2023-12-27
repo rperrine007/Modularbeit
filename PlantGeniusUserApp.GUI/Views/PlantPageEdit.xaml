@@ -4,6 +4,7 @@
              x:Class="PlantGeniusUserApp.GUI.Views.PlantPageEdit"
              Title="Pflanze editieren">
 
+    
     <ScrollView>
         <VerticalStackLayout Spacing="15" Padding="10">
 
