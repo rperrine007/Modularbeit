@@ -5,7 +5,7 @@
   
 
     <!-- customized titleView-->
-    <Shell.TitleView Margin="0" Padding="0">
+    <Shell.TitleView >
         
         <Grid>
             <Grid.ColumnDefinitions>
@@ -53,6 +53,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+
                         <Grid Padding="10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3*"/>
@@ -88,6 +89,7 @@
                                                           CommandParameter="{Binding .}" />
                                 </Image.GestureRecognizers>
                             </Image>
+
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
@@ -95,7 +97,7 @@
         </ListView>
 
         <Button Text="Update"
-                Command="{Binding PageAppearingCommand}"
+                Command="{Binding UpdatePlantsCommand}"
                 HorizontalOptions="Fill"/>
 
  
@@ -107,18 +109,12 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-
-            <!-- Round Add Button with adjusted button size and padding -->
-            <Frame Grid.Column="1" CornerRadius="25" WidthRequest="40" HeightRequest="40"
-                BackgroundColor="{StaticResource Primary}"
-                HorizontalOptions="Center" VerticalOptions="Center"
-                   Padding="0,0,0,5">
-
-                <Button Text="+" FontSize="25" TextColor="White" BackgroundColor="Transparent" 
-                        WidthRequest="50" HeightRequest="50"
-                        HorizontalOptions="Center" VerticalOptions="Center"
-                        Command="{Binding ChangeToPlantPageCommand}"/>
-            </Frame>
+            <Image Source="add_button_dark.png" Aspect="AspectFill" Grid.Column="1"
+                   HeightRequest="40" WidthRequest="40" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeToPlantPageCommand}"/>
+                </Image.GestureRecognizers>
+            </Image>
 
         </Grid>
     </VerticalStackLayout>

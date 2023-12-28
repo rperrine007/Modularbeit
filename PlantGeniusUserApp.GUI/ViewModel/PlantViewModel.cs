@@ -20,6 +20,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         public ObservableCollection<Plant> Plants { get; set; }
         public ICommand EditCommand { get; private set; }
         public ICommand WaterCommand { get; private set; }
+        public ICommand UpdatePlantsCommand { get; private set; }
 
 
         public PlantsViewModel()
@@ -28,6 +29,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             Plants = new ObservableCollection<Plant>();
             EditCommand = new Command<Plant>(EditPlant);
             WaterCommand = new Command<Plant>(WaterPlant);
+            UpdatePlantsCommand = new Command(UpdatePlants);
             DAL = new DataAccessLayer();
             LoadPlants();
         }
@@ -37,10 +39,10 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         /// Updates data when the user navigates to this page.
         /// This function seems buggy. Therefore it is obly used in the "Update" Button
         /// </summary>
-        public ICommand PageAppearingCommand => new Command(async () =>
+        protected async void UpdatePlants()
         {
             await LoadPlants();
-        });
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
