@@ -4,7 +4,7 @@
              Title="Pflanzen">
 
     <VerticalStackLayout Spacing="10" Padding="10">
-        <ListView x:Name="PlantsList" ItemsSource="{Binding Plants}">
+        <ListView x:Name="PlantsList" ItemsSource="{Binding Plants}" MaximumHeightRequest="500">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
