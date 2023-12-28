@@ -13,7 +13,9 @@ using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics;
 using Org.BouncyCastle.Tls;
 
+//TODO APpp stürzt aufgrund zu vieler anfragen ab. Buttons sollten vielleicht für eine gewisse Zeit "disabled" werden.
 
+//TODO: Löschen von Pflanzen fehlt noch.
 
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
@@ -87,15 +89,15 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             //checks if a Room is not null
             if ((SelectedPlant == null) || (SelectedPlant.PlantName == string.Empty) || (SelectedRoom == null) || (SelectedPlant.PlantWaterRequirement == 0) || (SelectedPlant.PlantWaterLastTime == null) )
             {
-                AlertTitle = "Fehler";
-                AlertDescription = "Pflanz konnte nicht hinzugefügt werden. \nRaumname, RaumID sind Pflichtfelder";
+                AlertDescription = "Pflanz konnte nicht hinzugefügt werden. \n Pflanzenname, Raum, Wasserbedarf(Tage) und letzted Giessdatum sind Pflichtfelder.\n Pflanze konnte nicht hinzugefügt werden.";
+                await App.Current.MainPage.DisplayAlert("Warning", AlertDescription, "Ok");
                 return;
             }
             //check if a Room with the given name already exists.
             else if (ExistingPlantNames.Contains(SelectedPlant.PlantName))
             {
-                AlertTitle = "Fehler";
-                AlertDescription = "Raum konnte nicht hinzugefügt werden. \nEs gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
+                AlertDescription = "Pflanze konnte nicht hinzugefügt werden da es bereits eine Pflanze mit dem angegeben Namen gibt. \n Bitte wählen Sie einen anderen Namen.";
+                await App.Current.MainPage.DisplayAlert("Warning", AlertDescription, "Ok");
                 return;
             }
 
@@ -119,10 +121,11 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             try
             {
                 await App.Current.MainPage.Navigation.PopAsync();
+                return;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error saving plant: {ex.Message}");
+                await App.Current.MainPage.DisplayAlert("Warning", $"Error saving plant: {ex.Message}", "Ok");
             }
         }
 

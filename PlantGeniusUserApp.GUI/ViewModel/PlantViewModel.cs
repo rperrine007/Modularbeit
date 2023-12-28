@@ -29,13 +29,18 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             EditCommand = new Command<Plant>(EditPlant);
             WaterCommand = new Command<Plant>(WaterPlant);
             DAL = new DataAccessLayer();
+            LoadPlants();
         }
 
 
         /// <summary>
         /// Updates data when the user navigates to this page.
+        /// This function seems buggy. Therefore it is obly used in the "Update" Button
         /// </summary>
-        public ICommand PageAppearingCommand => new Command(async () => await LoadPlants());
+        public ICommand PageAppearingCommand => new Command(async () =>
+        {
+            await LoadPlants();
+        });
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
