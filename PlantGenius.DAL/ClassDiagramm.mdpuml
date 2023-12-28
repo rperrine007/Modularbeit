@@ -5,11 +5,12 @@ Wer kennt das nicht? Deine Pflanze ist entweder vertrocknet oder steht im Wasser
 PlantGenius bietet dir die perfekte Unterstützung für die Bewässerung deiner Pflanzen. 
 Vertraue auf diese App und gewährleiste die ideale Wassermenge für jede Pflanze. Mit einer übersichtlichen To-Do-Liste behältst du leicht im Blick, welche deiner Pflanzen wann gegossen werden müssen.
 
+
 ## Projekte
-### PlantGenius.DAl
+### PlantGenius.DAL
 Besteht im essenziellen aus zwei Teilen mit unterschiedlichen Klassen:
-- AppDBContext & DataAccessLayer: Verbindung zu DB wird hergestellt und Methoden zur Interaktion mit der DB erstellt.
 - Ordner Models: Enthält die Klassen Pflanzen und Räume
+- AppDBContext & DataAccessLayer: Verbindung zu DB wird hergestellt und Methoden zur Interaktion mit der DB erstellt.
 
 PlantGenius.GUI-Projekt und PlantGeniusUserApp.GUI-Projekt können auf alle Klassen in diesem Projekt zugreifen. 
 
@@ -30,6 +31,9 @@ Es sind vier verschiedene Ansichten vorhanden:
 - Optionen: Noch nichts, wäre eine Erweiterungsmöglichkeit.
 - Pflanzen editieren: Maske um Pflanzen-Daten zu bearbeiten.
 
+
+## Genutzte Frameworks und Aufbau
+Für die Kommunikation mit der genutzten Maria DB wurde das Entity Frame Work (EFF) verwendet. Der Code wurde nach dem Model-View-ViewModel (MVVM) Framework gegliedert. Ausserdem wurde das Paket CommunityToolkit.Mvvm verwendet, da dieses einige nützliche Funktionen bereitstellt und das wichtige Interface INotifyPropertyChanged bereits eingebunden ist.
 ## Klassendiagramm
 @startuml
 
@@ -79,10 +83,31 @@ class AppDbContext:DbContext
         protected override void OnConfiguring(...)
     }
 
+class DataAccessLayer
+{
+
+        private AppDbContext db;
+
+        public DataAccessLayer()
+        public DataAccessLayer(...)
+
+        public async Task<List<Room>> GetRooms()
+        public async Task AddRoomToDB(...)
+        public async Task UpdateRoomToDB(...)
+        public async Task DeleteRoomFromDB(...)
+        public async Task UpdateRoomSortNumber(...)
+        public async Task RefreshSortRooms()        
+        public async Task<HashSet<int>> GetRoomsWithPlants()
+        public async Task<List<Plant>> LoadPlantsFromDB()
+        public async Task AddPlantToDB(...)
+        public async Task UpdatePlantsToDB(...)
+}
+
 
 @enduml
 
-## Detaillierter Inhalt der verschiedenen Klassen.
+# Detaillierter Inhalt der verschiedenen Projekten
+## PlantGenius.DAL - Models
 ### Klasse Plant
 public class Plant
 {
@@ -125,6 +150,7 @@ public class Room
         public override string ToString()
 }
 
+## PlantGenius.DAL - DAL und DB
 ### Klasse AppDbContext
 public class AppDbContext : DbContext
     {
@@ -140,11 +166,52 @@ public class AppDbContext : DbContext
 
 
 ### Klasse DataAccessLayer
-class DataAccessLayer
+public class DataAccessLayer
 {
-      public async static Task GetRooms(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput);
-      public async static Task AddRoomToDB(DatabaseConnector dbConnectorInput, Room roomInput);
-      public async static Task DeleteRoomFromDB(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput, Room roomInput);
-      public async static Task OnRoomDeleteNewSort(DatabaseConnector dbConnectorInput, Collection<Room> roomListInput);
-      public async static Task UpdateDBChangeRoomSortNumber(MySqlConnection connection, int roomIDSelected, int roomSortChanged);
+
+        private AppDbContext db;
+
+        public DataAccessLayer()
+        public DataAccessLayer(AppDbContext context)
+
+        public async Task<List<Room>> GetRooms()
+        public async Task AddRoomToDB(Room roomInput)
+        public async Task UpdateRoomToDB(Room roomInput)
+        public async Task DeleteRoomFromDB(Room roomInput)
+        public async Task UpdateRoomSortNumber(int roomId, int newSortNumber)
+        public async Task RefreshSortRooms()        
+        public async Task<HashSet<int>> GetRoomsWithPlants()
+        public async Task<List<Plant>> LoadPlantsFromDB()
+        public async Task AddPlantToDB(Plant plantInput)
+        public async Task UpdatePlantsToDB(Plant plantInput)
 }
+
+
+## DataAccessLayerNUnitTest
+### Berschreibung der Tests
+In diesem Projekt werden folgende Methoden der Klasse DataAccessLayer.cs getestet:
+- public async Task<List<Room>> GetRooms()
+- public async Task AddRoomToDB(...)
+- public async Task UpdateRoomToDB(...)
+- public async Task DeleteRoomFromDB(...)
+- public async Task UpdateRoomSortNumber(...)
+- public async Task RefreshSortRooms()      
+
+- public async Task<HashSet<int>> GetRoomsWithPlants()
+- public async Task<List<Plant>> LoadPlantsFromDB()
+- public async Task AddPlantToDB(...)
+- public async Task UpdatePlantsToDB(
+
+Alle Tests werden in einer separaten Klasse und auf einer InMemoryDataBase ausgeführt sodass die eigentliche DB nicht durch die Tests belastet und verändert wird.
+Da die Tests alle erfolgreich waren wird an dieser Stelle nicht näher darauf eingegangen.
+
+## PlantGeniusUserApp.GIU - Views
+## MainWindow:Window
+Start der Applikation, über einen Button gelangt man weiter zur RoomView.
+
+## RoomView:Window
+Hier können die Räume bearbeitet, gelöscht oder neue hinzugefügt werden. 
+Die RoomID als auch der Raumname können in der gesamten DB nur einmal vorkommen.
+
+
+## PlantGeniusUserApp.GIU - ViewModel

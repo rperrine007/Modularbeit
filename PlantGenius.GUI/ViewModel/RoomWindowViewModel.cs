@@ -19,9 +19,8 @@ namespace PlantGenius.GUI.ViewModel
 {
     /// <summary>
     /// When the RoomView Window is opened, the data of the DB is loaded into an observable collection.
+    /// by inheriting from the ObservableObject the INotifyPeopweryChanged Interface is implemented easily. This interface usually ensures a two was data binding.
     /// </summary>
-
-    //by inheriting from the ObservableObject the INotifyPeopweryChanged Interface is implemented easily. This interface usually ensures a two was data binding.
     public partial class RoomWindowViewModel : ObservableObject
     {
         //Datavaribles
@@ -69,8 +68,6 @@ namespace PlantGenius.GUI.ViewModel
 
             //get rooms from DB
             GetRoomFromDB();
-            //Get roomIDs with plants from DB
-            GetRoomIDWithPlantsFromDB();
         }
 
         /// <summary>
@@ -92,9 +89,9 @@ namespace PlantGenius.GUI.ViewModel
                 }
         }
 
-        private async void GetRoomIDWithPlantsFromDB()
+        private async Task<HashSet<int>> GetRoomIDWithPlantsFromDB()
         {
-             roomIDsWithPlants = await DAL.GetRoomsWithPlants();
+             return await DAL.GetRoomsWithPlants();
         }
 
         private bool CanAddRoom(object obj)
@@ -162,6 +159,8 @@ namespace PlantGenius.GUI.ViewModel
         [RelayCommand(CanExecute = nameof(CanDeleteRoom))]
         private async Task DeleteRoom(object obj)
         {
+            //Get roomIDs with plants from DB
+            roomIDsWithPlants = await GetRoomIDWithPlantsFromDB();
             var listBox = obj as ListBox;
 
             //exception handling in case no room is chosen.

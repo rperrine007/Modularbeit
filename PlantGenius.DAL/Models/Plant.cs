@@ -30,7 +30,7 @@ namespace PlantGenius.DAL.Models
             PlantName = plantName;
             PlantWaterLastTime = waterLastTime;
             PlantWaterRequirement = waterRequirement;
-            UpdatePlantSort();
+            PlantSort = UpdatePlantSort();
         }
 
         //Properties
@@ -54,8 +54,13 @@ namespace PlantGenius.DAL.Models
         [ForeignKey("RoomID")]
         public Room Room { get; set; }
 
+        private int _plantSort;
+
         //PlantSort is calculated based on the amount of days until the next watering.
-        public int PlantSort{ get; set; }
+        public int PlantSort {
+            get { return UpdatePlantSort(); }
+            set { _plantSort = value; } // set the private backing field
+        }
 
         [Required]
         public int PlantWaterRequirement { get; set; }
@@ -115,9 +120,9 @@ namespace PlantGenius.DAL.Models
             }
         }
 
-        public void UpdatePlantSort()
+        public int UpdatePlantSort()
         {
-            PlantSort = (CalculatePlantWaterNextTime() - DateTime.Today).Days;
+            return (CalculatePlantWaterNextTime() - DateTime.Today).Days;
         }
     }
 }
