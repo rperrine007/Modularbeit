@@ -28,20 +28,16 @@
 
                 <StackLayout Orientation="Horizontal">
                     <!-- Round Add Button with adjusted button size and padding -->
-
-
-
-                        <Image Source="add_button_bright.png" Aspect="AspectFill" Grid.Column="1"
+                    <Image Source="add_button_bright.png" Aspect="AspectFill" Grid.Column="1"
                                 HeightRequest="30" WidthRequest="30"/>
 
                     <Label Text="Pflanze hinzufügen"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" 
-                TextColor="{StaticResource Primary} "
-                FontAttributes="Bold"
-                FontSize="20"
-                Margin="5,0,0,0">
-
+                                VerticalOptions="Center" 
+                                HorizontalOptions="Center" 
+                                TextColor="{StaticResource Primary} "
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                Margin="5,0,0,0">
                     </Label>
 
                 </StackLayout>

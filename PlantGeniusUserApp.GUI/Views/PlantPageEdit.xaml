@@ -19,9 +19,6 @@
                 <RowDefinition Height="*"/>
 
             </Grid.RowDefinitions>
-
-
-
             <Frame  
                BackgroundColor="{StaticResource White}"
                HorizontalOptions="Start" VerticalOptions="FillAndExpand"
@@ -43,8 +40,6 @@
                 </StackLayout>
             </Frame>
         </Grid>
-
-
     </Shell.TitleView>
 
 
