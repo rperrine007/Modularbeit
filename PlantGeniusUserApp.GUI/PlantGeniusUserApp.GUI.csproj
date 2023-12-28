@@ -57,6 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\add_button.png" />
 	  <None Remove="Resources\Images\background_picture.jpg" />
 	  <None Remove="Resources\Images\exclamation_round_icon.svg" />
 	  <None Remove="Resources\Images\furniture_icon.svg" />
@@ -91,12 +92,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\AddPlantPage.xaml.cs">
+	    <DependentUpon>AddPlantPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\PlantPageEdit.xaml.cs">
 	    <DependentUpon>PlantPageEdit.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\AddPlantPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\MainPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

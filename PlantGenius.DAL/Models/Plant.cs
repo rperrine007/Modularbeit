@@ -33,7 +33,12 @@ namespace PlantGenius.DAL.Models
             UpdatePlantSort();
         }
 
-        public int PlantID { get; set; }
+        //Properties
+        //Key: This attribute indicates that the Id property is the primary key for the TodoItems table in the database. A primary key uniquely identifies each record in a table, and it must have a unique value for each row.
+        // [DatabaseGenerated(DatabaseGeneratedOption.Identity)] ensures that the Id property serves as a unique identifier for each TodoItem in the database, and its value is generated automatically by the database.
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int PlantID { get; init; }
 
         [Required]
         [MaxLength(30)]

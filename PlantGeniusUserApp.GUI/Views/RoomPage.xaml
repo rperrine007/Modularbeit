@@ -15,7 +15,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <Label  Text="{Binding Key}" 
-                                TextColor="{StaticResource Primary}" 
+                                TextColor="{StaticResource Primary}"                                 
                                 FontSize="Medium"
                                 FontAttributes="Bold" 
                                 Margin="0, 10,0,0" />

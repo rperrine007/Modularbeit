@@ -214,7 +214,7 @@ namespace PlantGenius.DAL
                 {
                     // Async database operations
                     var rooms = await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
-                    var plantList = new List<Plant>();
+                    List<Plant> plantList = new List<Plant>();
 
                     foreach (var room in rooms)
                     {
@@ -239,6 +239,17 @@ namespace PlantGenius.DAL
                 Console.WriteLine(ex.StackTrace);
             }
             return new List<Plant>();
+        }
+
+        /// <summary>
+        /// Method to add a room.
+        /// </summary>
+        /// <param name="roomInput"></param>
+        /// <returns></returns>
+        public async Task AddPlantToDB(Plant plantInput)
+        {
+            db.Plants.Add(plantInput);
+            await db.SaveChangesAsync();
         }
 
         /// <summary>

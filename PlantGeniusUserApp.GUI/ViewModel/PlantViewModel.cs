@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Numerics;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using PlantGenius.DAL;
 using PlantGenius.DAL.Models;
@@ -9,7 +11,7 @@ using PlantGeniusUserApp.GUI.Views;
 
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
-    public class PlantsViewModel : INotifyPropertyChanged
+    public partial class PlantsViewModel : ObservableObject, INotifyPropertyChanged
     {
         //Datavariables
         private DataAccessLayer DAL;
@@ -92,6 +94,21 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         {
             Plants.Clear();
             await LoadPlants();
+        }
+
+        private bool CanChangetoAddPlantPage()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Adds a new room to the roomList and the DB.
+        /// </summary>
+        [RelayCommand(CanExecute = nameof(CanChangetoAddPlantPage))]
+        protected async Task ChangetoAddPlantPage()
+        {
+            var addPlantPage = new AddPlantPage();
+            await App.Current.MainPage.Navigation.PushAsync(addPlantPage);
         }
 
 
