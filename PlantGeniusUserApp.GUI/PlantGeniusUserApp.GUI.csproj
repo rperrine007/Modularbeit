@@ -114,4 +114,6 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadUnhandledDeviceExceptionPlantGeniusUserAppGUIHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>

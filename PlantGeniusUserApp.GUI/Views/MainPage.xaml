@@ -5,22 +5,28 @@
 
     <Grid>
         <!-- Add background picture-->
-        <Image Source="..\Images\background_picture.jpg" Aspect="AspectFill"/>
+        <!-- Background image -->
+        <Image Grid.Row="0" Grid.Column="0" Source="background_picture.jpg" Aspect="AspectFill"/>
+        <VerticalStackLayout Spacing="25" Padding="30" >
 
-        <VerticalStackLayout Spacing="25" Padding="30">
+            <Frame Padding="0,10" CornerRadius="10"  Background ="{StaticResource Secondary}" >
+                <StackLayout>
+                    <Label Text="Willkommen bei PlantGenius!" 
+                    FontSize="Large"
+                    HorizontalOptions="Center" 
+                    FontAttributes="Bold"/>
 
-        <Label Text="Willkommen bei PlantGenius!"
-               FontSize="Large"
-               HorizontalOptions="Center" />
-
-        <Label Text="Dein persönlicher Assistent für die Pflanzenpflege."
-               HorizontalOptions="Center" />
-
-        <Frame Padding="15" CornerRadius="10">
-            <Label Text="3 Pflanzen sollten gewässert werden"
+                <Label Text="Dein persönlicher Assistent für die Pflanzenpflege." Margin="0,10,0,0"
+                    HorizontalOptions="Center" />
+                </StackLayout>
+            </Frame>
+        
+            <Frame Padding="15" CornerRadius="10"  Background ="{StaticResource Secondary}" >
+                <Label Text="{Binding Count, StringFormat='{0} Pflanzen sollten gewässert werden'}"
                    FontAttributes="Bold"
-                   HorizontalOptions="Center" />
-        </Frame>
+                   HorizontalOptions="Center" 
+                  />
+            </Frame>
 
 
         </VerticalStackLayout>

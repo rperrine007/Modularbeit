@@ -94,12 +94,17 @@ namespace PlantGenius.DAL.Models
                 var tomorrow = today.AddDays(1);
 
                 if (nextWaterTime.Date == today || nextWaterTime.Date == tomorrow)
+                {
                     return "watering_icon_orange.svg"; // Path to the icon -> today and tomorrow
+                }
                 else if (nextWaterTime.Date < today)
+                {
                     return "watering_icon_red.svg"; // Path to the icon -> past
+                }
                 else
+                {
                     return "watering_icon_green.svg"; // Path to the icon -> future
-
+                }
             }
         }
 

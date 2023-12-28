@@ -18,12 +18,8 @@
     <Color x:Key="Magenta">#D600AA</Color>
     <Color x:Key="MidnightBlue">#190649</Color>
     <Color x:Key="OffBlack">#1f1f1f</Color>
-    
-    <!-- Individual colors-->
+   
 
-    <Color x:Key="VeryDarkGreen">#FF1A2517</Color>
-    <Color x:Key="DarkGreen">#FF2D4627</Color>
-    <Color x:Key="LightGreen">#FFABC5A4</Color>
 
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>
