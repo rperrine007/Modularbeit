@@ -148,13 +148,17 @@ namespace PlantGenius.GUI.ViewModel
             existingNames.Add(this.RoomName);
         }
 
-        //TODO Perrine Raum darf nur gelöscht werden, wenn keine Pflanze enthalten ist. 
+        
         private bool CanDeleteRoom(object obj)
         {
             return true;
         }
 
-        // Delete Room
+        /// <summary>
+        /// Delete Room, but only when no plant is inside.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [RelayCommand(CanExecute = nameof(CanDeleteRoom))]
         private async Task DeleteRoom(object obj)
         {

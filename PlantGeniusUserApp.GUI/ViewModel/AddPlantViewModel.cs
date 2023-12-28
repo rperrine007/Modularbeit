@@ -68,7 +68,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 Rooms.Add(room);
             }
 
-            SelectedRoom = Rooms.FirstOrDefault(r => r.RoomID == SelectedPlant.PlantRoom);
+            SelectedRoom = Rooms.FirstOrDefault(r => r.RoomID == SelectedPlant.RoomID);
         }
 
         private bool CanAddPlant(object obj)
@@ -104,7 +104,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             {
                 PlantName = SelectedPlant.PlantName,
                 PlantNameScientific = SelectedPlant.PlantNameScientific == null ? string.Empty : SelectedPlant.PlantNameScientific,
-                PlantRoom = SelectedRoom.RoomID,
+                RoomID = SelectedRoom.RoomID,
                 Room = SelectedRoom,
                 PlantWaterRequirement = SelectedPlant.PlantWaterRequirement,
                 PlantWaterLastTime = SelectedPlant.PlantWaterLastTime,

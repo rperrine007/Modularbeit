@@ -65,8 +65,6 @@ namespace PlantGenius.DAL.Models
 
         public bool? RoomLight { get; set; }
 
-        public ICollection<Plant> Plants { get; set; }
-
         //override ToString function
         public override string ToString()
         {

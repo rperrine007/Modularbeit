@@ -19,15 +19,17 @@ namespace PlantGenius.DAL
         /// <summary>
         /// Constructor, the connection string of db is in AppDbContext contained.
         /// </summary>
-        public DataAccessLayer() { 
-            db =  new AppDbContext();
+        public DataAccessLayer()
+        {
+            db = new AppDbContext();
         }
 
         /// <summary>
         /// Constructor if the context of the DB is ^given. With this e.g. a InMemoryDataBase can be connected.
         /// </summary>
         /// <param name="context"></param>
-        public DataAccessLayer(AppDbContext context) { 
+        public DataAccessLayer(AppDbContext context)
+        {
             db = context;
         }
 
@@ -65,15 +67,15 @@ namespace PlantGenius.DAL
         /// <returns></returns>
         public async Task<List<Room>> GetRooms()
         {
-                try
-                {
-                    return await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"$\"Fehler bei download von Raum-Daten: : {ex.Message}");
-                    Console.WriteLine(ex.StackTrace);
-                }
+            try
+            {
+                return await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"$\"Fehler bei download von Raum-Daten: : {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
+            }
             return new List<Room>();
         }
 
@@ -85,8 +87,8 @@ namespace PlantGenius.DAL
         /// <returns></returns>
         public async Task AddRoomToDB(Room roomInput)
         {
-                db.Rooms.Add(roomInput);
-                await db.SaveChangesAsync();
+            db.Rooms.Add(roomInput);
+            await db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -96,14 +98,14 @@ namespace PlantGenius.DAL
         /// <returns></returns>
         public async Task UpdateRoomToDB(Room roomInput)
         {
-                // Mark the room as modified
-                db.Rooms.Attach(roomInput);
-                db.Entry(roomInput).Property(r => r.RoomName).IsModified = true;
-                db.Entry(roomInput).Property(r => r.RoomFloor).IsModified = true;
-                db.Entry(roomInput).Property(r => r.RoomLight).IsModified = true;
+            // Mark the room as modified
+            db.Rooms.Attach(roomInput);
+            db.Entry(roomInput).Property(r => r.RoomName).IsModified = true;
+            db.Entry(roomInput).Property(r => r.RoomFloor).IsModified = true;
+            db.Entry(roomInput).Property(r => r.RoomLight).IsModified = true;
 
-                // Save changes to the database
-                await db.SaveChangesAsync();
+            // Save changes to the database
+            await db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -113,7 +115,7 @@ namespace PlantGenius.DAL
         /// <returns></returns>
         public async Task DeleteRoomFromDB(Room roomInput)
         {
-             db.Rooms.Remove(roomInput);
+            db.Rooms.Remove(roomInput);
             await db.SaveChangesAsync();
             //Refresh the RoomSort Number
             await RefreshSortRooms();
@@ -127,12 +129,12 @@ namespace PlantGenius.DAL
         /// <returns></returns>
         public async Task UpdateRoomSortNumber(int roomId, int newSortNumber)
         {
-                var room = await db.Rooms.FirstOrDefaultAsync(r => r.RoomID == roomId);
-                if (room != null)
-                {
-                    room.RoomSort = newSortNumber;
-                    await db.SaveChangesAsync();
-                }
+            var room = await db.Rooms.FirstOrDefaultAsync(r => r.RoomID == roomId);
+            if (room != null)
+            {
+                room.RoomSort = newSortNumber;
+                await db.SaveChangesAsync();
+            }
         }
 
         ///summary>
@@ -145,17 +147,17 @@ namespace PlantGenius.DAL
 
             try
             {
-                    // Sort the Rooms by RoomSortNumber
-                    sortedRooms = await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
-                    // Adding a new sorting number to each room to avoid gaps
-                    int newSortID = 1;
-                    foreach (var room in sortedRooms)
-                    {
-                        room.RoomSort = newSortID;
-                        await db.SaveChangesAsync();
-                        // Update Database
-                        newSortID++;
-                    }
+                // Sort the Rooms by RoomSortNumber
+                sortedRooms = await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
+                // Adding a new sorting number to each room to avoid gaps
+                int newSortID = 1;
+                foreach (var room in sortedRooms)
+                {
+                    room.RoomSort = newSortID;
+                    await db.SaveChangesAsync();
+                    // Update Database
+                    newSortID++;
+                }
             }
             catch (Exception ex)
             {
@@ -182,7 +184,7 @@ namespace PlantGenius.DAL
                     {
 
                         var plantsInRoom = await db.Plants
-                                     .Where(p => p.PlantRoom == room.RoomID)
+                                     .Where(p => p.RoomID == room.RoomID)
                                      .Include(p => p.Room)
                                      .ToListAsync();
 
@@ -220,7 +222,7 @@ namespace PlantGenius.DAL
                     {
 
                         var plantsInRoom = await db.Plants
-                                     .Where(p => p.PlantRoom == room.RoomID)
+                                     .Where(p => p.RoomID == room.RoomID)
                                      .Include(p => p.Room)
                                      .ToListAsync();
 
@@ -271,26 +273,35 @@ namespace PlantGenius.DAL
         }
 
         /// <summary>
-        /// Method to update a plant
+        /// Method to update a plant.
         /// </summary>
         /// <param name="plantInput"></param>
         /// <returns></returns>
         public async Task UpdatePlantsToDB(Plant plantInput)
         {
-            // Mark the plant as modified
-            //TODO Perrine the room is not stored correctly
-            db.Plants.Attach(plantInput);
-            db.Entry(plantInput).Property(p => p.PlantName).IsModified = true;
-            db.Entry(plantInput).Property(p => p.PlantNameScientific).IsModified = true;
-            db.Entry(plantInput).Property(p => p.PlantRoom).IsModified = true;
-            //db.Entry(plantInput).Property(p => p.PlantSort).IsModified = true;
-            db.Entry(plantInput).Property(p => p.PlantWaterRequirement).IsModified = true;
-            db.Entry(plantInput).Property(p => p.PlantWaterLastTime).IsModified = true;
+            // Assuming updatedPlant is passed with the new RoomID set
+            var existingPlant = await db.Plants
+                                        .Include(p => p.Room) // Include Room if navigation property exists
+                                        .FirstOrDefaultAsync(p => p.PlantID == plantInput.PlantID);
 
-            // Save changes to the database
-            await db.SaveChangesAsync();
+            if (existingPlant != null)
+            {
+                // Update properties
+                existingPlant.PlantName = plantInput.PlantName;
+                existingPlant.PlantNameScientific = plantInput.PlantNameScientific;
+                existingPlant.RoomID = plantInput.RoomID;
+                existingPlant.PlantSort = plantInput.PlantSort;
+                existingPlant.PlantWaterRequirement = plantInput.PlantWaterRequirement;
+                existingPlant.PlantWaterLastTime = plantInput.PlantWaterLastTime;
+
+                // Mark as modified and save
+                db.Plants.Update(existingPlant);
+
+                // Save changes to the database
+                await db.SaveChangesAsync();
+            }
+
+
         }
-
-
     }
 }

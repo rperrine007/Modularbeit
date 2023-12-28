@@ -1,7 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PlantGeniusUserApp.GUI.Views.AddPlantPage">
+             x:Class="PlantGeniusUserApp.GUI.Views.AddPlantPage"
+             Shell.BackgroundColor="{StaticResource Primary}" >
+
+    <!-- customized titleView-->
+    <Shell.TitleView Margin="0" Padding="0">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="24*"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+
+            <Frame  
+               BackgroundColor="{StaticResource White}"
+               HorizontalOptions="Start" VerticalOptions="FillAndExpand"
+              WidthRequest="240"
+              Padding="10,0,0,0" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1">
+
+                <StackLayout Orientation="Horizontal">
+                    <!-- Round Add Button with adjusted button size and padding -->
+                    <Frame Grid.Column="1" CornerRadius="25" WidthRequest="20" HeightRequest="20"
+                     BackgroundColor="{StaticResource White}" BorderColor="{StaticResource Primary} "
+                        HorizontalOptions="Center" VerticalOptions="Center"
+                     Padding="23,10,10,0">
+
+                        <Label Text="+" FontSize="25" TextColor="{StaticResource Primary}" BackgroundColor="Transparent" 
+                        WidthRequest="40" HeightRequest="45"
+                        HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Frame>
+
+                    <Label Text="Pflanze hinzufügen"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                TextColor="{StaticResource Primary} "
+                FontAttributes="Bold"
+                FontSize="20"
+                Margin="10,0,0,0"
+                />
+
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </Shell.TitleView >
+
+
     <ScrollView>
         <VerticalStackLayout Spacing="15" Padding="10">
 

@@ -48,12 +48,14 @@ namespace PlantGenius.DAL.Models
         public string PlantNameScientific { get; set; }
 
         [Required]
-        public int PlantRoom { get; set; }
-        [ForeignKey("PlantRoom")]
+        public int RoomID { get; set; }
+
+
+        [ForeignKey("RoomID")]
         public Room Room { get; set; }
 
         //PlantSort is calculated based on the amount of days until the next watering.
-        public int PlantSort{ get; private set; }
+        public int PlantSort{ get; set; }
 
         [Required]
         public int PlantWaterRequirement { get; set; }

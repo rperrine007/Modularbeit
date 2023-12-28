@@ -2,9 +2,52 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PlantGeniusUserApp.GUI.Views.PlantPageEdit"
-             Title="Pflanze editieren">
+             Shell.BackgroundColor="{StaticResource Primary}" >
 
-    
+    <!-- customized titleView-->
+    <Shell.TitleView Margin="0" Padding="0">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="24*"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+
+
+
+            <Frame  
+               BackgroundColor="{StaticResource White}"
+               HorizontalOptions="Start" VerticalOptions="FillAndExpand"
+              WidthRequest="220"
+              Padding="0,0,0,0" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1">
+
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="pencil_icon.svg" Aspect="AspectFit" Margin="8" />
+
+                    <Label Text="Pflanze hinzufügen"
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Center" 
+                            TextColor="{StaticResource Primary} "
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Margin="0,0,0,0"
+                     />
+
+                </StackLayout>
+            </Frame>
+        </Grid>
+
+
+    </Shell.TitleView>
+
+
     <ScrollView>
         <VerticalStackLayout Spacing="15" Padding="10">
 

@@ -96,7 +96,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             await LoadPlants();
         }
 
-        private bool CanChangetoAddPlantPage()
+        private bool CanChangeToPlantPage()
         {
             return true;
         }
@@ -104,8 +104,8 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         /// <summary>
         /// Adds a new room to the roomList and the DB.
         /// </summary>
-        [RelayCommand(CanExecute = nameof(CanChangetoAddPlantPage))]
-        protected async Task ChangetoAddPlantPage()
+        [RelayCommand(CanExecute = nameof(CanChangeToPlantPage))]
+        protected async Task ChangeToPlantPage()
         {
             var addPlantPage = new AddPlantPage();
             await App.Current.MainPage.Navigation.PushAsync(addPlantPage);

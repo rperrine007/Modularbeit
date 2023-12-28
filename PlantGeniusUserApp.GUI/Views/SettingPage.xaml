@@ -1,8 +1,51 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PlantGeniusUserApp.GUI.Views.SettingPage"
-             Title="Einstellungen">
+             x:Class="PlantGeniusUserApp.GUI.Views.SettingPage">
+
+    <!-- customized titleView-->
+    <Shell.TitleView Margin="0" Padding="0">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="24*"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+
+            <Image Source="background_picture.jpg" Aspect="AspectFill" Grid.Column="0" Grid.RowSpan="3"/>
+
+
+            <Frame  
+                  BackgroundColor="{StaticResource White}"
+                  HorizontalOptions="Start" VerticalOptions="FillAndExpand"
+                 WidthRequest="150"
+                 Padding="13,0,0,0" Margin="5,0,0,0" Grid.Column="0" Grid.Row="1">
+
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="settings_icon.svg" Aspect="AspectFit" Margin="3" />
+
+                    <Label Text="Settings"
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Center" 
+                   TextColor="{StaticResource Primary} "
+                   FontAttributes="Bold"
+                   FontSize="20"
+                   Margin="5,0,0,0"
+                   />
+
+                </StackLayout>
+            </Frame>
+        </Grid>
+
+
+    </Shell.TitleView>
     <VerticalStackLayout>
         <Label 
             Text="Hier kannst du ganz viel anpassen ;-)"

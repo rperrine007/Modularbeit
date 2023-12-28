@@ -56,7 +56,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             if (SelectedPlant != null)
             {
                 // Update the plant's room with the selected room
-                SelectedPlant.PlantRoom = SelectedRoom.RoomID;
+                SelectedPlant.RoomID = SelectedRoom.RoomID;
 
                 try
                 {
@@ -81,7 +81,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 Rooms.Add(room);
             }
 
-            SelectedRoom = Rooms.FirstOrDefault(r => r.RoomID == SelectedPlant.PlantRoom);
+            SelectedRoom = Rooms.FirstOrDefault(r => r.RoomID == SelectedPlant.RoomID);
         }
 
 
