@@ -166,7 +166,45 @@ namespace PlantGenius.DAL
 
         /// <summary>
         /// This method loads first all rooms and then load into each room the plants.
-        /// virtuals: function can be overriden by child-classes
+        /// Then a list of the rooms with plants is given back.
+        /// </summary>
+        public async Task<HashSet<int>> GetRoomsWithPlants()
+        {
+            try
+            {
+                using (var db = new AppDbContext())
+                {
+                    // Async database operations
+                    var rooms = await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
+                    var roomIDList = new HashSet<int>();
+
+                    foreach (var room in rooms)
+                    {
+
+                        var plantsInRoom = await db.Plants
+                                     .Where(p => p.PlantRoom == room.RoomID)
+                                     .Include(p => p.Room)
+                                     .ToListAsync();
+
+                        foreach (var plant in plantsInRoom)
+                        {
+                            roomIDList.Add(plant.Room.RoomID);
+                        }
+
+                    }
+                    return roomIDList;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Fehler bei download von Pflanzen-Daten: {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
+            }
+            return new HashSet<int>();
+        }
+
+        /// <summary>
+        /// This method loads first all rooms and then load into each room the plants.
         /// </summary>
         public async Task<List<Plant>> LoadPlantsFromDB()
         {
@@ -175,7 +213,7 @@ namespace PlantGenius.DAL
                 using (var db = new AppDbContext())
                 {
                     // Async database operations
-                    var rooms = await GetRooms();
+                    var rooms = await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
                     var plantList = new List<Plant>();
 
                     foreach (var room in rooms)

@@ -109,9 +109,5 @@ namespace PlantGenius.GUI.Views
             // textBox.Text = "Neuer Standardtext";
         }
 
-        private void ListBox_RoomList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }

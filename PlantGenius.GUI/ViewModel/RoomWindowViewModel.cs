@@ -28,6 +28,7 @@ namespace PlantGenius.GUI.ViewModel
         private string inputRoomName;
         private int inputRoomSort;
         HashSet<string> existingNames = new HashSet<string>();
+        HashSet<int> roomIDsWithPlants = new HashSet<int>();
         private DataAccessLayer DAL;
 
         //Properties
@@ -40,6 +41,8 @@ namespace PlantGenius.GUI.ViewModel
         public string RoomFloor { get; set; }
 
         public string RoomLight { get; set; }
+
+        
 
         // Commands
         // public IAsyncRelayCommand AddRoomCommand => new AsyncRelayCommand(AddRoom);
@@ -64,8 +67,10 @@ namespace PlantGenius.GUI.ViewModel
             //Special RelayCommands initialization
             ChangeRoomSortNumberCommand = new RelayCommand<(object, object)>((parameters) => ChangeRoomSortNumber(parameters.Item1, parameters.Item2));
 
-            //gert rooms from DB
+            //get rooms from DB
             GetRoomFromDB();
+            //Get roomIDs with plants from DB
+            GetRoomIDWithPlantsFromDB();
         }
 
         /// <summary>
@@ -76,8 +81,6 @@ namespace PlantGenius.GUI.ViewModel
         //TODO "WHILE(TRUE)" -- For later for GUI and user.GUI - Für später aufheben
         private async void GetRoomFromDB()
         {
-            while (true)
-            {
                 var rooms = await DAL.GetRooms();
                 roomList.Clear();
                 existingNames.Clear();
@@ -87,19 +90,15 @@ namespace PlantGenius.GUI.ViewModel
                     existingNames.Add(room.RoomName);
 
                 }
-            }
+        }
+
+        private async void GetRoomIDWithPlantsFromDB()
+        {
+             roomIDsWithPlants = await DAL.GetRoomsWithPlants();
         }
 
         private bool CanAddRoom(object obj)
         {
-            //check if a Room with the given name already exists.
-            if (existingNames.Contains(this.RoomName))
-            {
-                string title = "Fehler";
-                string message = "Raum konnte nicht hinzugefügt werden. \nEs gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
-                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
             return true;
         }
 
@@ -117,6 +116,14 @@ namespace PlantGenius.GUI.ViewModel
             {
                 string title = "Fehler";
                 string message = "Raum konnte nicht hinzugefügt werden. \nRaumname ist ein Pflichtfeld";
+                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            //check if a Room with the given name already exists.
+            else if (existingNames.Contains(this.RoomName))
+            {
+                string title = "Fehler";
+                string message = "Raum konnte nicht hinzugefügt werden. \nEs gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -156,19 +163,28 @@ namespace PlantGenius.GUI.ViewModel
             //exception handling in case no room is chosen.
             try
             {
-                var selectedRoom = listBox.SelectedItem as Room;
+                Room selectedRoom = listBox.SelectedItem as Room;
+
+                //only delete room when no plants are contained.
+                if (roomIDsWithPlants.Contains(selectedRoom.RoomID))
+                {
+                    string title = "Fehler";
+                    string message = "Der Raum enthält noch Pflanzen und kann daher nicht gelöscht werden!";
+                    MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                //exception handling in case no room is chosen.
                 await DAL.DeleteRoomFromDB(selectedRoom);
                 // Remove the specified room from the ObservableCollection
                 roomList.Remove(selectedRoom);
-
             }
             catch (ArgumentNullException e)
             {
                 string title = "Fehler";
                 string message = "Bitte wählen Sie einen Raum aus!";
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
+            }       
             //update view again. Else the SortNumber would not be correct.
             GetRoomFromDB();
         }

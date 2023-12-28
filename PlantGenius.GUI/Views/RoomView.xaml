@@ -52,7 +52,7 @@
 
         <!-- ListBox Section 
         Bind the selectedItem to the Property SelectedRoom (not the object selectedRoom! -->
-        <ListBox x:Name="ListBox_RoomList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}" DisplayMemberPath="RoomName" IsSynchronizedWithCurrentItem="True" Margin="10,10,10,0" Background="#FFABC5A4" SelectionChanged="ListBox_RoomList_SelectionChanged" />
+        <ListBox x:Name="ListBox_RoomList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}" DisplayMemberPath="RoomName" IsSynchronizedWithCurrentItem="True" Margin="10,10,10,0" Background="#FFABC5A4"/>
 
         <!-- Detail of Rooms Section -->
         <!-- Including a new Grid for nice proportions -->
@@ -77,7 +77,7 @@
 
                 <!-- Content of given room -->
                 <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="#FFDDDDDD">
-                    <TextBox Height="25" Text="{Binding Path=RoomID}" IsReadOnly="True" TextChanged="TextBox_TextChanged" />
+                    <TextBox Height="25" Text="{Binding Path=RoomID}" IsReadOnly="True"/>
                     <TextBox Height="25" x:Name="inputRoomSort" Text="{Binding Path=RoomSort}" IsReadOnly="True"/>
                     <TextBox Height="25" x:Name="inputRoomName" Text="{Binding Path=RoomName}" Background="#FFABC5A4" IsReadOnly="False" />
                     <TextBox Height="25" x:Name="inputRoomFloor" Text="{Binding Path=RoomFloor}" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" IsReadOnly="False" />
@@ -145,7 +145,7 @@
                     <DataTemplate>
                         <TextBlock FontSize="14" Text="Änderung speichern" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Height="22"/>
                     </DataTemplate>
-                 </Button.ContentTemplate>                 
+                </Button.ContentTemplate>
             </Button>
         </Grid>
         <!-- Only for design reasons-->
