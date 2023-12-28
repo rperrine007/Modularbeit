@@ -1,7 +1,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"  
              x:Class="PlantGeniusUserApp.GUI.Views.PlantPage">
-    
+
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand}">
+        </behaviors:EventToCommandBehavior>
+    </ContentPage.Behaviors>
+
     <!-- customized titleView-->
     <Shell.TitleView Margin="0" Padding="0">
         
@@ -93,7 +99,7 @@
         </ListView>
 
         <Button Text="Update"
-                Command="{Binding UpdateCommand}"
+                Command="{Binding PageAppearingCommand}"
                 HorizontalOptions="Fill"/>
 
  

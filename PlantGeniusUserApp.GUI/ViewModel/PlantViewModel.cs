@@ -20,7 +20,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         public ObservableCollection<Plant> Plants { get; set; }
         public ICommand EditCommand { get; private set; }
         public ICommand WaterCommand { get; private set; }
-        public ICommand UpdateCommand { get; private set; }
 
 
         public PlantsViewModel()
@@ -29,12 +28,14 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             Plants = new ObservableCollection<Plant>();
             EditCommand = new Command<Plant>(EditPlant);
             WaterCommand = new Command<Plant>(WaterPlant);
-            UpdateCommand = new Command(UpdatePlantList);
             DAL = new DataAccessLayer();
-
-            // Now get the plants from database
-            LoadPlants();
         }
+
+
+        /// <summary>
+        /// Updates data when the user navigates to this page.
+        /// </summary>
+        public ICommand PageAppearingCommand => new Command(async () => await LoadPlants());
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -61,7 +62,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             {
                 // Await the asynchronous database update operation
                 await DAL.UpdatePlantWaterLastTime(plant.PlantID);
-                UpdatePlantList();
+                await LoadPlants();
             }
         }
 
@@ -89,13 +90,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             }
         }
 
-
-        protected virtual async void UpdatePlantList()
-        {
-            Plants.Clear();
-            await LoadPlants();
-        }
-
         private bool CanChangeToPlantPage()
         {
             return true;
@@ -110,7 +104,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             var addPlantPage = new AddPlantPage();
             await App.Current.MainPage.Navigation.PushAsync(addPlantPage);
         }
-
 
     }
 }

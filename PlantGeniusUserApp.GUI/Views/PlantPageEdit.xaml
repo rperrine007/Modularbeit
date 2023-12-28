@@ -31,7 +31,7 @@
                 <StackLayout Orientation="Horizontal">
                     <Image Source="pencil_icon.svg" Aspect="AspectFit" Margin="8" />
 
-                    <Label Text="Pflanze hinzufügen"
+                    <Label Text="Pflanze bearbeiten"
                             VerticalOptions="Center" 
                             HorizontalOptions="Center" 
                             TextColor="{StaticResource Primary} "

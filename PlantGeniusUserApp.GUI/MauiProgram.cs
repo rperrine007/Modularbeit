@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 
 namespace PlantGeniusUserApp.GUI
 {
@@ -9,6 +10,7 @@ namespace PlantGeniusUserApp.GUI
 
             var builder = MauiApp.CreateBuilder();
             builder
+                .UseMauiApp<App>().UseMauiCommunityToolkit()
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {

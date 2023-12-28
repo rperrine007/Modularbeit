@@ -9,7 +9,7 @@
         <Image Grid.Row="0" Grid.Column="0" Source="background_picture.jpg" Aspect="AspectFill"/>
         <VerticalStackLayout Spacing="25" Padding="30" >
 
-            <Frame Padding="0,10" CornerRadius="10"  Background ="{StaticResource Secondary}" >
+            <Frame Padding="0,10" CornerRadius="10"  Background ="White" >
                 <StackLayout>
                     <Label Text="Willkommen bei PlantGenius!" 
                     FontSize="Large"
@@ -21,7 +21,7 @@
                 </StackLayout>
             </Frame>
         
-            <Frame Padding="15" CornerRadius="10"  Background ="{StaticResource Secondary}" >
+            <Frame Padding="15" CornerRadius="10"  Background ="White" >
                 <Label Text="{Binding Count, StringFormat='{0} Pflanzen sollten gewässert werden'}"
                    FontAttributes="Bold"
                    HorizontalOptions="Center" 

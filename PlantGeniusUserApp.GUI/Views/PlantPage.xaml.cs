@@ -9,8 +9,10 @@ namespace PlantGeniusUserApp.GUI.Views
         public PlantPage()
         {
             InitializeComponent();
+            
             BindingContext = new PlantsViewModel();
         }
+
 
     }
 }

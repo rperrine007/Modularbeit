@@ -44,6 +44,8 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             groupedPlants.Clear();
 
 
+
+
             // Group the plants by RoomName and then add them to the groupedPlants collection.
             var grouped = Plants.GroupBy(p => p.Room.RoomName)
                                  //Sort the groups by there PlantSort
@@ -62,15 +64,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 groupedPlants.Add(new ObservableGroup<string, Plant>(groupKey, plantsInGroup));
             }
         }
-
-        /// <summary>
-        /// Override function so it can be called easily in the .xaml file.
-        /// </summary>
-        protected override async void UpdatePlantList()
-        {
-            await LoadPlants();
-        }
-
 
     }
 }
