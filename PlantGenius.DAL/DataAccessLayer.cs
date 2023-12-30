@@ -300,8 +300,17 @@ namespace PlantGenius.DAL
                 // Save changes to the database
                 await db.SaveChangesAsync();
             }
+        }
 
-
+        /// <summary>
+        /// Method to delete a room.
+        /// </summary>
+        /// <param name="roomInput"></param>
+        /// <returns></returns>
+        public async Task DeletePlantFromDB(Plant plantInput)
+        {
+            db.Plants.Remove(plantInput);
+            await db.SaveChangesAsync();
         }
     }
 }

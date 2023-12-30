@@ -60,6 +60,11 @@
 	  <None Remove="Resources\Images\add_button_bright.png" />
 	  <None Remove="Resources\Images\add_button_dark.png" />
 	  <None Remove="Resources\Images\background_picture.jpg" />
+	  <None Remove="Resources\Images\delete_icon_black.png" />
+	  <None Remove="Resources\Images\delete_icon_red.png" />
+	  <None Remove="Resources\Images\delete_icon_white.png" />
+	  <None Remove="Resources\Images\edit_icon_black.png" />
+	  <None Remove="Resources\Images\edit_icon_white.png" />
 	  <None Remove="Resources\Images\exclamation_round_icon.svg" />
 	  <None Remove="Resources\Images\furniture_icon.svg" />
 	  <None Remove="Resources\Images\home_icon.svg" />

@@ -5,6 +5,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Tls;
 using PlantGenius.DAL;
 using PlantGenius.DAL.Models;
 using PlantGeniusUserApp.GUI.Views;
@@ -110,6 +111,31 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         {
             var addPlantPage = new AddPlantPage();
             await App.Current.MainPage.Navigation.PushAsync(addPlantPage);
+        }
+
+        private bool CanDelete()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Adds a new room to the roomList and the DB.
+        /// </summary>
+        [RelayCommand(CanExecute = nameof(CanDelete))]
+        protected async Task Delete(Plant selectedPlant)
+        {
+            // Ask again if the user really wants to delete the selected plant.
+            string AlertDescription = "Bist du sicher, dass du diese Pflanze löschen möchtest?";
+            bool answer = await App.Current.MainPage.DisplayAlert("Warning", AlertDescription, "Ja", "Nein");
+
+            if (answer)
+            {
+                await DAL.DeletePlantFromDB(selectedPlant);
+            }
+            else
+            {
+                return;
+            }
         }
 
     }

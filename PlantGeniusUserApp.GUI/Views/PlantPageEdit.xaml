@@ -26,7 +26,7 @@
               Padding="0,0,0,0" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1">
 
                 <StackLayout Orientation="Horizontal">
-                    <Image Source="pencil_icon.svg" Aspect="AspectFit" Margin="8" />
+                    <Image Source="edit_icon_black.png" Aspect="AspectFit" Margin="8" />
 
                     <Label Text="Pflanze bearbeiten"
                             VerticalOptions="Center" 

@@ -89,7 +89,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             //checks if a Room is not null
             if ((SelectedPlant == null) || (SelectedPlant.PlantName == string.Empty) || (SelectedRoom == null) || (SelectedPlant.PlantWaterRequirement == 0) || (SelectedPlant.PlantWaterLastTime == null) )
             {
-                AlertDescription = "Pflanz konnte nicht hinzugefügt werden. \n Pflanzenname, Raum, Wasserbedarf(Tage) und letzted Giessdatum sind Pflichtfelder.\n Pflanze konnte nicht hinzugefügt werden.";
+                AlertDescription = "Pflanze konnte nicht hinzugefügt werden. \n Pflanzenname, Raum, Wasserbedarf(Tage) und letzted Giessdatum sind Pflichtfelder.\n Pflanze konnte nicht hinzugefügt werden.";
                 await App.Current.MainPage.DisplayAlert("Warning", AlertDescription, "Ok");
                 return;
             }
