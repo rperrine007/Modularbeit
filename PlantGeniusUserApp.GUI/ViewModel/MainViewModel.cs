@@ -83,5 +83,10 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 }
             }
         }
+
+        /// <summary>
+        /// Updates data when the user navigates to this page.
+        /// </summary>
+        public ICommand PageAppearingCommand => new Command(async () => await CountPlantsToWater());
     }
 }
