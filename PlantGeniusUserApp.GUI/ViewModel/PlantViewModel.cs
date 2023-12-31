@@ -163,6 +163,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             if (answer)
             {
                 await DAL.DeletePlantFromDB(selectedPlant);
+                await UpdatePlants();
             }
             else
             {
