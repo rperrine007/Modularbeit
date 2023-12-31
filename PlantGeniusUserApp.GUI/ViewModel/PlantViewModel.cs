@@ -5,6 +5,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Maui.Layouts;
 using Org.BouncyCastle.Tls;
 using PlantGenius.DAL;
 using PlantGenius.DAL.Models;
@@ -17,12 +18,26 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         //Datavariables
         private DataAccessLayer DAL;
 
+        //Observable Property Update-Button enabled/disabled
+        //TODO Why did the [Observable Property] not work here?
+        private bool isUpdateButtonEnabled;
+        public bool IsUpdateButtonEnabled
+        {
+            get => isUpdateButtonEnabled;
+            set
+            {
+                if (isUpdateButtonEnabled != value)
+                {
+                    isUpdateButtonEnabled = value;
+                    OnPropertyChanged(nameof(IsUpdateButtonEnabled));
+                }
+            }
+        }
+
         //Properties
         public ObservableCollection<Plant> Plants { get; set; }
         public ICommand EditCommand { get; private set; }
         public ICommand WaterCommand { get; private set; }
-        public ICommand UpdatePlantsCommand { get; private set; }
-
 
         public PlantsViewModel()
         {
@@ -30,19 +45,36 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             Plants = new ObservableCollection<Plant>();
             EditCommand = new Command<Plant>(EditPlant);
             WaterCommand = new Command<Plant>(WaterPlant);
-            UpdatePlantsCommand = new Command(UpdatePlants);
             DAL = new DataAccessLayer();
-            LoadPlants();
+            IsUpdateButtonEnabled = false;
         }
 
 
         /// <summary>
         /// Updates data when the user navigates to this page.
+        /// </summary>
+        public ICommand PageAppearingCommand => new Command(async () => await UpdatePlants());
+
+
+
+
+        private bool CanUpdatePlants()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Updates data when the user navigates to this page.
         /// This function seems buggy. Therefore it is obly used in the "Update" Button
         /// </summary>
-        protected async void UpdatePlants()
+        [RelayCommand(CanExecute = nameof(CanUpdatePlants))]
+        protected async Task UpdatePlants()
         {
+            IsUpdateButtonEnabled = false;
             await LoadPlants();
+            await Task.Delay(1000);
+            IsUpdateButtonEnabled = true;
+
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
