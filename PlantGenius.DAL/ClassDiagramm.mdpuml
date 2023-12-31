@@ -37,6 +37,11 @@ Für die Kommunikation mit der genutzten Maria DB wurde das Entity Frame Work (E
 ## Klassendiagramm
 @startuml
 
+Room --|> DataAccessLayer
+Plant --|> DataAccessLayer
+Plant --|> Room
+DataAccessLayer --|> AppDbContext
+
 class Plant
 {
         public int PlantID { get; set; }
@@ -72,7 +77,7 @@ class Room
         public override string ToString()
 }
 
-class AppDbContext:DbContext
+class AppDbContext
     {
         private string connectionString;
         public DbSet<Plant> Plants { get; set; }
@@ -101,7 +106,10 @@ class DataAccessLayer
         public async Task<List<Plant>> LoadPlantsFromDB()
         public async Task AddPlantToDB(...)
         public async Task UpdatePlantsToDB(...)
-}
+        public async Task DeletePlantFromDB(...)
+
+ }
+
 
 
 @enduml
@@ -184,6 +192,7 @@ public class DataAccessLayer
         public async Task<List<Plant>> LoadPlantsFromDB()
         public async Task AddPlantToDB(Plant plantInput)
         public async Task UpdatePlantsToDB(Plant plantInput)
+        public async Task DeletePlantFromDB(Plant plantInput)
 }
 
 
