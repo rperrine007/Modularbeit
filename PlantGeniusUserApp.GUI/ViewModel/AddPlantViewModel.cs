@@ -13,10 +13,6 @@ using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics;
 using Org.BouncyCastle.Tls;
 
-//TODO APpp stürzt aufgrund zu vieler anfragen ab. Buttons sollten vielleicht für eine gewisse Zeit "disabled" werden.
-
-//TODO: Löschen von Pflanzen fehlt noch.
-
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
     public partial class AddPlantViewModel : ObservableObject
