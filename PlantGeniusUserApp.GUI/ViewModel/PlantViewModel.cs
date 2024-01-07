@@ -65,7 +65,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
         /// <summary>
         /// Updates data when the user navigates to this page.
-        /// This function seems buggy. Therefore it is obly used in the "Update" Button
+        /// Delay added so that the button is for a short time not clickable.
         /// </summary>
         [RelayCommand(CanExecute = nameof(CanUpdatePlants))]
         protected async Task UpdatePlants()
@@ -74,7 +74,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             await LoadPlants();
             await Task.Delay(1000);
             IsUpdateButtonEnabled = true;
-
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
