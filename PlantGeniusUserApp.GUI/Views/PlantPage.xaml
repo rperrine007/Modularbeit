@@ -89,7 +89,7 @@
                                     Source="{Binding WaterIconPath}"
                                     VerticalOptions="Center" HeightRequest="40" WidthRequest="40">
                                 <Image.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WaterCommand, Source={x:Reference Name=PlantsListByRooms}}"
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WaterCommand, Source={x:Reference Name=PlantsList}}"
                               CommandParameter="{Binding .}" />
                                 </Image.GestureRecognizers>
                             </Image>
@@ -135,16 +135,6 @@
             </Image>
 
 
-
-            <!-- Round Add Button with adjusted button size and padding -->
-            <Image Source="add_button_dark.png" Aspect="AspectFill" Grid.Column="1"
-                   HeightRequest="40" WidthRequest="40" >
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ChangeToPlantPageCommand}"/>
-                </Image.GestureRecognizers>
-            </Image>
-                
-                
 
         </Grid>
     </VerticalStackLayout>
