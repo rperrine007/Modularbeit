@@ -206,6 +206,7 @@ In diesem Projekt werden folgende Methoden der Klasse DataAccessLayer.cs geteste
 - public async Task UpdateRoomSortNumber(...)
 - public async Task RefreshSortRooms()      
 
+Nicht getestet wurden folgende Funktionen:
 - public async Task<HashSet<int>> GetRoomsWithPlants()
 - public async Task<List<Plant>> LoadPlantsFromDB()
 - public async Task AddPlantToDB(...)
