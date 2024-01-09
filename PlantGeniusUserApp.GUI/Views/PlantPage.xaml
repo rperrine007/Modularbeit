@@ -53,45 +53,47 @@
     </Shell.TitleView>
 
     <VerticalStackLayout Spacing="10" Padding="10">
-        <ListView x:Name="PlantsList" ItemsSource="{Binding Plants}">
+        <ListView x:Name="PlantsList" ItemsSource="{Binding Plants}" RowHeight="60" MaximumHeightRequest="500">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuFlyoutItem Text="Edit" 
+                                            IconImageSource="edit_icon_black.png"
+                                       Command="{Binding Path=BindingContext.EditCommand, Source={x:Reference Name=PlantsList}}" CommandParameter="{Binding .}" />
+                            <MenuFlyoutItem Text="Delete"
+                                            IconImageSource="delete_icon_black.png"
+                                      Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=PlantsList}}" CommandParameter="{Binding .}" />
+                        </ViewCell.ContextActions>
+
                         <Grid Padding="10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                            <Label Grid.Column="0"
-                                   Text="{Binding PlantName}"
-                                   VerticalOptions="Center"
-                                   FontAttributes="Bold"/>
+                            <Label Grid.Column="0" Grid.Row="0"
+                                    Text="{Binding PlantName}" FontAttributes="Bold" FontSize="16"
+                                    VerticalOptions="Center"/>
 
-                            <Label Grid.Column="1"
-                                   Text="{Binding PlantWaterNextTime}"
-                                   VerticalOptions="Center"
-                                   FontAttributes="Bold"/>
+                            <!--Text="{Binding PlantWaterNextTime}"-->
+                            <Label Grid.Column="0" Grid.Row="1"
+                                   Text= "{Binding PlantWaterNextTime, StringFormat = 'N&#228;chstes Giessdatum: {0}' }" 
+                                   FontSize="12" VerticalOptions="Center" FontAttributes="Italic" Margin="0,2"/>
 
-                            <Image Grid.Column="2"
-                                   Source="{Binding WaterIconPath}"
-                                   VerticalOptions="Center">                                
+                            <Image Grid.Column="1" Grid.RowSpan="2"
+                                    Source="{Binding WaterIconPath}"
+                                    VerticalOptions="Center" HeightRequest="40" WidthRequest="40">
                                 <Image.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WaterCommand, Source={x:Reference PlantsList}}"
-                                                          CommandParameter="{Binding .}" />
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WaterCommand, Source={x:Reference Name=PlantsList}}"
+                              CommandParameter="{Binding .}" />
                                 </Image.GestureRecognizers>
                             </Image>
 
-                            <Image Grid.Column="3"
-                                   Source="edit_icon_black.png"
-                                   VerticalOptions="End">
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.EditCommand, Source={x:Reference PlantsList}}"
-                                                          CommandParameter="{Binding .}" />
-                                </Image.GestureRecognizers>
-                            </Image>
                             
                             
 
@@ -133,20 +135,6 @@
             </Image>
 
 
-
-            <!-- Round Add Button with adjusted button size and padding -->
-            <Frame Grid.Column="1" CornerRadius="25" WidthRequest="40" HeightRequest="40"
-                BackgroundColor="{StaticResource Primary}"
-                HorizontalOptions="Center" VerticalOptions="Center"
-                   Padding="0,0,0,5">
-
-                <Button Text="+" FontSize="25" TextColor="White" BackgroundColor="Transparent" 
-                        WidthRequest="50" HeightRequest="50"
-                        HorizontalOptions="Center" VerticalOptions="Center"
-                        Command="{Binding ChangeToPlantPageCommand}"/>
-            </Frame>
-                
-                
 
         </Grid>
     </VerticalStackLayout>

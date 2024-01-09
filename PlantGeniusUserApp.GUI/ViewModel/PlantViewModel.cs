@@ -20,7 +20,9 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
         //Observable Property Update-Button enabled/disabled
         //TODO Why did the [Observable Property] not work here?
+
         private bool isUpdateButtonEnabled;
+        
         public bool IsUpdateButtonEnabled
         {
             get => isUpdateButtonEnabled;
@@ -56,8 +58,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         public ICommand PageAppearingCommand => new Command(async () => await UpdatePlants());
 
 
-
-
         private bool CanUpdatePlants()
         {
             return true;
@@ -65,7 +65,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
         /// <summary>
         /// Updates data when the user navigates to this page.
-        /// This function seems buggy. Therefore it is obly used in the "Update" Button
+        /// Delay added so that the button is for a short time not clickable.
         /// </summary>
         [RelayCommand(CanExecute = nameof(CanUpdatePlants))]
         protected async Task UpdatePlants()
@@ -74,10 +74,8 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             await LoadPlants();
             await Task.Delay(1000);
             IsUpdateButtonEnabled = true;
-
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
+                
 
         protected async void EditPlant(Plant plant)
         {
@@ -86,9 +84,12 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 var editViewModel = new PlantEditViewModel(plant);
                 var editPage = new PlantPageEdit { BindingContext = editViewModel };
 
-                await App.Current.MainPage.Navigation.PushAsync(editPage);
+                if (App.Current != null && App.Current.MainPage != null) await App.Current.MainPage.Navigation.PushAsync(editPage);
+                
             }
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -140,7 +141,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         protected async Task ChangeToPlantPage()
         {
             var addPlantPage = new AddPlantPage();
-            await App.Current.MainPage.Navigation.PushAsync(addPlantPage);
+            if (App.Current != null && App.Current.MainPage != null) await App.Current.MainPage.Navigation.PushAsync(addPlantPage);
         }
 
         private bool CanDelete()
@@ -156,17 +157,21 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         {
             // Ask again if the user really wants to delete the selected plant.
             string AlertDescription = "Bist du sicher, dass du diese Pflanze löschen möchtest?";
-            bool answer = await App.Current.MainPage.DisplayAlert("Warning", AlertDescription, "Ja", "Nein");
+            if (App.Current != null && App.Current.MainPage != null)
+            {
+                bool answer = await App.Current.MainPage.DisplayAlert("Warning", AlertDescription, "Ja", "Nein");
 
-            if (answer)
-            {
-                await DAL.DeletePlantFromDB(selectedPlant);
-                await UpdatePlants();
-            }
-            else
-            {
-                return;
+                if (answer)
+                {
+                    await DAL.DeletePlantFromDB(selectedPlant);
+                    await UpdatePlants();
+                }
+                else
+                {
+                    return;
+                }
             }
         }
+
     }
 }
