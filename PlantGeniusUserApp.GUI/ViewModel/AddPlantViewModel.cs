@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics;
 using Org.BouncyCastle.Tls;
+using AndroidX.Lifecycle;
+
 
 //TODO APpp stürzt aufgrund zu vieler anfragen ab. Buttons sollten vielleicht für eine gewisse Zeit "disabled" werden.
 
@@ -27,6 +29,10 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         //datavariables
         [ObservableProperty]
         private Room selectedRoom;
+
+        //Add the current time so it does not need to be set if new plant is added
+        [ObservableProperty]
+        private DateTime currentDateTime;
 
         //Properties
         public ObservableHashSet<string> ExistingPlantNames { get; set; }
@@ -85,6 +91,9 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         [RelayCommand(CanExecute = nameof(CanAddPlant))]
         private async Task AddPlant(object obj)
         {
+
+            // Update the current date and time
+            CurrentDateTime = DateTime.Now;
 
             //checks if a Room is not null
             if ((SelectedPlant == null) || (SelectedPlant.PlantName == string.Empty) || (SelectedRoom == null) || (SelectedPlant.PlantWaterRequirement == 0) || (SelectedPlant.PlantWaterLastTime == null) )

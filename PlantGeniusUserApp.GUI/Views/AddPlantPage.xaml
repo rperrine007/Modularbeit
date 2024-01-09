@@ -74,8 +74,7 @@
                   Text="{Binding SelectedPlant.PlantWaterRequirement}"/>
 
             <Label Text="Letztes Giessdatum" FontAttributes="Bold"/>
-            <Entry Placeholder="Letztes Giessdatum"
-                  Text="{Binding SelectedPlant.PlantWaterLastTime}" />
+            <DatePicker Date="{Binding CurrentDateTime, Mode=TwoWay}" Format="D"/>
 
             <Button Text="Save"
                    Command="{Binding AddPlantCommand}"

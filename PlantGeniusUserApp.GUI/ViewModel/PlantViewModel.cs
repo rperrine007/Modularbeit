@@ -90,7 +90,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             }
         }
 
-
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -105,7 +104,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 await LoadPlants();
             }
         }
-
 
         /// <summary>
         /// This method loads first all rooms and then load into each room the plants.
@@ -170,6 +168,5 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 return;
             }
         }
-
     }
 }
