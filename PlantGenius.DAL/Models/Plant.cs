@@ -45,7 +45,7 @@ namespace PlantGenius.DAL.Models
         public string PlantName { get; set; }
 
         [MaxLength(50)]
-        public string PlantNameScientific { get; set; }
+        public string? PlantNameScientific { get; set; }
 
         [Required]
         public int RoomID { get; set; }

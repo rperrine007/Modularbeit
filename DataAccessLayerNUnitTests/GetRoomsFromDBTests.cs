@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayerNUnitTests
 {
+    // NUnit Test if rooms can be correctly loaded from the DB.
     [TestFixture]
     public class GetRoomsFromDB
     {
         private AppDbContext context;
         private DataAccessLayer DALNUnit;
-        private List<Room> rooms;
+        private List<Room>? rooms;
 
         // Create an in memory DB
         [SetUp]
@@ -58,16 +59,16 @@ namespace DataAccessLayerNUnitTests
             var rooms = await DALNUnit.GetRooms();
 
             //test retireved list 1st element
-            Assert.AreEqual(record.RoomName, rooms[0].RoomName, "RoomName Test unsuccessfull.");
-            Assert.AreEqual(record.RoomSort, rooms[0].RoomSort, "RoomSort Test unsuccessfull.");
-            Assert.AreEqual(record.RoomFloor, rooms[0].RoomFloor, "RoomFloor Test unsuccessfull.");
-            Assert.AreEqual(record.RoomLight, rooms[0].RoomLight, "RoomLight Test unsuccessfull.");
+            Assert.That(rooms[0].RoomName, Is.EqualTo(record.RoomName), "RoomName Test unsuccessfull.");
+            Assert.That(rooms[0].RoomSort, Is.EqualTo(record.RoomSort), "RoomSort Test unsuccessfull.");
+            Assert.That(rooms[0].RoomFloor, Is.EqualTo(record.RoomFloor), "RoomFloor Test unsuccessfull.");
+            Assert.That(rooms[0].RoomLight, Is.EqualTo(record.RoomLight), "RoomLight Test unsuccessfull.");
 
             //test retrieved second element
-            Assert.AreEqual(record2.RoomName, rooms[1].RoomName, "RoomName 2 Test unsuccessfull.");
-            Assert.AreEqual(record2.RoomSort, rooms[1].RoomSort, "RoomSort 2 Test unsuccessfull.");
-            Assert.AreEqual(record2.RoomFloor, rooms[1].RoomFloor, "RoomFloor 2 Test unsuccessfull.");
-            Assert.AreEqual(record2.RoomLight, rooms[1].RoomLight, "RoomLight 2 Test unsuccessfull.");
+            Assert.That(rooms[1].RoomName, Is.EqualTo(record2.RoomName), "RoomName 2 Test unsuccessfull.");
+            Assert.That(rooms[1].RoomSort, Is.EqualTo(record2.RoomSort), "RoomSort 2 Test unsuccessfull.");
+            Assert.That(rooms[1].RoomFloor, Is.EqualTo(record2.RoomFloor), "RoomFloor 2 Test unsuccessfull.");
+            Assert.That(rooms[1].RoomLight, Is.EqualTo(record2.RoomLight), "RoomLight 2 Test unsuccessfull.");
         }
 
         //Delete the in memory DB

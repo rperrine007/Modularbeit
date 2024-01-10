@@ -10,12 +10,13 @@
 
     namespace DataAccessLayerNUnitTests
     {
+        // NUnit Test if the RoomSortNumber is correctly updated.
         [TestFixture]
         public class UpdateRoomSortNumberTests
         {
             private AppDbContext context;
             private DataAccessLayer DALNUnit;
-            private List<Room> rooms;
+            private List<Room>? rooms;
 
             // Create an in memory DB
             [SetUp]
@@ -28,51 +29,59 @@
                 DALNUnit = new DataAccessLayer(context);
             }
 
-            [Test]
-            public async Task UpdateRoomSortNumberTestTask()
+        [Test]
+        public async Task UpdateRoomSortNumberTestTask()
+        {
+            //Add room for test
+            var record = new Room()
             {
-                //Add room for test
-                var record = new Room()
-                {
-                    RoomName = "DALTest",
-                    RoomSort = 3,
-                    RoomFloor = -99,
-                    RoomLight = false
-                };
+                RoomName = "DALTest",
+                RoomSort = 3,
+                RoomFloor = -99,
+                RoomLight = false
+            };
 
-                await DALNUnit.AddRoomToDB(record);
-                var addedRoom = context.Rooms.SingleOrDefault(x => x.RoomName == "DALTest");
+            await DALNUnit.AddRoomToDB(record);
+            var addedRoom = context.Rooms.SingleOrDefault(x => x.RoomName == "DALTest");
 
-                //Add second room for test
-                var record2 = new Room()
-                {
-                    RoomName = "DALTest2",
-                    RoomSort = 5,
-                    RoomFloor = -99,
-                    RoomLight = false
-                };
+            //Add second room for test
+            var record2 = new Room()
+            {
+                RoomName = "DALTest2",
+                RoomSort = 5,
+                RoomFloor = -99,
+                RoomLight = false
+            };
 
-                await DALNUnit.AddRoomToDB(record2);
-                var addedRoom2 = context.Rooms.SingleOrDefault(x => x.RoomName == "DALTest2");
+            await DALNUnit.AddRoomToDB(record2);
+            var addedRoom2 = context.Rooms.SingleOrDefault(x => x.RoomName == "DALTest2");
 
-                //get rooms
-                var rooms = await DALNUnit.GetRooms();
-                //test retireved list 1st element
-                Assert.AreEqual(record.RoomSort, rooms[0].RoomSort, "RoomSort Test unsuccessfull.");
+            //get rooms
+            var rooms = await DALNUnit.GetRooms();
+            //test retireved list 1st element
+            Assert.That(rooms[0].RoomSort, Is.EqualTo(record.RoomSort), "RoomSort Test unsuccessfull.");
 
-                //test retrieved second element
-                Assert.AreEqual(record2.RoomSort, rooms[1].RoomSort, "RoomSort 2 Test unsuccessfull.");
+            //test retrieved second element
+            Assert.That(rooms[1].RoomSort, Is.EqualTo(record2.RoomSort), "RoomSort 2 Test unsuccessfull.");
 
+            if (addedRoom2 != null)
+            {
                 //update sort number
                 await DALNUnit.UpdateRoomSortNumber(addedRoom2.RoomID, 1);
                 addedRoom2 = context.Rooms.SingleOrDefault(x => x.RoomName == "DALTest2");
 
                 //perform test
-                Assert.AreEqual(record2.RoomSort, 1, "RoomSort 2 Test unsuccessfull.");
-                Assert.AreEqual(record2.RoomSort, addedRoom2.RoomSort, "RoomSort 2 Test unsuccessfull.");
+                Assert.That(addedRoom2.RoomSort, Is.EqualTo(record2.RoomSort), "RoomSort 2 Test unsuccessfull.");
+                Assert.That(addedRoom2.RoomSort, Is.EqualTo(record2.RoomSort), "RoomSort 2 Test unsuccessfull.");
+            }
+            else {
+                Assert.IsNotNull(addedRoom2, "No added room2 found.");
+            }
+
+        
 
                 //test retireved list 1st element (should still be the same)
-                Assert.AreEqual(record.RoomSort, rooms[0].RoomSort, "RoomSort Test unsuccessfull.");
+                Assert.That(rooms[0].RoomSort, Is.EqualTo(record.RoomSort), "RoomSort Test unsuccessfull.");
             }
 
             //Delete the in memory DB

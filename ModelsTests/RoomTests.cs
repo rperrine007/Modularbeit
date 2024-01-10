@@ -8,6 +8,7 @@ using PlantGenius.DAL.Models;
 
 namespace ModelsNUnitTests
 {
+    // NUnit Tests of methods of the Room class.
     [TestFixture]
     public class RoomTests
     {
@@ -27,6 +28,7 @@ namespace ModelsNUnitTests
 
             };
         }
+
 
         [Test]
         public void overrideToStringTest() {

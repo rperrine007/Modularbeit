@@ -54,28 +54,41 @@ namespace DataAccessLayerNUnitTests
             await DALNUnit.AddRoomToDB(record2);
             var addedRoom2 = context.Rooms.SingleOrDefault(x => x.RoomName == "DALTest2");
 
+            if (addedRoom != null)
+            {
+                //update room; it has to have the samre room as the record. Else it will not change it.
+                addedRoom.RoomName = "DALUpdateTest";
+                addedRoom.RoomSort = 999;
+                addedRoom.RoomFloor = 99;
+                addedRoom.RoomLight = true;
 
-            //update room; it has to have the samre room as the record. Else it will not change it.
-            addedRoom.RoomName = "DALUpdateTest";
-            addedRoom.RoomSort = 999;
-            addedRoom.RoomFloor = 99;
-            addedRoom.RoomLight = true;
+                //Update added Room
+                await DALNUnit.UpdateRoomToDB(addedRoom);
+                var originalAdddedRoom = context.Rooms.SingleOrDefault(x => x.RoomName == "DALTest");
+                //added Room should not exist anymore
+                Assert.IsNull(originalAdddedRoom, "Original room which should be updated was found.");
 
-            //Update added Room
-            await DALNUnit.UpdateRoomToDB(addedRoom);
-            Room originalAdddedRoom = context.Rooms.SingleOrDefault(x => x.RoomName == "DALTest");
-            //added Room should not exist anymore
-            Assert.IsNull(originalAdddedRoom, "Original room which should be updated was found.");
+                //second added room should still exist
+                Assert.IsNotNull(addedRoom2, "Second added room was not found.");
 
-            //second added room should still exist
-            Assert.IsNotNull(addedRoom2, "Second added room was not found.");
-
-            //test updated room
-            var updatedRoom = context.Rooms.SingleOrDefault(x => x.RoomName == "DALUpdateTest");
-            Assert.AreEqual(record.RoomName, updatedRoom.RoomName, "RoomName Test unsuccessfull.");
-            Assert.AreEqual(record.RoomSort, updatedRoom.RoomSort, "RoomSort Test unsuccessfull.");
-            Assert.AreEqual(record.RoomFloor, updatedRoom.RoomFloor, "RoomFloor Test unsuccessfull.");
-            Assert.AreEqual(record.RoomLight, updatedRoom.RoomLight, "RoomLight Test unsuccessfull.");
+                //test updated room
+                var updatedRoom = context.Rooms.SingleOrDefault(x => x.RoomName == "DALUpdateTest");
+                if (updatedRoom != null)
+                {
+                    Assert.That(updatedRoom.RoomName, Is.EqualTo(record.RoomName), "RoomName Test unsuccessfull.");
+                    Assert.That(updatedRoom.RoomSort, Is.EqualTo(record.RoomSort), "RoomSort Test unsuccessfull.");
+                    Assert.That(updatedRoom.RoomFloor, Is.EqualTo(record.RoomFloor), "RoomFloor Test unsuccessfull.");
+                    Assert.That(updatedRoom.RoomLight, Is.EqualTo(record.RoomLight), "RoomLight Test unsuccessfull.");
+                }
+                else
+                {
+                    Assert.IsNotNull(updatedRoom, "No updated room found.");
+                }
+            }
+            else
+            {
+                Assert.IsNotNull(addedRoom, "No added room found.");
+            }
         }
 
         //Delete the in memory DB

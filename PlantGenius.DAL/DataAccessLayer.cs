@@ -143,7 +143,7 @@ namespace PlantGenius.DAL
         /// <returns></returns>
         public async Task RefreshSortRooms()
         {
-            List<Room> sortedRooms = null;
+            List<Room>? sortedRooms = null;
 
             try
             {

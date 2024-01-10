@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModelsNUnitTests
 {
+    // NUnit Tests of properties set through methods of the Plant class.
     [TestFixture]
     internal class PlantTests
     {
@@ -28,7 +29,7 @@ namespace ModelsNUnitTests
         }
 
         [Test]
-        public void indirectSettetPropertiyPlantWaterNextTimeTest()
+        public void indirectSetPropertyPlantWaterNextTimeTest()
         {
             string expectedString = DateTime.Today.AddDays(10).ToString("dd.MM.yyyy");
             Assert.That(TestPlant.PlantWaterNextTime, Is.EqualTo(expectedString), "Test of Property PlantWaterNextTime was not successfull");
@@ -36,7 +37,7 @@ namespace ModelsNUnitTests
         }
 
         [Test]
-        public void indirectSettetPropertiyUpdatePlantSortTest()
+        public void indirectSetPropertyUpdatePlantSortTest()
         {
             int expectedNumber = (DateTime.Today.AddDays(10) - DateTime.Today).Days;
             Assert.That(TestPlant.PlantSort, Is.EqualTo(expectedNumber), "Test of Property PlantSort was not successfull");

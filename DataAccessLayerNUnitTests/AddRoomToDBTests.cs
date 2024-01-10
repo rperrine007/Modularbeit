@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayerNUnitTests
 {
+    // NUnit Test if room can be added correctly to the DB.
     [TestFixture]
     public class AddRoomToDBTests
     {
@@ -42,11 +43,17 @@ namespace DataAccessLayerNUnitTests
             await DALNUnit.AddRoomToDB(record);
             var addedRoom = context.Rooms.SingleOrDefault(x => x.RoomName == "DALTest");
 
-            
-            Assert.AreEqual(record.RoomName, addedRoom.RoomName, "RoomName Test unsuccessfull.");
-            Assert.AreEqual(record.RoomSort, addedRoom.RoomSort, "RoomSort Test unsuccessfull.");
-            Assert.AreEqual(record.RoomFloor, addedRoom.RoomFloor, "RoomFloor Test unsuccessfull.");
-            Assert.AreEqual(record.RoomLight, addedRoom.RoomLight, "RoomLight Test unsuccessfull.");
+            if (addedRoom != null)
+            {
+                Assert.That(addedRoom.RoomName, Is.EqualTo(record.RoomName), "RoomName Test unsuccessfull.");
+                Assert.That(addedRoom.RoomSort, Is.EqualTo(record.RoomSort), "RoomSort Test unsuccessfull.");
+                Assert.That(addedRoom.RoomFloor, Is.EqualTo(record.RoomFloor), "RoomFloor Test unsuccessfull.");
+                Assert.That(addedRoom.RoomLight, Is.EqualTo(record.RoomLight), "RoomLight Test unsuccessfull.");
+            }
+            else
+            {
+                Assert.IsNotNull(addedRoom, "No added room found.");
+            }
         }
 
         //Delete the in memory DB

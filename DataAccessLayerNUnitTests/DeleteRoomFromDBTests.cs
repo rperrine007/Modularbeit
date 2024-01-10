@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayerNUnitTests
 {
+    // NUnit Test if room can be deleted correctly from the DB.
     [TestFixture]
     internal class DeleteRoomFromDBTests
     {
@@ -40,11 +41,11 @@ namespace DataAccessLayerNUnitTests
         }
 
         [Test]
-        public void DeleteRoomTestTask()
+        public async Task DeleteRoomTestTask()
         {
             var addedRoom = context.Rooms.Single(x => x.RoomName == "DALTest");
             //Remove room
-            DALNUnit.DeleteRoomFromDB(addedRoom);
+            await DALNUnit.DeleteRoomFromDB(addedRoom);
 
             // SingleOrDefault is a LINQ (Language-Integrated Query) method used to retrieve a single item from a sequence (like a DbSet in EF).
             // In this case it looks for a room with the name "DALTest"

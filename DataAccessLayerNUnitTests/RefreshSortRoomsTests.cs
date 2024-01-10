@@ -10,12 +10,13 @@
 
     namespace DataAccessLayerNUnitTests
     {
+        // NUnit Test if after a room is deleted, the RoomSortNummber is correctly refreshed.
         [TestFixture]
         public class RefreshSortRoomsTest
         {
             private AppDbContext context;
             private DataAccessLayer DALNUnit;
-            private List<Room> rooms;
+            private List<Room>? rooms;
 
             // Create an in memory DB
             [SetUp]
@@ -61,11 +62,11 @@
 
                     //get rooms
                     var rooms = await DALNUnit.GetRooms();
-                    //test retireved list 1st element
-                    Assert.AreEqual(1, rooms[0].RoomSort, "RoomSort Test unsuccessfull.");
+                //test retireved list 1st element
+                Assert.That(rooms[0].RoomSort, Is.EqualTo(1), "RoomSort Test unsuccessfull.");
 
-                    //test retrieved second element
-                    Assert.AreEqual(2, rooms[1].RoomSort, "RoomSort 2 Test unsuccessfull.");
+                //test retrieved second element
+                Assert.That(rooms[1].RoomSort, Is.EqualTo(2), "RoomSort 2 Test unsuccessfull.");
                 }
             }
 
