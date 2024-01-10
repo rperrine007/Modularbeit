@@ -137,6 +137,19 @@
             </Button.Triggers>
         </Button>
 
-        <Button Text="Hinzufügen" Command="{Binding ChangeToPlantPageCommand}"></Button>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Image Source="add_button_dark.png" Aspect="AspectFill" Grid.Column="1"
+                   HeightRequest="40" WidthRequest="40" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeToPlantPageCommand}"/>
+                </Image.GestureRecognizers>
+            </Image>
+
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>
