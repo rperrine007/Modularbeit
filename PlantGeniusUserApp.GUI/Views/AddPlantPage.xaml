@@ -53,16 +53,16 @@
             <Entry Placeholder="Pflanzenname"
                   Text="{Binding SelectedPlant.PlantName}" />
 
+            <!-- Not yet used, but works with DB 
             <Label Text="Wissenschaftlicher Name" FontAttributes="Bold"/>
             <Entry Placeholder="Wissenschaftlicher Name"
-                  Text="{Binding SelectedPlant.PlantNameScientific}" />
+            Text="{Binding SelectedPlant.PlantNameScientific}" />-->
 
             <Picker Title="Select Room"
                    ItemsSource="{Binding Rooms}"
                    ItemDisplayBinding="{Binding RoomName}" SelectedItem="{Binding SelectedRoom}"/>
 
             <!-- Plant Sort should not be set by user -->
-
             <!--<Label Text="Sortiernummer" FontAttributes="Bold"/>
            <Entry Placeholder="Sortiernummer / Nur Zahleneingabe!"
                   TextChanged="OnEntryTextChanged"
@@ -73,12 +73,12 @@
             <Entry Placeholder="Wasserbedarf (Tage) / Nur Zahleneingabe!"
                   Text="{Binding SelectedPlant.PlantWaterRequirement}"/>
 
+            <!-- Normaly a Plant is watered when added so no need to declare this
             <Label Text="Letztes Giessdatum" FontAttributes="Bold"/>
-            <DatePicker Date="{Binding CurrentDateTime, Mode=TwoWay}" Format="D"/>
+            <DatePicker Date="{Binding CurrentDateTime, Mode=TwoWay}" Format="D"/> -->
 
-            <Button Text="Save"
-                   Command="{Binding AddPlantCommand}"
-                   HorizontalOptions="Center" />
+            <Button Text="Save" Command="{Binding AddPlantCommand}" HorizontalOptions="FillAndExpand" />
+            
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

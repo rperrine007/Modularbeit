@@ -66,8 +66,8 @@ namespace PlantGenius.DAL.Models
         public int PlantWaterRequirement { get; set; }
 
         // Calculation for next watering time
-        public DateTime PlantWaterLastTime { get; set; }
-       
+        public DateTime PlantWaterLastTime { get; set; } = DateTime.Today;
+
         /// <summary>
         /// Date of next needed watering is calculated.
         /// </summary>

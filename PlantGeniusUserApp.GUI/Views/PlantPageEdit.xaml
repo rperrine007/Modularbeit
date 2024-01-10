@@ -54,29 +54,19 @@
             <Entry Placeholder="Wissenschaftlicher Name"
                    Text="{Binding SelectedPlant.PlantNameScientific, Mode=TwoWay}" />
 
+            <Label Text="Raum" FontAttributes="Bold"/>
             <Picker Title="Select Room"
                     ItemsSource="{Binding Rooms}"
                     ItemDisplayBinding="{Binding RoomName}" SelectedItem="{Binding SelectedRoom, Mode=TwoWay}"/>
             
-            <!-- Plant Sort should not be set by user -->
-            
-            <!--<Label Text="Sortiernummer" FontAttributes="Bold"/>
-            <Entry Placeholder="Sortiernummer / Nur Zahleneingabe!"
-                   TextChanged="OnEntryTextChanged"
-                   Text="{Binding SelectedPlant.PlantSort, Mode=TwoWay}"/>-->
-
-
             <Label Text="Wasserbedarf (Tage)" FontAttributes="Bold"/>
             <Entry Placeholder="Wasserbedarf (Tage) / Nur Zahleneingabe!" TextChanged="OnEntryTextChanged"
                    Text="{Binding SelectedPlant.PlantWaterRequirement, Mode=TwoWay}"/>
 
             <Label Text="Letztes Giessdatum" FontAttributes="Bold"/>
-            <Entry Placeholder="Letztes Giessdatum"
-                   Text="{Binding SelectedPlant.PlantWaterLastTime, Mode=TwoWay}" />
+            <DatePicker Date="{Binding SelectedPlant.PlantWaterLastTime, Mode=TwoWay}" Format="D"/>
 
-            <Button Text="Save"
-                    Command="{Binding SaveCommand}"
-                    HorizontalOptions="Center" />
+            <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

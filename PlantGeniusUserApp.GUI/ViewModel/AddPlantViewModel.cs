@@ -42,6 +42,9 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
         public AddPlantViewModel()
         {
+            // Update the current date and time
+            CurrentDateTime = DateTime.Now;
+
             // Initialize 
             DAL = new DataAccessLayer();
             ExistingPlantNames = new ObservableHashSet<string>();
@@ -88,9 +91,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         private async Task AddPlant(object obj)
         {
 
-            // Update the current date and time
-            CurrentDateTime = DateTime.Now;
-
             //checks if a Room is not null
             if ((SelectedPlant == null) || (SelectedPlant.PlantName == string.Empty) || (SelectedRoom == null) || (SelectedPlant.PlantWaterRequirement == 0) || (SelectedPlant.PlantWaterLastTime == null) )
             {
@@ -133,8 +133,5 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 await App.Current.MainPage.DisplayAlert("Warning", $"Error saving plant: {ex.Message}", "Ok");
             }
         }
-
     }
-
-
 }
