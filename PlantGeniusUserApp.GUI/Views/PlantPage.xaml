@@ -53,7 +53,7 @@
     </Shell.TitleView>
 
     <VerticalStackLayout Spacing="10" Padding="10">
-        <ListView x:Name="PlantsList" ItemsSource="{Binding Plants}" RowHeight="60" MaximumHeightRequest="500">
+        <ListView x:Name="PlantsList" ItemsSource="{Binding Plants}" RowHeight="60" MaximumHeightRequest="560">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -93,10 +93,6 @@
                               CommandParameter="{Binding .}" />
                                 </Image.GestureRecognizers>
                             </Image>
-
-                            
-                            
-
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
@@ -118,26 +114,7 @@
             </Button.Triggers>
         </Button>
 
+        <Button Text="Hinzufügen" Command="{Binding ChangeToPlantPageCommand}"></Button>
 
-
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Image Source="add_button_dark.png" Aspect="AspectFill" Grid.Column="1"
-                   HeightRequest="40" WidthRequest="40" >
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ChangeToPlantPageCommand}"/>
-                </Image.GestureRecognizers>
-            </Image>
-
-
-
-        </Grid>
     </VerticalStackLayout>
-
-
 </ContentPage>
