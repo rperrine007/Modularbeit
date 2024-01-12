@@ -38,15 +38,11 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
         //Properties
         public ObservableCollection<Plant> Plants { get; set; }
-        public ICommand EditCommand { get; private set; }
-        public ICommand WaterCommand { get; private set; }
 
         public PlantsViewModel()
         {
             // Initialize ObservableCollection
             Plants = new ObservableCollection<Plant>();
-            EditCommand = new Command<Plant>(EditPlant);
-            WaterCommand = new Command<Plant>(WaterPlant);
             DAL = new DataAccessLayer();
             IsUpdateButtonEnabled = false;
         }
@@ -75,9 +71,14 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             await Task.Delay(1000);
             IsUpdateButtonEnabled = true;
         }
-                
 
-        protected async void EditPlant(Plant plant)
+        private bool CanEditPlant()
+        {
+            return true;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanEditPlant))]
+        protected async Task EditPlant(Plant plant)
         {
             if (plant != null)
             {
@@ -96,7 +97,13 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected async void WaterPlant(Plant plant)
+        private bool CanWaterPlant()
+        {
+            return true;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanWaterPlant))]
+        protected async Task WaterPlant(Plant plant)
         {
             if (plant != null)
             {
