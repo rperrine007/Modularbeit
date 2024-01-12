@@ -99,12 +99,12 @@ namespace ViewModel{
  SomeViewPageWithRooms -- SomeViewPageWithRoomsModel : Assoziation
 
 
-SomeViewPage "0" o-- "1" DataAccessLayer : Aggregation   
-SomeViewPage "0" -- "1..*" Plant : Assoziation   
+SomeViewPageModel "0" o-- "1" DataAccessLayer : Aggregation   
+SomeViewPageModel "0" -- "1..*" Plant : Assoziation   
 
-SomeViewPageWithRooms "0" o-- "1" DataAccessLayer : Aggregation   
-SomeViewPageWithRooms "0" -- "1..*" Plant : Assoziation 
-SomeViewPageWithRooms "0" -- "1..*" Room : Assoziation 
+SomeViewPageWithRoomsModel "0" o-- "1" DataAccessLayer : Aggregation   
+SomeViewPageWithRoomsModel "0" -- "1..*" Plant : Assoziation 
+SomeViewPageWithRoomsModel "0" -- "1..*" Room : Assoziation 
 }
 
 }
