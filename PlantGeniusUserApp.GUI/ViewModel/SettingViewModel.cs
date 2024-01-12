@@ -10,7 +10,6 @@ using PlantGeniusUserApp.GUI.Views;
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
     public class SettingViewModel
-    {
-        
+    {        
     }
 }

@@ -39,51 +39,21 @@ namespace PlantGenius.GUI.Views
         }
 
         /// <summary>
-        /// Test the connection to the database
-        /// </summary>
-        // By problems with DB use this method.
-        /*
-        private async void TestConnection()
-        {
-            try
-            {
-                var result = await DAL.TestDatabaseConnectionAsync();
-
-                if (result.connectionStatus)
-                {
-                    //For debugging only, shows if connection is ok
-                    //string title = "SQL Server";
-                    //string message = "Verbindung OK!";
-                    //MessageBox.Show(message, title);
-                }
-                else
-                {
-                    await Console.Out.WriteLineAsync(result.errorMessage);
-                    MessageBox.Show($"Verbindungsfehler: {result.errorMessage}");
-                }
-            }
-            catch (Exception e)
-            {
-                await Console.Out.WriteLineAsync(e.Message);
-                MessageBox.Show($"Unerwarteter Fehler: {e.Message}");
-            }
-        }*/
-
-        /// <summary>
         /// Prevents to add non int values to a textfield.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (sender != null)
+
+                TextBox? textBox = sender as TextBox;
+            // Allow "-" only if it's the first character, allow digits
+            if (textBox != null)
             {
-                TextBox textBox = sender as TextBox;
-                // Allow "-" only if it's the first character, allow digits
                 if (e.Text == "-" && textBox.Text.Length == 0 && !textBox.Text.Contains("-"))
                 {
                     // Allow input
-                    e.Handled = false; 
+                    e.Handled = false;
                 }
                 else
                 {
@@ -93,12 +63,13 @@ namespace PlantGenius.GUI.Views
                         if (!char.IsDigit(c))
                         {
                             // Block input
-                            e.Handled = true; 
+                            e.Handled = true;
                             break;
                         }
                     }
                 }
             }
+            
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)

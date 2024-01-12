@@ -14,6 +14,7 @@ using CommunityToolkit.Mvvm.Input;
 using Azure;
 using System.DirectoryServices;
 using PlantGenius.GUI.Views;
+using System.Windows.Documents;
 
 namespace PlantGenius.GUI.ViewModel
 {
@@ -39,17 +40,10 @@ namespace PlantGenius.GUI.ViewModel
 
         public string RoomFloor { get; set; }
 
-        public string RoomLight { get; set; }
-
-        
-
-        // Commands
-        // public IAsyncRelayCommand AddRoomCommand => new AsyncRelayCommand(AddRoom);
+        public string RoomLight { get; set; }      
 
         //define a Relay Commands which can take two parameters. Tha this works the class MultiParameterValueConverter is necessary.
         public RelayCommand<(object obj, object tag)> ChangeRoomSortNumberCommand { get; }
-
-
 
         //Constructor
         public RoomWindowViewModel()
@@ -73,9 +67,6 @@ namespace PlantGenius.GUI.ViewModel
         /// <summary>
         /// Get data through the RoomManager; the data will be reloaded from time to time. The Observable Properties and Collection ensure that the view also get the new data. 
         /// </summary>
-        /// 
-
-        //TODO "WHILE(TRUE)" -- For later for GUI and user.GUI - Für später aufheben
         private async void GetRoomFromDB()
         {
                 var rooms = await DAL.GetRooms();
@@ -85,7 +76,6 @@ namespace PlantGenius.GUI.ViewModel
                 {
                     roomList.Add(room);
                     existingNames.Add(room.RoomName);
-
                 }
         }
 
@@ -106,7 +96,7 @@ namespace PlantGenius.GUI.ViewModel
         [RelayCommand(CanExecute = nameof(CanAddRoom))]
         private async Task AddRoom(object obj)
         {
-            Room newRoom = null;
+            Room? newRoom = null;
 
             //checks if a Room is not null
             if (this.RoomName == string.Empty)
@@ -163,31 +153,32 @@ namespace PlantGenius.GUI.ViewModel
             roomIDsWithPlants = await GetRoomIDWithPlantsFromDB();
             var listBox = obj as ListBox;
 
-            if (listBox!= null && listBox.SelectedItem != null)
+            if (listBox != null)
             {
                 Room? selectedRoom = listBox.SelectedItem as Room;
+                if (selectedRoom != null)
+                {
+                    //only delete room when no plants are contained.
+                    if (roomIDsWithPlants.Contains(selectedRoom.RoomID))
+                    {
+                        string title = "Fehler";
+                        string message = "Der Raum enthält noch Pflanzen und kann daher nicht gelöscht werden!";
+                        MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
 
-                //only delete room when no plants are contained.
-                if (roomIDsWithPlants.Contains(selectedRoom.RoomID))
+                    //exception handling in case no room is chosen.
+                    await DAL.DeleteRoomFromDB(selectedRoom);
+                    // Remove the specified room from the ObservableCollection
+                    roomList.Remove(selectedRoom);
+                }
+                else
                 {
                     string title = "Fehler";
-                    string message = "Der Raum enthält noch Pflanzen und kann daher nicht gelöscht werden!";
+                    string message = "Bitte wählen Sie einen Raum aus!";
                     MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
                 }
-
-                //exception handling in case no room is chosen.
-                await DAL.DeleteRoomFromDB(selectedRoom);
-                // Remove the specified room from the ObservableCollection
-                roomList.Remove(selectedRoom);
-            }
-            else
-            {
-                string title = "Fehler";
-                string message = "Bitte wählen Sie einen Raum aus!";
-                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-                
+            }                
             //update view again. Else the SortNumber would not be correct.
             GetRoomFromDB();
         }
@@ -202,48 +193,53 @@ namespace PlantGenius.GUI.ViewModel
         {
 
             ListBox? listBox = obj as ListBox;
-            int currentIndex = listBox.SelectedIndex;
-            var direction = int.Parse(tag.ToString());
 
-            //Kontrolliere ob Raum ausgewählt wurde.
-            if (currentIndex == -1)
+            if (listBox != null && listBox.SelectedItem != null)
             {
-                string title = "Fehler";
-                string message = "Bitte wählen Sie einen Raum aus!";
-                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                int currentIndex = listBox.SelectedIndex;
+                int direction = int.Parse(tag.ToString());
+
+
+                //Kontrolliere ob Raum ausgewählt wurde.
+                if (currentIndex == -1)
+                {
+                    string title = "Fehler";
+                    string message = "Bitte wählen Sie einen Raum aus!";
+                    MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                int newIndex = currentIndex + direction;
+                // Check index bandwith for up and down movement
+                if (newIndex < 0 || newIndex >= roomList.Count)
+                {
+                    string title = "Fehler";
+                    string message = "Bewegung in diese Richtung nicht möglich!";
+                    MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                //initialize room varibales
+                Room currentRoom = roomList[currentIndex];
+                Room neighbourRoom = roomList[newIndex];
+
+                // Swap sort numbers
+                int? tempSortNumber = currentRoom.RoomSort;
+                currentRoom.RoomSort = neighbourRoom.RoomSort;
+                neighbourRoom.RoomSort = tempSortNumber;
+
+                // Swap order
+                roomList[currentIndex] = neighbourRoom;
+                roomList[newIndex] = currentRoom;
+
+
+                // Update DB for both rooms
+                await DAL.UpdateRoomSortNumber(currentRoom.RoomID, currentRoom.RoomSort ?? roomList.Count - 1);
+                await DAL.UpdateRoomSortNumber(neighbourRoom.RoomID, neighbourRoom.RoomSort ?? roomList.Count);
+
+                // Keep focus on moved object
+                listBox.SelectedIndex = newIndex;
             }
-
-            int newIndex = currentIndex + direction;
-            // Check index bandwith for up and down movement
-            if (newIndex < 0 || newIndex >= roomList.Count)
-            {
-                string title = "Fehler";
-                string message = "Bewegung in diese Richtung nicht möglich!";
-                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            //initialize room varibales
-            Room currentRoom = roomList[currentIndex];
-            Room neighbourRoom = roomList[newIndex];
-
-            // Swap sort numbers
-            int? tempSortNumber = currentRoom.RoomSort;
-            currentRoom.RoomSort = neighbourRoom.RoomSort;
-            neighbourRoom.RoomSort = tempSortNumber;
-
-            // Swap order
-            roomList[currentIndex] = neighbourRoom;
-            roomList[newIndex] = currentRoom;
-
-
-            // Update DB for both rooms
-            await DAL.UpdateRoomSortNumber(currentRoom.RoomID, currentRoom.RoomSort ?? roomList.Count - 1);
-            await DAL.UpdateRoomSortNumber(neighbourRoom.RoomID, neighbourRoom.RoomSort ?? roomList.Count);
-
-            // Keep focus on moved object
-            listBox.SelectedIndex = newIndex;
         }
 
 
@@ -266,70 +262,78 @@ namespace PlantGenius.GUI.ViewModel
         {
 
             ListBox? listBox = null;
-            Room selectedRoom = null;
+            Room? selectedRoom = null;
 
             //Exception handling in case: no item of the listBox is chosen by the user, object is not
-            try
-            {
-                listBox = obj as ListBox;
-                selectedRoom = listBox.SelectedItem as Room;
 
+            listBox = obj as ListBox;
+            if (listBox != null)
+            {
+                selectedRoom = listBox.SelectedItem as Room;
             }
-            catch (NullReferenceException ex)
+            else
             {
                 string title = "Fehler";
                 string message = "Bitte wählen Sie einen Raum aus!";
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
 
             //check if a Room with the given name already exists.
-            if (existingNames.Contains(selectedRoom.RoomName))
+            if (selectedRoom != null && selectedRoom.RoomName != null)
+            {
+                if (existingNames.Contains(selectedRoom.RoomName))
+                {
+                    string title = "Fehler";
+                    string message = "Raum konnte nicht hinzugefügt werden. \nEs gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
+                    MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    //find out which room name was changed
+                    var difference = existingNames.Except(roomList.Select(rooms => rooms.RoomName));
+
+                    //there should only be one changed roomName. Get this one.
+                    string? changedRoomName = difference.FirstOrDefault();
+
+                    // check if more than one difference was found
+                    if (difference.Count() > 1)
+                    {
+                        title = "Achtung";
+                        message = "Die gezeigten Raumname stimmen nicht mit der Datenbank überein. Es wird empfohlen die Applikatino neu zu starten.";
+                        MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                    // check if only one difference was found.
+                    else if (!string.IsNullOrEmpty(changedRoomName) && difference.Count() == 1)
+                    {
+                        selectedRoom.RoomName = changedRoomName;
+                    }
+
+                    //update to make sure the observable roomList has the correct data and everything is showed properly.
+                    GetRoomFromDB();
+                    return;
+                }
+
+
+                //Create Rooom
+                Room userInputBoxRoom = new Room()
+                {
+                    RoomName = selectedRoom.RoomName,
+                    RoomSort = selectedRoom.RoomSort,
+                    RoomFloor = selectedRoom.RoomFloor,
+                    RoomLight = selectedRoom.RoomLight
+
+                };
+                // Call the method to update the room in the database
+                await DAL.UpdateRoomToDB(userInputBoxRoom);
+            }
+            //Error message if no room is selected.
+            else
             {
                 string title = "Fehler";
-                string message = "Raum konnte nicht hinzugefügt werden. \nEs gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
+                string message = "Bitte wählen Sie einen Raum aus!";
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-
-                //find out which room name was changed
-                var difference = existingNames.Except(roomList.Select(rooms => rooms.RoomName));
-
-                //there should only be one changed roomName. Get this one.
-                string changedRoomName = difference.FirstOrDefault();
-
-                // check if more than one difference was found
-                if(difference.Count() > 1)
-                {
-                    title = "Achtung";
-                    message = "Die gezeigten Raumname stimmen nicht mit der Datenbank überein. Es wird empfohlen die Applikatino neu zu starten.";
-                    MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-                // check if only one difference was found.
-                else if (!string.IsNullOrEmpty(changedRoomName) && difference.Count() == 1)
-                {
-                    selectedRoom.RoomName = changedRoomName;
-                }
-
-                //update to make sure the observable roomList has the correct data and everything is showed properly.
-                GetRoomFromDB();
                 return;
-            }
 
-            //Create Rooom
-            Room userInputBoxRoom = new Room()
-            {
-                RoomName = selectedRoom.RoomName,
-                RoomSort = selectedRoom.RoomSort,
-                RoomFloor = selectedRoom.RoomFloor,
-                RoomLight = selectedRoom.RoomLight
-            };
-            // Call the method to update the room in the database
-            await DAL.UpdateRoomToDB(userInputBoxRoom);
+            }
         }
 
         private bool CanShowMainWindow(object obj)
@@ -347,7 +351,7 @@ namespace PlantGenius.GUI.ViewModel
             //initialize variabel with defined command parameter and cast it as type Window
             var roomView = obj as Window;
 
-            try
+            if (roomView != null)
             {
                 // Save the position of the window to keep size and position
                 mainViewWin.Left = roomView.Left;
@@ -359,9 +363,12 @@ namespace PlantGenius.GUI.ViewModel
                 mainViewWin.Show();
                 roomView.Close();
             }
-            catch (ArgumentNullException ex)
+            else
             {
-                MessageBox.Show(ex.Message);
+                string title = "Fehler";
+                string message = "Raum Ansicht konnte nicht gefunden werden.";
+                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
         }
     }

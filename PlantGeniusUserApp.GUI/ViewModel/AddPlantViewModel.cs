@@ -12,8 +12,6 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics;
 using Org.BouncyCastle.Tls;
-using AndroidX.Lifecycle;
-
 
 namespace PlantGeniusUserApp.GUI.ViewModel
 {

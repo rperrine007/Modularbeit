@@ -14,10 +14,10 @@ using CommunityToolkit.Mvvm.Input;
 namespace PlantGenius.GUI.ViewModel
 {
         public partial class MainWindowViewModel : ObservableObject
-    {
-        public MainWindowViewModel() 
         {
-        }
+        public MainWindowViewModel() 
+            {
+            }
 
         private bool CanShowWindow(object obj)
         {
@@ -35,15 +35,19 @@ namespace PlantGenius.GUI.ViewModel
 
             try
             {
-                // Save the position of the window to keep size and position
-                roomViewWin.Left = mainWindow.Left;
-                roomViewWin.Top = mainWindow.Top;
-                roomViewWin.Width = mainWindow.Width;
-                roomViewWin.Height = mainWindow.Height;
 
-                // Open the new window and close old one
-                roomViewWin.Show();
-                mainWindow.Close();
+                // Save the position of the window to keep size and position
+                if (mainWindow != null)
+                {
+                    roomViewWin.Left = mainWindow.Left;
+                    roomViewWin.Top = mainWindow.Top;
+                    roomViewWin.Width = mainWindow.Width;
+                    roomViewWin.Height = mainWindow.Height;
+
+                    // Open the new window and close old one
+                    roomViewWin.Show();
+                    mainWindow.Close();
+                }
             }
             catch(ArgumentNullException ex)
             {
