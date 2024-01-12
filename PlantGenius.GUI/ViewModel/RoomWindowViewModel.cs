@@ -163,10 +163,9 @@ namespace PlantGenius.GUI.ViewModel
             roomIDsWithPlants = await GetRoomIDWithPlantsFromDB();
             var listBox = obj as ListBox;
 
-            //exception handling in case no room is chosen.
-            try
+            if (listBox!= null && listBox.SelectedItem != null)
             {
-                Room selectedRoom = listBox.SelectedItem as Room;
+                Room? selectedRoom = listBox.SelectedItem as Room;
 
                 //only delete room when no plants are contained.
                 if (roomIDsWithPlants.Contains(selectedRoom.RoomID))
@@ -182,12 +181,13 @@ namespace PlantGenius.GUI.ViewModel
                 // Remove the specified room from the ObservableCollection
                 roomList.Remove(selectedRoom);
             }
-            catch (ArgumentNullException e)
+            else
             {
                 string title = "Fehler";
                 string message = "Bitte wählen Sie einen Raum aus!";
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-            }       
+            }
+                
             //update view again. Else the SortNumber would not be correct.
             GetRoomFromDB();
         }
@@ -262,7 +262,7 @@ namespace PlantGenius.GUI.ViewModel
 
         // Delete Room
         [RelayCommand(CanExecute = nameof(CanSaveChanges))]
-        private async void SaveChanges(object obj)
+        private async Task SaveChanges(object obj)
         {
 
             ListBox? listBox = null;

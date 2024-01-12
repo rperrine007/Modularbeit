@@ -49,6 +49,10 @@ namespace PlantGenius.GUI.ViewModel
             {
                 MessageBox.Show(ex.Message);
             }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
     }
