@@ -56,13 +56,18 @@ namespace PlantGenius.GUI{
  RoomWindowViewModel -- MainWindow : Assoziation
  }
 
+RoomWindowViewModel "0" -- "1..*" Room : Assoziation   
+RoomWindowViewModel "0" o-- "1" DataAccessLayer : Aggregation   
+
+
+
 
 }
 
 
 @enduml
 
-## Klassendiagramm .NET MAUI-Applikation (Detail-Ansicht)
+## Klassendiagramm .NET MAUI-Applikation (Detail-Ansicht Vereinfacht)
 @startuml
 skinparam classAttributeIconSize 0
 set namespaceSeparator none
@@ -78,57 +83,28 @@ AppDbContext  -- MariaDB_InMemoryDB : Assoziation
 
 namespace PlantGeniusUserApp.GUI{
 namespace Views{
-    class MainPage
+    class SomeViewPage
     {
     }
 
-    class PlantPage
-    {
-    }
-
-    class RoomPage
-    {
-    }
-
-    class SettingPage
-    {
-    }
-
-    class PlantPageEdit
-    {
-    }
-
-    class AddPlantPage
+    class SomeViewPageWithRooms
     {
     }
  }
 
 namespace ViewModel{
 
- MainPage -- MainViewModel : Assoziation
- PlantPage -- PlantViewModel : Assoziation
- RoomPage -- RoomViewModel : Assoziation
  RoomViewModel --|> PlantViewModel
- SettingPage -- SettingViewModel : Assoziation
- PlantPageEdit -- PlantEditViewModel : Assoziation
- AddPlantPage -- AddPlantViewModel : Assoziation
+ SomeViewPage -- SomeViewPageModel : Assoziation
+ SomeViewPageWithRooms -- SomeViewPageWithRoomsModel : Assoziation
 
-RoomWindowViewModel "0" -- "1..*" Room : Assoziation   
-RoomWindowViewModel "0" o-- "1" DataAccessLayer : Aggregation   
 
-MainViewModel "0" o-- "1" DataAccessLayer : Aggregation   
-MainViewModel "0" -- "1..*" Plant : Assoziation   
-PlantViewModel "0" o-- "1" DataAccessLayer : Aggregation   
-PlantViewModel "0" -- "1..*" Plant : Assoziation 
-RoomViewModel "0" o-- "1" DataAccessLayer : Aggregation   
-RoomViewModel "0" -- "1..*" Plant : Assoziation 
-RoomViewModel "0" -- "1..*" Room : Assoziation 
-PlantEditViewModel "0" o-- "1" DataAccessLayer : Aggregation   
-PlantEditViewModel "0" -- "1..*" Plant : Assoziation 
-PlantEditViewModel "0" -- "1..*" Room : Assoziation 
-AddPlantViewModel "0" o-- "1" DataAccessLayer : Aggregation   
-AddPlantViewModel "0" -- "1..*" Plant : Assoziation 
-AddPlantViewModel "0" -- "1..*" Room : Assoziation 
+SomeViewPage "0" o-- "1" DataAccessLayer : Aggregation   
+SomeViewPage "0" -- "1..*" Plant : Assoziation   
+
+SomeViewPageWithRooms "0" o-- "1" DataAccessLayer : Aggregation   
+SomeViewPageWithRooms "0" -- "1..*" Plant : Assoziation 
+SomeViewPageWithRooms "0" -- "1..*" Room : Assoziation 
 }
 
 }
