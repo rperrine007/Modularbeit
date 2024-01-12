@@ -33,23 +33,21 @@ namespace PlantGenius.GUI.ViewModel
             //initialize variabel with defined command parameter and cast it as type Window
             var mainWindow = obj as Window;
 
+            //TODO try or if/ else for ArgumentNullException
             try
             {
-
                 // Save the position of the window to keep size and position
-                if (mainWindow != null)
-                {
-                    roomViewWin.Left = mainWindow.Left;
-                    roomViewWin.Top = mainWindow.Top;
-                    roomViewWin.Width = mainWindow.Width;
-                    roomViewWin.Height = mainWindow.Height;
+                roomViewWin.Left = mainWindow.Left;
+                roomViewWin.Top = mainWindow.Top;
+                roomViewWin.Width = mainWindow.Width;
+                roomViewWin.Height = mainWindow.Height;
 
-                    // Open the new window and close old one
-                    roomViewWin.Show();
-                    mainWindow.Close();
-                }
+                // Open the new window and close old one
+                roomViewWin.Show();
+                mainWindow.Close();
+
             }
-            catch(ArgumentNullException ex)
+            catch (ArgumentNullException ex)
             {
                 MessageBox.Show(ex.Message);
             }

@@ -20,10 +20,12 @@ namespace PlantGenius.GUI.Views
             this.DataContext = mainViewModel;
         }
 
+        /*
         private void Button_ChangeToRoomView_Click(object sender, RoutedEventArgs e)
         {
 
         }
+        */
     }
 }
 

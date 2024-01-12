@@ -42,6 +42,8 @@ Plant --|> DataAccessLayer
 Plant --|> Room
 DataAccessLayer --|> AppDbContext
 
+MainWindow --|> MainWindowViewModel
+
 class Plant
 {
         public int PlantID { get; set; }
@@ -109,6 +111,33 @@ class DataAccessLayer
         public async Task DeletePlantFromDB(...)
 
  }
+
+ class MainWindow
+ {        
+        public MainWindow()
+ }
+
+ class MainWindowViewModel
+ {
+    public MainWindowViewModel() 
+
+    private bool CanShowWindow(object obj)   
+
+    [RelayCommand(CanExecute = nameof(CanShowWindow))]
+    private void ShowWindow(object obj)        
+ }
+
+class RoomView:Window
+ {
+        private ObservableCollection<Room> roomList;
+        private DataAccessLayer DAL;
+
+        public RoomView()
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+
+ }
+
 
 
 
