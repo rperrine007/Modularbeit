@@ -27,8 +27,8 @@ namespace PlantGenius.GUI.ViewModel
         //Datavaribles
         private string inputRoomName;
         private int inputRoomSort;
-        HashSet<string> existingNames = new HashSet<string>();
-        HashSet<int> roomIDsWithPlants = new HashSet<int>();
+        private HashSet<string> existingNames = new HashSet<string>();
+        private HashSet<int> roomIDsWithPlants = new HashSet<int>();
         private DataAccessLayer DAL;
 
         //Properties
