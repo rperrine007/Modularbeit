@@ -1,7 +1,6 @@
 # PlantGenius.GUI
-
 ## Beschreibung
-Wer kennt das nicht? Deine Pflanze ist entweder vertrocknet oder steht im Wasser.​​
+Wer kennt das nicht? Deine Pflanze ist entweder vertrocknet oder steht im Wasser.
 PlantGenius bietet dir die perfekte Unterstützung für die Bewässerung deiner Pflanzen. 
 Vertraue auf diese App und gewährleiste die ideale Wassermenge für jede Pflanze. Mit einer übersichtlichen To-Do-Liste behältst du leicht im Blick, welche deiner Pflanzen wann gegossen werden müssen.
 
@@ -15,7 +14,7 @@ Besteht im essenziellen aus zwei Teilen mit unterschiedlichen Klassen:
 PlantGenius.GUI-Projekt und PlantGeniusUserApp.GUI-Projekt können auf alle Klassen in diesem Projekt zugreifen. 
 
 ### DataAccessLayerNUnitTests
-NUnit Tests der Klasse DataAccessLayer.
+NUnit Tests der Klassen DataAccessLayers, Rooms und Plants.
 
 ### PlantGenius.GUI
 WPF Applikation zur Verwaltung der Räume. Änderungen werden in der DB gespeichert. 
@@ -31,7 +30,6 @@ Es sind vier verschiedene Ansichten vorhanden:
 - Optionen: Noch nichts, wäre eine Erweiterungsmöglichkeit.
 - Pflanzen hinzufügen: Maske um neue Pflanzen der DB hinzuzufügen.
 - Pflanzen editieren: Maske um Pflanzen-Daten zu bearbeiten.
-
 
 ## Genutzte Frameworks und Aufbau
 Für die Kommunikation mit der genutzten Maria DB wurde das Entity Frame Work (EFF) verwendet. Der Code wurde nach dem Model-View-ViewModel (MVVM) Framework gegliedert. Ausserdem wurde das Paket CommunityToolkit.Mvvm verwendet, da dieses einige nützliche Funktionen bereitstellt und das wichtige Interface INotifyPropertyChanged bereits eingebunden ist.
