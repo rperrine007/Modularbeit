@@ -27,8 +27,12 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         public MainViewModel()
         {
             DAL = new DataAccessLayer();
-            // Initialize commands
-            CountPlantsToWater();
+        }
+
+        //Async loading of CountPlantsToWater
+        public async Task InitializeAsync()
+        {
+            await CountPlantsToWater();
         }
 
 

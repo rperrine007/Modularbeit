@@ -105,7 +105,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 return;
             }
 
-            // Create a new Room object from the input
+            // Create a new Plant object from the input
             Plant newPlant = new Plant()
             {
                 PlantName = SelectedPlant.PlantName,
@@ -116,10 +116,10 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 PlantWaterLastTime = SelectedPlant.PlantWaterLastTime,
             };
 
-            //add Room to DB
+            //add Plant to DB
             await DAL.AddPlantToDB(newPlant);
 
-            //add to exsiting names Set so we can make sure not two rooms with the same name exist.
+            //add to existing names Set so we can make sure not two plants with the same name exist.
             ExistingPlantNames.Add(newPlant.PlantName);
 
             try
