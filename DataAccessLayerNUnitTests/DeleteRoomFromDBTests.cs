@@ -11,7 +11,7 @@ namespace DataAccessLayerNUnitTests
 {
     // NUnit Test if room can be deleted correctly from the DB.
     [TestFixture]
-    public class DeleteRoomFromDBTests
+    internal class DeleteRoomFromDBTests
     {
         private AppDbContext context;
         private DataAccessLayer DALNUnit;

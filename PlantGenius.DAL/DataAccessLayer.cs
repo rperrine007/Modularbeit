@@ -174,28 +174,26 @@ namespace PlantGenius.DAL
         {
             try
             {
-                using (var db = new AppDbContext())
+                // Async database operations
+                var rooms = await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
+                var roomIDList = new HashSet<int>();
+
+                foreach (var room in rooms)
                 {
-                    // Async database operations
-                    var rooms = await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
-                    var roomIDList = new HashSet<int>();
 
-                    foreach (var room in rooms)
+                    var plantsInRoom = await db.Plants
+                                 .Where(p => p.RoomID == room.RoomID)
+                                 .Include(p => p.Room)
+                                 .ToListAsync();
+
+                    foreach (var plant in plantsInRoom)
                     {
-
-                        var plantsInRoom = await db.Plants
-                                     .Where(p => p.RoomID == room.RoomID)
-                                     .Include(p => p.Room)
-                                     .ToListAsync();
-
-                        foreach (var plant in plantsInRoom)
-                        {
-                            roomIDList.Add(plant.Room.RoomID);
-                        }
-
+                        roomIDList.Add(plant.Room.RoomID);
                     }
-                    return roomIDList;
+
                 }
+                return roomIDList;
+
             }
             catch (Exception ex)
             {
@@ -212,28 +210,27 @@ namespace PlantGenius.DAL
         {
             try
             {
-                using (var db = new AppDbContext())
+
+                // Async database operations
+                var rooms = await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
+                List<Plant> plantList = new List<Plant>();
+
+                foreach (var room in rooms)
                 {
-                    // Async database operations
-                    var rooms = await db.Rooms.OrderBy(r => r.RoomSort).ToListAsync();
-                    List<Plant> plantList = new List<Plant>();
 
-                    foreach (var room in rooms)
+                    var plantsInRoom = await db.Plants
+                                 .Where(p => p.RoomID == room.RoomID)
+                                 .Include(p => p.Room)
+                                 .ToListAsync();
+
+                    foreach (var plant in plantsInRoom)
                     {
-
-                        var plantsInRoom = await db.Plants
-                                     .Where(p => p.RoomID == room.RoomID)
-                                     .Include(p => p.Room)
-                                     .ToListAsync();
-
-                        foreach (var plant in plantsInRoom)
-                        {
-                            plantList.Add(plant);
-                        }
-
+                        plantList.Add(plant);
                     }
-                    return plantList;
+
                 }
+                return plantList;
+
             }
             catch (Exception ex)
             {
@@ -261,15 +258,13 @@ namespace PlantGenius.DAL
         /// <returns></returns>
         public async Task UpdatePlantWaterLastTime(int plantId)
         {
-            using (var db = new AppDbContext())
-            {
                 var plant = await db.Plants.FirstOrDefaultAsync(r => r.PlantID == plantId);
-                if (plant != null)
-                {
-                    plant.PlantWaterLastTime = DateTime.Today;
-                    await db.SaveChangesAsync();
-                }
+            if (plant != null)
+            {
+                plant.PlantWaterLastTime = DateTime.Today;
+                await db.SaveChangesAsync();
             }
+           
         }
 
         /// <summary>

@@ -12,7 +12,7 @@
     {
         // NUnit Test if after a room is deleted, the RoomSortNummber is correctly refreshed.
         [TestFixture]
-        public class RefreshSortRoomsTest
+        internal class RefreshSortRoomsTest
         {
             private AppDbContext context;
             private DataAccessLayer DALNUnit;

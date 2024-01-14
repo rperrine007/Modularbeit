@@ -12,7 +12,7 @@
     {
         // NUnit Test if the RoomSortNumber is correctly updated.
         [TestFixture]
-        public class UpdateRoomSortNumberTests
+        internal class UpdateRoomSortNumberTests
         {
             private AppDbContext context;
             private DataAccessLayer DALNUnit;

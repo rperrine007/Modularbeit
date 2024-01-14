@@ -12,7 +12,7 @@ namespace DataAccessLayerNUnitTests
 {
     // NUnit Test if room can be added correctly to the DB.
     [TestFixture]
-    public class AddRoomToDBTests
+    internal class AddRoomToDBTests
     {
         private AppDbContext context;
         private DataAccessLayer DALNUnit;

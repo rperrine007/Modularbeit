@@ -12,7 +12,7 @@ namespace DataAccessLayerNUnitTests
 {
     // NUnit Test if rooms can be correctly loaded from the DB.
     [TestFixture]
-    public class GetRoomsFromDB
+    internal class GetRoomsFromDB
     {
         private AppDbContext context;
         private DataAccessLayer DALNUnit;

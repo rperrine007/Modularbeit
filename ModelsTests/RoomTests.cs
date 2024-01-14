@@ -10,7 +10,7 @@ namespace ModelsNUnitTests
 {
     // NUnit Tests of methods of the Room class.
     [TestFixture]
-    public class RoomTests
+    internal class RoomTests
     {
         private Room TestRoom { get; set; }
 

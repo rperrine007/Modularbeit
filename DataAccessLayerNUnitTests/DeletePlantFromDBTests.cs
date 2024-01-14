@@ -49,7 +49,7 @@ namespace DataAccessLayerNUnitTests
             await DALNUnit.DeletePlantFromDB(addedPlant);
 
             // SingleOrDefault is a LINQ (Language-Integrated Query) method used to retrieve a single item from a sequence (like a DbSet in EF).
-            // In this case it looks for a room with the name "DALTest"
+            // In this case it looks for a plant with the name "Test"
             var found = context.Plants.SingleOrDefault(x => x.PlantName == "Test");
 
             Assert.IsNull(found, "Deleted plant was found.");

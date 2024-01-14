@@ -474,15 +474,14 @@ In diesem Projekt werden folgende Methoden der Klasse DataAccessLayer.cs geteste
 - public async Task UpdateRoomSortNumber(...)
 - public async Task RefreshSortRooms()   
 
+- public async Task<List<Plant>> LoadPlantsFromDB()
 - public async Task AddPlantToDB(...)
-
--  public async Task DeletePlantFromDB(...)
+- public async Task UpdatePlantsToDB(...)
+- public async Task DeletePlantFromDB(...)
 
 Nicht getestet wurden folgende Funktionen:
 - public async Task<HashSet<int>> GetRoomsWithPlants()
-- public async Task<List<Plant>> LoadPlantsFromDB()
 
-- public async Task UpdatePlantsToDB(
 
 Zusätzlich werden Funktionen mit Logik der Klassen Room und Plant in einem separaten Projekt getestet.
 

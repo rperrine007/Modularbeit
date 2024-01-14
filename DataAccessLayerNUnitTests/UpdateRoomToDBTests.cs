@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace DataAccessLayerNUnitTests
 {
     [TestFixture]
-    public class UpdateRoomToDBTests
+    internal class UpdateRoomToDBTests
     {
         private AppDbContext context;
         private DataAccessLayer DALNUnit;

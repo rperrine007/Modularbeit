@@ -11,7 +11,7 @@ namespace DataAccessLayerNUnitTests
 {
     // NUnit Test if rooms can be correctly loaded from the DB.
     [TestFixture]
-    public class AddPlantToDBTests
+    internal class AddPlantToDBTests
     {
 
         private AppDbContext context;
@@ -27,6 +27,8 @@ namespace DataAccessLayerNUnitTests
             context = new AppDbContext(options);
             context.SaveChanges();
             DALNUnit = new DataAccessLayer(context);
+
+
         }
 
         [Test]
