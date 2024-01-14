@@ -30,38 +30,10 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         {
             DAL = new DataAccessLayer();
             // Initialize commands
-           // MainCommand = new Command(OnMainCommandExecuted);
+            // MainCommand = new Command(OnMainCommandExecuted);
             CountPlantsToWater();
         }
 
-
-        /*
-        public string MainProperty
-        {
-            get => _MainProperty;
-            set
-            {
-                if (_MainProperty != value)
-                {
-                    _MainProperty = value;
-                    OnPropertyChanged(nameof(MainProperty));
-                }
-            }
-        }
-
-        public ICommand MainCommand { get; }
-
-        //TODO Für was war der MainComman gedacht? Ich finde keine Verwendung. Möglicherweise könnten wir ihn löschen?
-        private void OnMainCommandExecuted()
-        {
-            // Command execution logic here
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        */
 
         /// <summary>
         /// This method loads first all rooms and then load into each room the plants.
