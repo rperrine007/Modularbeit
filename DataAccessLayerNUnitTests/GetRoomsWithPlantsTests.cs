@@ -6,15 +6,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DataAccessLayerNUnitTests
 {
+    // Test if rooms with plants can be recognized.
     [TestFixture]
     internal class GetRoomsWithPlantsTests
     {
-         {
+         
         private AppDbContext context;
         private DataAccessLayer DALNUnit;
+        private Room record;
+        private Room record2;
 
         // Create an in memory DB
         [SetUp]
@@ -27,7 +31,7 @@ namespace DataAccessLayerNUnitTests
             DALNUnit = new DataAccessLayer(context);
 
             //Add room for test
-            var record = new Room()
+            record = new Room()
             {
                 RoomID = -12,
                 RoomName = "DALTest",
@@ -36,7 +40,18 @@ namespace DataAccessLayerNUnitTests
                 RoomLight = false
             };
 
+            //Add room2 for test
+            record2 = new Room()
+            {
+                RoomID = -122,
+                RoomName = "DALTest2",
+                RoomSort = -9992,
+                RoomFloor = -992,
+                RoomLight = false
+            };
+
             context.Rooms.Add(record);
+            context.Rooms.Add(record2);
             context.SaveChanges();
 
             //Add plant for test
@@ -49,18 +64,7 @@ namespace DataAccessLayerNUnitTests
                 RoomID = -12,
             };
 
-            //Add second plant for test
-            var recordPlant2 = new Plant()
-            {
-                PlantName = "Test2",
-                PlantNameScientific = "Test-Scientific2",
-                PlantWaterLastTime = DateTime.Today,
-                PlantWaterRequirement = 102,
-                RoomID = -12,
-            };
-
             context.Plants.Add(recordPlant);
-            context.Plants.Add(recordPlant2);
             context.SaveChanges();
         }
 
@@ -68,23 +72,14 @@ namespace DataAccessLayerNUnitTests
         public async Task LoadPlantsTestTask()
         {
             //get rooms
-            var plants = await DALNUnit.LoadPlantsFromDB();
+            var roomIDsWithPlants = await DALNUnit.GetRoomsWithPlants();
 
-            //test retireved list 1st element
-            Assert.That(plants[0].PlantName, Is.EqualTo(recordPlant.PlantName), "PlantName Test unsuccessfull.");
-            Assert.That(plants[0].PlantID, Is.EqualTo(recordPlant.PlantID), "PlantID Test unsuccessfull.");
-            Assert.That(plants[0].PlantNameScientific, Is.EqualTo(recordPlant.PlantNameScientific), "PlantNameScientific Test unsuccessfull.");
-            Assert.That(plants[0].PlantWaterLastTime, Is.EqualTo(recordPlant.PlantWaterLastTime), "PlantWaterLastTime Test unsuccessfull.");
-            Assert.That(plants[0].PlantWaterRequirement, Is.EqualTo(recordPlant.PlantWaterRequirement), "PlantWaterRequirement Test unsuccessfull.");
-            Assert.That(plants[0].RoomID, Is.EqualTo(recordPlant.RoomID), "RoomID Test unsuccessfull.");
+            //only delete room when no plants are contained.
+            var roomWithPlants = roomIDsWithPlants.Contains(record.RoomID);
+            var roomWithoutPlants = roomIDsWithPlants.Contains(record2.RoomID);
 
-            //test retrieved second element
-            Assert.That(plants[1].PlantName, Is.EqualTo(recordPlant2.PlantName), "PlantName2 Test unsuccessfull.");
-            Assert.That(plants[1].PlantID, Is.EqualTo(recordPlant2.PlantID), "PlantID2 Test unsuccessfull.");
-            Assert.That(plants[1].PlantNameScientific, Is.EqualTo(recordPlant2.PlantNameScientific), "PlantNameScientific2 Test unsuccessfull.");
-            Assert.That(plants[1].PlantWaterLastTime, Is.EqualTo(recordPlant2.PlantWaterLastTime), "PlantWaterLastTime2 Test unsuccessfull.");
-            Assert.That(plants[1].PlantWaterRequirement, Is.EqualTo(recordPlant2.PlantWaterRequirement), "PlantWaterRequirement2 Test unsuccessfull.");
-            Assert.That(plants[1].RoomID, Is.EqualTo(recordPlant2.RoomID), "RoomID2 Test unsuccessfull.");
+            Assert.IsTrue(roomWithPlants, "Room should have plants.");
+            Assert.IsFalse(roomWithoutPlants, "Room should not have plants.");
         }
 
         //Delete the in memory DB

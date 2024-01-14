@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayerNUnitTests
 {
+    // NUnit Test if plants can be deleted correctly from the DB.
     [TestFixture]
     internal class DeletePlantFromDBTests
     {

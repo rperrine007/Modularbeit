@@ -29,6 +29,7 @@ Es sind vier verschiedene Ansichten vorhanden:
 - Pflanzen: Auflistung wichtigsten Daten der Pflanzen.
 - Räume: Auflistung der wichtigsten Daten der Pflanzen, die Pflanzen sind in die zugewiesenen Räume gruppiert.
 - Optionen: Noch nichts, wäre eine Erweiterungsmöglichkeit.
+- Pflanzen hinzufügen: Maske um neue Pflanzen der DB hinzuzufügen.
 - Pflanzen editieren: Maske um Pflanzen-Daten zu bearbeiten.
 
 
@@ -479,7 +480,6 @@ In diesem Projekt werden folgende Methoden der Klasse DataAccessLayer.cs geteste
 - public async Task UpdatePlantsToDB(...)
 - public async Task DeletePlantFromDB(...)
 
-Nicht getestet wurden folgende Funktionen:
 - public async Task<HashSet<int>> GetRoomsWithPlants()
 
 

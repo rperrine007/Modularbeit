@@ -10,6 +10,7 @@ using NUnit.Framework.Internal;
 
 namespace DataAccessLayerNUnitTests
 {
+    // NUnit Test if plants can be correctly updated to the DB.
     [TestFixture]
     internal class UpdatePlantToDBTests
     {

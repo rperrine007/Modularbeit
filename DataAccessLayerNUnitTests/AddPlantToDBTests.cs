@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayerNUnitTests
 {
-    // NUnit Test if rooms can be correctly loaded from the DB.
+    // NUnit Test if plants can be correctly loaded from the DB.
     [TestFixture]
     internal class AddPlantToDBTests
     {
 
         private AppDbContext context;
         private DataAccessLayer DALNUnit;
-        private Plant AddedPlant { get; set; }
+        private Plant? AddedPlant { get; set; }
 
         // Create an in memory DB
         [SetUp]
