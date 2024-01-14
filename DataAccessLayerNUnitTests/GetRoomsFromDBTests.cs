@@ -16,7 +16,6 @@ namespace DataAccessLayerNUnitTests
     {
         private AppDbContext context;
         private DataAccessLayer DALNUnit;
-        private List<Room>? rooms;
 
         // Create an in memory DB
         [SetUp]

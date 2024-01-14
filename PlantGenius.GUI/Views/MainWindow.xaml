@@ -30,7 +30,7 @@
 
         <!-- Button to get to next window -->
         <StackPanel Grid.Row="1" Grid.Column="0">
-            <Button x:Name="Button_ChangeToRoomView" Content="Räume bearbeiten" Height="40" FontSize="14" Margin="20" CommandParameter="{x:Reference Name=mainwindow}" Command="{Binding ShowWindowCommand}" BorderBrush="White" FontWeight="Bold" Foreground="White" Background="#FF1A2517" Click="Button_ChangeToRoomView_Click"/>
+            <Button Content="Räume bearbeiten" Height="40" FontSize="14" Margin="20" CommandParameter="{x:Reference Name=mainwindow}" Command="{Binding ShowWindowCommand}" BorderBrush="White" FontWeight="Bold" Foreground="White" Background="#FF1A2517"/>
         </StackPanel>
 
     </Grid>

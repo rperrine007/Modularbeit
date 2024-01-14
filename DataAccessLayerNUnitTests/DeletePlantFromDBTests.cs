@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayerNUnitTests
 {
-    // NUnit Test if room can be deleted correctly from the DB.
     [TestFixture]
-    public class DeleteRoomFromDBTests
+    internal class DeletePlantFromDBTests
     {
         private AppDbContext context;
         private DataAccessLayer DALNUnit;
@@ -27,31 +26,33 @@ namespace DataAccessLayerNUnitTests
 
             context.SaveChanges();
 
-            //Add room for test
-            var record = new Room()
+            //Add plant for test
+            var record = new Plant()
             {
-                RoomName = "DALTest",
-                RoomSort = -999,
-                RoomFloor = -99,
-                RoomLight = false
+                PlantID = -100,
+                PlantName = "Test",
+                PlantNameScientific = "Test-Scientific",
+                PlantWaterLastTime = DateTime.Today,
+                PlantWaterRequirement = 10,
+                RoomID = -1,
             };
 
-            context.Rooms.Add(record);
+            context.Plants.Add(record);
             context.SaveChanges();
         }
 
         [Test]
-        public async Task DeleteRoomTestTask()
+        public async Task DeletePlantTestTask()
         {
-            var addedRoom = context.Rooms.Single(x => x.RoomName == "DALTest");
-            //Remove room
-            await DALNUnit.DeleteRoomFromDB(addedRoom);
+            var addedPlant = context.Plants.Single(x => x.PlantName == "Test");
+            //Remove plant
+            await DALNUnit.DeletePlantFromDB(addedPlant);
 
             // SingleOrDefault is a LINQ (Language-Integrated Query) method used to retrieve a single item from a sequence (like a DbSet in EF).
             // In this case it looks for a room with the name "DALTest"
-            var found = context.Rooms.SingleOrDefault(x => x.RoomName == "DALTest");
+            var found = context.Plants.SingleOrDefault(x => x.PlantName == "Test");
 
-            Assert.IsNull(found, "Deleted room was found.");
+            Assert.IsNull(found, "Deleted plant was found.");
         }
 
         //Delete the in memory DB
