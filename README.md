@@ -1,4 +1,4 @@
-# PlantGenius.GUI Sample Solution
+# PlantGenius.GUI
 
 ## Beschreibung
 Wer kennt das nicht? Deine Pflanze ist entweder vertrocknet oder steht im Wasser.​​
