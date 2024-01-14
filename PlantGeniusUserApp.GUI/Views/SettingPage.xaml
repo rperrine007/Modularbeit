@@ -50,6 +50,7 @@
         <Label 
             Text="Hier kannst du ganz viel anpassen ;-)"
             VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+            HorizontalOptions="Center" 
+            Margin="20"/>
     </VerticalStackLayout>
 </ContentPage>

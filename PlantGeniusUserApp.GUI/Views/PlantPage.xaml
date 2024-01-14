@@ -127,19 +127,8 @@
                 </Image.GestureRecognizers>
             </Image>
 
-            <!-- Round Add Button with adjusted button size and padding -->
-            <Frame Grid.Column="1" CornerRadius="25" WidthRequest="40" HeightRequest="40"
-                BackgroundColor="{StaticResource Primary}"
-                HorizontalOptions="Center" VerticalOptions="Center"
-                   Padding="0,0,0,5">
-
-                <Button Text="+" FontSize="25" TextColor="White" BackgroundColor="Transparent" 
-                        WidthRequest="50" HeightRequest="50"
-                        HorizontalOptions="Center" VerticalOptions="Center"
-                        Command="{Binding ChangeToPlantPageCommand}"/>
-            </Frame>
-
         </Grid>
+      
 
     </VerticalStackLayout>
 </ContentPage>
