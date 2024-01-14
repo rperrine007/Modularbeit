@@ -1,12 +1,8 @@
 ﻿﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Numerics;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Maui.Layouts;
-using Org.BouncyCastle.Tls;
 using PlantGenius.DAL;
 using PlantGenius.DAL.Models;
 using PlantGeniusUserApp.GUI.Views;

@@ -1,17 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using PlantGenius.DAL.Models;
 using PlantGenius.DAL;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using CommunityToolkit.Mvvm.Input;
-using System.Diagnostics;
-using Org.BouncyCastle.Tls;
 
 
 namespace PlantGeniusUserApp.GUI.ViewModel
@@ -90,14 +82,14 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         private async Task AddPlant(object obj)
         {
 
-            //checks if a Room is not null
-            if ((SelectedPlant == null) || (SelectedPlant.PlantName == string.Empty) || (SelectedRoom == null) || (SelectedPlant.PlantWaterRequirement == 0) || (SelectedPlant.PlantWaterLastTime == null) )
+            //checks if a Plant is not null
+            if (SelectedPlant == null || string.IsNullOrEmpty(SelectedPlant.PlantName) || SelectedRoom == null || SelectedPlant.PlantWaterRequirement == 0)
             {
                 AlertDescription = "Pflanze konnte nicht hinzugefügt werden. \n Pflanzenname, Raum, Wasserbedarf(Tage) und letzted Giessdatum sind Pflichtfelder.\n Pflanze konnte nicht hinzugefügt werden.";
                 await App.Current.MainPage.DisplayAlert("Warning", AlertDescription, "Ok");
                 return;
             }
-            //check if a Room with the given name already exists.
+            //check if a Plant with the given name already exists.
             else if (ExistingPlantNames.Contains(SelectedPlant.PlantName))
             {
                 AlertDescription = "Pflanze konnte nicht hinzugefügt werden da es bereits eine Pflanze mit dem angegeben Namen gibt. \n Bitte wählen Sie einen anderen Namen.";
@@ -109,7 +101,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             Plant newPlant = new Plant()
             {
                 PlantName = SelectedPlant.PlantName,
-                PlantNameScientific = SelectedPlant.PlantNameScientific == null ? string.Empty : SelectedPlant.PlantNameScientific,
+                PlantNameScientific = SelectedPlant.PlantNameScientific ?? string.Empty,
                 RoomID = SelectedRoom.RoomID,
                 Room = SelectedRoom,
                 PlantWaterRequirement = SelectedPlant.PlantWaterRequirement,
