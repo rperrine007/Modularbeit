@@ -42,7 +42,7 @@ namespace PlantGenius.DAL.Models
 
         [Required]
         [MaxLength(30)]
-        public string PlantName { get; set; }
+        public string? PlantName { get; set; }
 
         [MaxLength(50)]
         public string? PlantNameScientific { get; set; }
@@ -52,7 +52,7 @@ namespace PlantGenius.DAL.Models
 
 
         [ForeignKey("RoomID")]
-        public Room Room { get; set; }
+        public Room? Room { get; set; }
 
         private int _plantSort;
 

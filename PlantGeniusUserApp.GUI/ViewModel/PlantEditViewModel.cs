@@ -2,56 +2,37 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using PlantGenius.DAL;
 using PlantGenius.DAL.Models;
 
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
-    public class PlantEditViewModel : INotifyPropertyChanged
+    public partial class PlantEditViewModel : ObservableObject
     {
         public ObservableCollection<Room> Rooms { get; private set; }
-        private Room _selectedRoom;
-        public Room SelectedRoom
-        {
-            get { return _selectedRoom; }
-            set
-            {
-                if (_selectedRoom != value)
-                {
-                    _selectedRoom = value;
-                    OnPropertyChanged(nameof(SelectedRoom));
-                }
-                
-            }
-        }
 
-        private Plant _selectedPlant;
-        public Plant SelectedPlant
+        [ObservableProperty]
+        private Room selectedRoom;
 
-        {
-            get { return _selectedPlant; }
-            set
-            {
-                if (_selectedPlant != value)
-                {
-                    _selectedPlant = value;
-                    OnPropertyChanged(nameof(SelectedPlant));
-                }
-            }
-        }
-
-        public ICommand SaveCommand { get; private set; }
+        [ObservableProperty]
+        private Plant selectedPlant;
 
         public PlantEditViewModel(Plant selectedPlant)
         {
             SelectedPlant = selectedPlant;
-            SaveCommand = new Command(SavePlant);
-
             Rooms = new ObservableCollection<Room>();
             LoadRooms();
         }
 
-        private async void SavePlant()
+        private bool CanSavePlant(object obj)
+        {
+            return true;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanSavePlant))]
+        private async Task SavePlant(object obj)
         {
             if (SelectedPlant != null)
             {
@@ -82,14 +63,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             }
 
             SelectedRoom = Rooms.FirstOrDefault(r => r.RoomID == SelectedPlant.RoomID);
-        }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

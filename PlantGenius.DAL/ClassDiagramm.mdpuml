@@ -34,170 +34,438 @@ Es sind vier verschiedene Ansichten vorhanden:
 
 ## Genutzte Frameworks und Aufbau
 Für die Kommunikation mit der genutzten Maria DB wurde das Entity Frame Work (EFF) verwendet. Der Code wurde nach dem Model-View-ViewModel (MVVM) Framework gegliedert. Ausserdem wurde das Paket CommunityToolkit.Mvvm verwendet, da dieses einige nützliche Funktionen bereitstellt und das wichtige Interface INotifyPropertyChanged bereits eingebunden ist.
-## Klassendiagramm
-@startuml
 
-Room --|> DataAccessLayer
-Plant --|> DataAccessLayer
-Plant --|> Room
-DataAccessLayer --|> AppDbContext
+## Klassendiagramm WPF-Applikation (Detail-Ansicht)
+@startuml
+skinparam classAttributeIconSize 0
+set namespaceSeparator none
+
+
+namespace PlantGenius.DAL{
+Room ..> DataAccessLayer : Abhängigkeit
+Plant ..> DataAccessLayer : Abhängigkeit
+Plant "0" o-- "1" Room : Aggregation
+DataAccessLayer "0" *-- "1" AppDbContext : Komposition
+AppDbContext  -- MariaDB_InMemoryDB : Assoziation
+}
+
+namespace PlantGenius.GUI{
+ MainWindow -- MainWindowViewModel : Assoziation
+ MainWindowViewModel -- RoomView : Assoziation
+ RoomView -- RoomWindowViewModel : Assoziation
+ RoomWindowViewModel -- MainWindow : Assoziation
+ }
+
+RoomWindowViewModel "0" -- "1..*" Room : Assoziation   
+RoomWindowViewModel "0" o-- "1" DataAccessLayer : Aggregation   
+
+
+
+
+}
+
+
+@enduml
+
+## Klassendiagramm .NET MAUI-Applikation (Detail-Ansicht Vereinfacht)
+@startuml
+skinparam classAttributeIconSize 0
+set namespaceSeparator none
+
+
+namespace PlantGenius.DAL{
+Room ..> DataAccessLayer : Abhängigkeit
+Plant ..> DataAccessLayer : Abhängigkeit
+Plant "0" o-- "1" Room : Aggregation
+DataAccessLayer "0" *-- "1" AppDbContext : Komposition
+AppDbContext  -- MariaDB_InMemoryDB : Assoziation
+}
+
+namespace PlantGeniusUserApp.GUI{
+namespace Views{
+    class SomeViewPage
+    {
+    }
+
+    class SomeViewPageWithRooms
+    {
+    }
+ }
+
+namespace ViewModel{
+
+ RoomViewModel --|> PlantViewModel
+ SomeViewPage -- SomeViewPageModel : Assoziation
+ SomeViewPageWithRooms -- SomeViewPageWithRoomsModel : Assoziation
+
+
+SomeViewPageModel "0" o-- "1" DataAccessLayer : Aggregation   
+SomeViewPageModel "0" -- "1..*" Plant : Assoziation   
+
+SomeViewPageWithRoomsModel "0" o-- "1" DataAccessLayer : Aggregation   
+SomeViewPageWithRoomsModel "0" -- "1..*" Plant : Assoziation 
+SomeViewPageWithRoomsModel "0" -- "1..*" Room : Assoziation 
+}
+
+}
+
+
+@enduml
+
+
+## Klassendiagramm (Detail-Ansicht)
+@startuml
+skinparam classAttributeIconSize 0
+set namespaceSeparator none
+
+
+namespace PlantGenius.DAL{
+Room ..> DataAccessLayer : Abhängigkeit
+Plant ..> DataAccessLayer : Abhängigkeit
+Plant "0" o-- "1" Room : Aggregation
+DataAccessLayer "0" *-- "1" AppDbContext : Komposition
+AppDbContext  -- MariaDB_InMemoryDB : Assoziation
+
+
+
 
 class Plant
 {
-        public int PlantID { get; set; }
-        public string PlantName { get; set; }
-        public string PlantNameScientific { get; set; }
-        public int PlantRoom { get; set; }
-        public Room Room { get; set; }
-        public int PlantSort { get; set; }
-        public int PlantWaterRequirement { get; set; }
-        public DateTime PlantWaterLastTime { get; set; }
+        + Plant()
+        + Plant(string plantName, DateTime waterLastTime, int waterRequirement)
+
+        + int PlantID { get; set; }
+        + string PlantName { get; set; }
+        + string PlantNameScientific { get; set; }
+        + int PlantRoom { get; set; }
+        + Room Room { get; set; }
+        + int PlantSort { get; set; }
+        + int PlantWaterRequirement { get; set; }
+        + DateTime PlantWaterLastTime { get; set; }
        
-        public Plant()
-        public Plant(...)
-        private DateTime CalculatePlantWaterNextTime()
-        public string PlantWaterNextTime()  
-        public override string ToString()
-        public string WaterIconPath()
-        public void UpdatePlantSort()
+        - DateTime CalculatePlantWaterNextTime()
+        + string PlantWaterNextTime()  
+        + override string ToString()
+        + string WaterIconPath()
+        + void UpdatePlantSort()
 }
 
 class Room
 {
-        public int RoomID { get; init; }
-        public string RoomName { get; set; }
-        public int? RoomSort { get; set; }
-        public int? RoomFloor { get; set; }
-        public bool? RoomLight { get; set; }
-        public ICollection<Plant> Plants { get; set; }
+        + int RoomID { get; init; }
+        + string RoomName { get; set; }
+        + int? RoomSort { get; set; }
+        + int? RoomFloor { get; set; }
+        + bool? RoomLight { get; set; }
 
-        public Room()
-        public Room(...)
-        public Room(....)
-        public override string ToString()
+        + Room()
+        + Room(string roomName, int floorOfRoom, bool roomLight)
+        + Room(int roomID, string roomName, int roomSortNumber, int floorOfRoom, bool roomLight)
+        + override string ToString()
 }
 
-class AppDbContext
-    {
-        private string connectionString;
-        public DbSet<Plant> Plants { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-
-        public AppDbContext(){}
-        public AppDbContext(...) : base(...){}
-        protected override void OnConfiguring(...)
-    }
 
 class DataAccessLayer
-{
+{       
+        - AppDbContext db;
 
-        private AppDbContext db;
+        + DataAccessLayer()
+        + DataAccessLayer(AppDbContext context)
 
-        public DataAccessLayer()
-        public DataAccessLayer(...)
+        + async Task<List<Room>> GetRooms()
+        + async Task AddRoomToDB(Room roomInput)
+        + async Task UpdateRoomToDB(Room roomInput)
+        + async Task DeleteRoomFromDB(Room roomInput)
+        + async Task UpdateRoomSortNumber(int roomId, int newSortNumber)
+        + async Task RefreshSortRooms()        
+        + async Task<HashSet<int>> GetRoomsWithPlants()
+        + async Task<List<Plant>> LoadPlantsFromDB()
+        + async Task AddPlantToDB(Plant plantInput)
+        + async Task UpdatePlantsToDB(Plant plantInput)
+        + async Task DeletePlantFromDB(Plant plantInput)
+ }
 
-        public async Task<List<Room>> GetRooms()
-        public async Task AddRoomToDB(...)
-        public async Task UpdateRoomToDB(...)
-        public async Task DeleteRoomFromDB(...)
-        public async Task UpdateRoomSortNumber(...)
-        public async Task RefreshSortRooms()        
-        public async Task<HashSet<int>> GetRoomsWithPlants()
-        public async Task<List<Plant>> LoadPlantsFromDB()
-        public async Task AddPlantToDB(...)
-        public async Task UpdatePlantsToDB(...)
-        public async Task DeletePlantFromDB(...)
+ 
+package MariaDB_InMemoryDB <<Database>> 
+    {
+class AppDbContext
+    {
+        - string connectionString;
+        + DbSet<Plant> Plants { get; set; }
+        + DbSet<Room> Rooms { get; set; }
+
+        + AppDbContext(){}
+        + AppDbContext(DbContextOptions options) : base(options){}
+        # override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    }
+    }
+ }
+
+
+ namespace PlantGenius.GUI{
+ MainWindow -- MainWindowViewModel : Assoziation
+ MainWindowViewModel -- RoomView : Assoziation
+ RoomView -- RoomWindowViewModel : Assoziation
+ RoomWindowViewModel -- MainWindow : Assoziation
+
+
+ class MainWindow
+ {        
+        + MainWindow()
+ }
+
+ class MainWindowViewModel
+ {
+    + MainWindowViewModel() 
+
+    - bool CanShowWindow(object obj)
+    [RelayCommand(CanExecute = nameof(CanShowWindow))]
+    - void ShowWindow(object obj)        
+ }
+
+class RoomView
+ {
+        - ObservableCollection<Room> roomList;
+        - DataAccessLayer DAL;
+
+        + RoomView()
+        - void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        - void TextBox_GotFocus(object sender, RoutedEventArgs e)
 
  }
+
+class RoomWindowViewModel
+{
+        
+        - string inputRoomName;
+        - int inputRoomSort;
+        - HashSet<string> existingNames = new HashSet<string>();
+        - HashSet<int> roomIDsWithPlants = new HashSet<int>();
+        - DataAccessLayer DAL;
+
+        + ObservableCollection<Room> roomList { get; set; }
+        + string RoomName { get; set; }
+        + string RoomSort { get; set; }
+        + string RoomFloor { get; set; }
+        + string RoomLight { get; set; }      
+
+        
+        + RelayCommand<(object obj, object tag)> ChangeRoomSortNumberCommand { get; }
+
+        + RoomWindowViewModel()
+        - async void GetRoomFromDB()
+        - async Task<HashSet<int>> GetRoomIDWithPlantsFromDB()
+
+        - bool CanAddRoom(object obj)
+        [RelayCommand(CanExecute = nameof(CanAddRoom))]
+        - async Task AddRoom(object obj)    
+        
+        - bool CanDeleteRoom(object obj)
+        [RelayCommand(CanExecute = nameof(CanDeleteRoom))]
+        - async Task DeleteRoom(object obj)
+        
+        - async Task ChangeRoomSortNumber(object obj, object tag)
+        
+        - bool CanSaveChanges(object obj)
+        [RelayCommand(CanExecute = nameof(CanSaveChanges))]
+        - async Task SaveChanges(object obj)   
+        
+        - bool CanShowMainWindow(object obj)
+        [RelayCommand(CanExecute = nameof(CanShowMainWindow))]
+        - void ShowMainWindow(object obj)      
+
+}
+}
+
+namespace PlantGeniusUserApp.GUI{
+namespace Views{
+    class MainPage
+    {
+        + MainPage()      
+    }
+
+    class PlantPage
+    {
+        + PlantPage()
+    }
+
+    class RoomPage
+    {
+        + RoomPage()
+
+    }
+
+    class SettingPage
+    {
+        + SettingPage()
+    }
+
+    class PlantPageEdit
+    {
+        + PlantPageEdit()
+        - void OnEntryTextChanged(object sender, TextChangedEventArgs e)
+    }
+
+    class AddPlantPage
+    {
+        + AddPlantPage()
+    }
+ }
+
+ namespace ViewModel{
+    class MainViewModel
+    {
+        - DataAccessLayer DAL;
+
+        [ObservableProperty]
+        - int count;
+
+        [ObservableProperty]
+        - string mainProperty;
+
+        + MainViewModel()
+        - async Task CountPlantsToWater()
+        + ICommand PageAppearingCommand => new Command();
+    }
+
+    class PlantViewModel
+    {       
+        - DataAccessLayer DAL;
+        - bool isUpdateButtonEnabled;
+        + event PropertyChangedEventHandler? PropertyChanged;
+        
+        + bool IsUpdateButtonEnabled { get => .., set .. }
+        + ObservableCollection<Plant> Plants { get; set; }
+
+        + PlantsViewModel()
+        + ICommand PageAppearingCommand => new Command();
+
+        - bool CanUpdatePlants()
+        [RelayCommand(CanExecute = nameof(CanUpdatePlants))]
+        # async Task UpdatePlants()
+
+        - bool CanEditPlant()
+        [RelayCommand(CanExecute = nameof(CanEditPlant))]
+        # async Task EditPlant(Plant plant)
+
+        # void OnPropertyChanged(string propertyName)
+
+        - bool CanWaterPlant()
+        [RelayCommand(CanExecute = nameof(CanWaterPlant))]
+        # async Task WaterPlant(Plant plant)
+
+        # virtual async Task LoadPlants()
+
+        - bool CanChangeToPlantPage()
+        [RelayCommand(CanExecute = nameof(CanChangeToPlantPage))]
+        # async Task ChangeToPlantPage()
+
+        - bool CanDelete()
+        [RelayCommand(CanExecute = nameof(CanDelete))]
+        # async Task Delete(Plant selectedPlant)
+
+    }
+
+     class RoomViewModel
+    {
+        + ObservableGroupedCollection<string, Plant> groupedPlants { get; set; }
+
+        + RoomViewModel()        
+        # override async Task LoadPlants()        
+    }
+
+    class SettingViewModel
+    {
+        + class SettingViewModel()
+    }
+
+    class PlantEditViewModel
+    {
+        + ObservableCollection<Room> Rooms { get; private set; }
+
+        [ObservableProperty]
+        - Room selectedRoom;
+
+        [ObservableProperty]
+        - Plant selectedPlant;
+
+        + PlantEditViewModel(Plant selectedPlant)
+
+        - bool CanSavePlant(object obj)
+        [RelayCommand(CanExecute = nameof(CanSavePlant))]
+        - async Task SavePlant(object obj)
+
+        - async void LoadRooms()
+    }
+
+    class AddPlantViewModel
+    {
+        - DataAccessLayer DAL;
+
+        [ObservableProperty]
+        - Room selectedRoom;
+
+        [ObservableProperty]
+        - DateTime currentDateTime;
+
+        [ObservableProperty]
+        - Plant selectedPlant;
+        
+        + ObservableHashSet<string> ExistingPlantNames { get; set; }
+        + String AlertTitle { get; set; }
+        + String AlertDescription { get; set; }
+        + ObservableCollection<Room> Rooms { get; private set; }
+
+        + AddPlantViewModel()
+        - async void GetPlantIDsFromDB()       
+        - async void LoadRooms()     
+
+        - bool CanAddPlant(object obj)        
+        [RelayCommand(CanExecute = nameof(CanAddPlant))]
+        - async Task AddPlant(object obj)        
+    }
+
+
+    
+
+ }
+
+ MainPage -- MainViewModel : Assoziation
+ PlantPage -- PlantViewModel : Assoziation
+ RoomPage -- RoomViewModel : Assoziation
+ RoomViewModel --|> PlantViewModel
+ SettingPage -- SettingViewModel : Assoziation
+ PlantPageEdit -- PlantEditViewModel : Assoziation
+ AddPlantPage -- AddPlantViewModel : Assoziation
+
+
+ }
+
+RoomWindowViewModel "0" -- "1..*" Room : Assoziation   
+RoomWindowViewModel "0" o-- "1" DataAccessLayer : Aggregation   
+
+MainViewModel "0" o-- "1" DataAccessLayer : Aggregation   
+MainViewModel "0" -- "1..*" Plant : Assoziation   
+PlantViewModel "0" o-- "1" DataAccessLayer : Aggregation   
+PlantViewModel "0" -- "1..*" Plant : Assoziation 
+RoomViewModel "0" o-- "1" DataAccessLayer : Aggregation   
+RoomViewModel "0" -- "1..*" Plant : Assoziation 
+RoomViewModel "0" -- "1..*" Room : Assoziation 
+PlantEditViewModel "0" o-- "1" DataAccessLayer : Aggregation   
+PlantEditViewModel "0" -- "1..*" Plant : Assoziation 
+PlantEditViewModel "0" -- "1..*" Room : Assoziation 
+AddPlantViewModel "0" o-- "1" DataAccessLayer : Aggregation   
+AddPlantViewModel "0" -- "1..*" Plant : Assoziation 
+AddPlantViewModel "0" -- "1..*" Room : Assoziation 
+ }
+
 
 
 
 @enduml
 
-# Detaillierter Inhalt der verschiedenen Projekten
-## PlantGenius.DAL - Models
-### Klasse Plant
-public class Plant
-{
-
-        public Plant()
-        public Plant(string plantName, DateTime waterLastTime, int waterRequirement)
-
-        public int PlantID { get; set; }
-        public string PlantName { get; set; }
-        public string PlantNameScientific { get; set; }
-        public int PlantRoom { get; set; }
-        public Room Room { get; set; }
-        public int PlantSort { get; set; }
-        public int PlantWaterRequirement { get; set; }
-        public DateTime PlantWaterLastTime { get; set; }
-       
-        private DateTime CalculatePlantWaterNextTime()
-        public string PlantWaterNextTime()  
-        public override string ToString()
-        public string WaterIconPath()
-        public void UpdatePlantSort()
-
-}
-
-### Klasse Room
-public class Room
-{
-
-        public Room()
-        public Room(string roomName, int floorOfRoom, bool roomLight)
-        public Room(int roomID, string roomName, int roomSortNumber, int floorOfRoom, bool roomLight)
-
-        public int RoomID { get; init; }
-        public string RoomName { get; set; }
-        public int? RoomSort { get; set; }
-        public int? RoomFloor { get; set; }
-        public bool? RoomLight { get; set; }
-        public ICollection<Plant> Plants { get; set; }
-
-        public override string ToString()
-}
-
-## PlantGenius.DAL - DAL und DB
-### Klasse AppDbContext
-public class AppDbContext : DbContext
-    {
-
-        private string connectionString = *censored*;
-        public DbSet<Plant> Plants { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-
-        public AppDbContext(){}
-        public AppDbContext(DbContextOptions options) : base(options){}
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    }
-
-
-### Klasse DataAccessLayer
-public class DataAccessLayer
-{
-
-        private AppDbContext db;
-
-        public DataAccessLayer()
-        public DataAccessLayer(AppDbContext context)
-
-        public async Task<List<Room>> GetRooms()
-        public async Task AddRoomToDB(Room roomInput)
-        public async Task UpdateRoomToDB(Room roomInput)
-        public async Task DeleteRoomFromDB(Room roomInput)
-        public async Task UpdateRoomSortNumber(int roomId, int newSortNumber)
-        public async Task RefreshSortRooms()        
-        public async Task<HashSet<int>> GetRoomsWithPlants()
-        public async Task<List<Plant>> LoadPlantsFromDB()
-        public async Task AddPlantToDB(Plant plantInput)
-        public async Task UpdatePlantsToDB(Plant plantInput)
-        public async Task DeletePlantFromDB(Plant plantInput)
-}
-
-
-## DataAccessLayerNUnitTest
-### Berschreibung der Tests
+# Detaillierter Inhalt der NUnit-Tests
+## Berschreibung der Tests
 In diesem Projekt werden folgende Methoden der Klasse DataAccessLayer.cs getestet:
 - public async Task<List<Room>> GetRooms()
 - public async Task AddRoomToDB(...)
@@ -212,9 +480,12 @@ Nicht getestet wurden folgende Funktionen:
 - public async Task AddPlantToDB(...)
 - public async Task UpdatePlantsToDB(
 
+Zusätzlich werden Funktionen mit Logik der Klassen Room und Plant in einem separaten Projekt getestet.
+
 Alle Tests werden in einer separaten Klasse und auf einer InMemoryDataBase ausgeführt sodass die eigentliche DB nicht durch die Tests belastet und verändert wird.
 Da die Tests alle erfolgreich waren wird an dieser Stelle nicht näher darauf eingegangen.
 
+# Beschreibung der verfügbaren Views
 ## PlantGeniusUserApp.GIU - Views
 ## MainWindow:Window
 Start der Applikation, über einen Button gelangt man weiter zur RoomView.

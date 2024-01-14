@@ -81,7 +81,7 @@
                         <ViewCell.ContextActions>
                             <MenuFlyoutItem Text="Edit" 
                                             IconImageSource="edit_icon_black.png"
-                                       Command="{Binding Path=BindingContext.EditCommand, Source={x:Reference Name=PlantsListByRooms}}" CommandParameter="{Binding .}" />
+                                       Command="{Binding Path=BindingContext.EditPlantCommand, Source={x:Reference Name=PlantsListByRooms}}" CommandParameter="{Binding .}" />
                             <MenuFlyoutItem Text="Delete"
                                             IconImageSource="delete_icon_black.png"
                                       Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Name=PlantsListByRooms}}" CommandParameter="{Binding .}" />
@@ -111,7 +111,7 @@
                                    Source="{Binding WaterIconPath}"
                                    VerticalOptions="Center" HeightRequest="40" WidthRequest="40">
                                 <Image.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WaterCommand, Source={x:Reference Name=PlantsListByRooms}}"
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WaterPlantCommand, Source={x:Reference Name=PlantsListByRooms}}"
                                                           CommandParameter="{Binding .}" />
                                 </Image.GestureRecognizers>
                             </Image>

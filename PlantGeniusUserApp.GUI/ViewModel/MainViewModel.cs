@@ -19,18 +19,15 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         //private string _MainProperty;
 
         [ObservableProperty]
-        public int count;
+        private int count;
 
         [ObservableProperty]
-        public string mainProperty;
-
-        //public event PropertyChangedEventHandler PropertyChanged;
+        private string mainProperty;
 
         public MainViewModel()
         {
             DAL = new DataAccessLayer();
             // Initialize commands
-            // MainCommand = new Command(OnMainCommandExecuted);
             CountPlantsToWater();
         }
 

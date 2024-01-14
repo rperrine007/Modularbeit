@@ -14,10 +14,10 @@ using CommunityToolkit.Mvvm.Input;
 namespace PlantGenius.GUI.ViewModel
 {
         public partial class MainWindowViewModel : ObservableObject
-    {
-        public MainWindowViewModel() 
         {
-        }
+        public MainWindowViewModel() 
+            {
+            }
 
         private bool CanShowWindow(object obj)
         {
@@ -33,6 +33,7 @@ namespace PlantGenius.GUI.ViewModel
             //initialize variabel with defined command parameter and cast it as type Window
             var mainWindow = obj as Window;
 
+            //TODO try or if/ else for ArgumentNullException
             try
             {
                 // Save the position of the window to keep size and position
@@ -44,8 +45,13 @@ namespace PlantGenius.GUI.ViewModel
                 // Open the new window and close old one
                 roomViewWin.Show();
                 mainWindow.Close();
+
             }
-            catch(ArgumentNullException ex)
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (NullReferenceException ex)
             {
                 MessageBox.Show(ex.Message);
             }

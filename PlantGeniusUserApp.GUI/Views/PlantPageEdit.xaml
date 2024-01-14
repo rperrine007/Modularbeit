@@ -66,7 +66,7 @@
             <Label Text="Letztes Giessdatum" FontAttributes="Bold"/>
             <DatePicker Date="{Binding SelectedPlant.PlantWaterLastTime, Mode=TwoWay}" Format="D"/>
 
-            <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand" />
+            <Button Text="Save" Command="{Binding SavePlantCommand}" HorizontalOptions="FillAndExpand" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

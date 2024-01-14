@@ -11,8 +11,6 @@ namespace PlantGenius.GUI.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        //bool to check if the window already changes size.
-        private bool isResizing;
 
         public MainWindow()
         {
@@ -20,50 +18,14 @@ namespace PlantGenius.GUI.Views
 
             MainWindowViewModel mainViewModel = new MainWindowViewModel();
             this.DataContext = mainViewModel;
-
-            // initialize boolean
-            isResizing = false;
         }
 
+        /*
         private void Button_ChangeToRoomView_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
-        //TODO Flackern bei der Verstellung der Grösse (eine Richtung, andere nicht).
-        /*
-        /// Function: The window size can only be changed proportinally.
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            
-            if (isResizing)
-            {
-                return;
-            }
-            else
-            { 
-                // If the height is changed set the width accordingly
-                if (e.HeightChanged)
-                {
-                    isResizing = true;
-                    //Ratio 0.9
-                    this.Width = e.NewSize.Height * (10.0 / 9.0);
-                    
-                }
-                // If the width is changed set height accordingly
-                else if (e.WidthChanged)
-                {
-                    isResizing = true;
-                    //Ratio 1.11
-                    this.Height = e.NewSize.Width * (9.0 / 10.0);
-                }
-
-
-                isResizing = false;
-            }
-        }*/
+        */
     }
 }
 
