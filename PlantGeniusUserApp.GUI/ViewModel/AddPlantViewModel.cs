@@ -8,9 +8,12 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
+    /// <summary>
+    /// Logic to add a new Plant to the Database
+    /// </summary>
     public partial class AddPlantViewModel : ObservableObject
     {
-        //DB
+        //Starting an instance for database
         private DataAccessLayer DAL;
 
         //datavariables
@@ -36,18 +39,20 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             // Update the current date and time
             CurrentDateTime = DateTime.Now;
 
-            // Initialize 
+            // Initialize the DAL
             DAL = new DataAccessLayer();
+            
+            // Initalize the Collections
             ExistingPlantNames = new ObservableHashSet<string>();
             selectedPlant = new Plant();
             Rooms = new ObservableCollection<Room>();
 
-            // Now get the plant-IDs from database
+            // Now get the plants and rooms from database
             GetPlantIDsFromDB();
-
             LoadRooms();
         }
 
+        // Async get plant names from the database
         private async void GetPlantIDsFromDB()
         {
             ExistingPlantNames.Clear();
@@ -58,6 +63,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             }
         }
 
+        // Async get room names from the database
         private async void LoadRooms()
         {
             var dataAccessLayer = new DataAccessLayer();
@@ -67,6 +73,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 Rooms.Add(room);
             }
 
+            // Add the Room to the plant
             SelectedRoom = Rooms.FirstOrDefault(r => r.RoomID == SelectedPlant.RoomID);
         }
 
