@@ -60,7 +60,8 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
         private async void LoadRooms()
         {
-            var roomsList = await DAL.GetRooms();
+            var dataAccessLayer = new DataAccessLayer();
+            var roomsList = await dataAccessLayer.GetRooms();
             foreach (var room in roomsList)
             {
                 Rooms.Add(room);
