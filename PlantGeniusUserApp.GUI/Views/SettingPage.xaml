@@ -3,54 +3,61 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PlantGeniusUserApp.GUI.Views.SettingPage">
 
-    <!-- customized titleView-->
-    <Shell.TitleView Margin="0" Padding="0">
+    <Grid>
+        <!-- Add background picture-->
+        <!-- Background image -->
+        <Image Grid.Row="0" Grid.Column="0" Source="background_picture.jpg" Aspect="AspectFill"/>
+        <VerticalStackLayout Spacing="25" Padding="30" >
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="24*"/>
-                <ColumnDefinition Width="*"/>
+            <Frame Padding="0,10" CornerRadius="10"  Background ="White" >
+                <StackLayout>
+                    <Label Text="Einstellungen" 
+                    FontSize="Large"
+                    HorizontalOptions="Center" 
+                    FontAttributes="Bold"/>
 
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="*"/>
-
-            </Grid.RowDefinitions>
-
-            <Image Source="background_picture.jpg" Aspect="AspectFill" Grid.Column="0" Grid.RowSpan="3"/>
-
-
-            <Frame  
-                  BackgroundColor="{StaticResource White}"
-                  HorizontalOptions="Start" VerticalOptions="FillAndExpand"
-                 WidthRequest="150"
-                 Padding="13,0,0,0" Margin="5,0,0,0" Grid.Column="0" Grid.Row="1">
-
-                <StackLayout Orientation="Horizontal">
-                    <Image Source="settings_icon.svg" Aspect="AspectFit" Margin="3" />
-
-                    <Label Text="Settings"
-                   VerticalOptions="Center" 
-                   HorizontalOptions="Center" 
-                   TextColor="{StaticResource Primary} "
-                   FontAttributes="Bold"
-                   FontSize="20"
-                   Margin="5,0,0,0"
-                   />
-
+                    <Label Text="Hier ist noch nichts los, wir haben aber Ideen ;-)" Margin="0,10,0,0"
+                    HorizontalOptions="Center" />
                 </StackLayout>
             </Frame>
-        </Grid>
+
+            <Frame Padding="15" CornerRadius="10"  Background ="White" >
+                <Label Text="Accountverwaltung, jeder Benutzer hat Zugriff auf seine eigenen Pflanzen und kann diese auch mit anderen Teilen."
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                  />
+            </Frame>
+
+            <Frame Padding="15" CornerRadius="10"  Background ="White" >
+                <Label Text="Hell und Dunkelmodus wählbar - Übernahme aktueller Einstellung vom System"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                  />
+            </Frame>
+
+            <Frame Padding="15" CornerRadius="10"  Background ="White" >
+                <Label Text="Push Benachrichtiung, wenn eine Pflanze mehr als x Tage nicht gewässert wurde."
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                  />
+            </Frame>
+
+            <Frame Padding="15" CornerRadius="10"  Background ="White" >
+                <Label Text="Pflanzen eigenes Bild hinterlegen und in der Übersicht anzeigen"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                  />
+            </Frame>
+
+            <Frame Padding="15" CornerRadius="10"  Background ="White" >
+                <Label Text="Abgleich in Pflanzendatenbank und Bereitstellung von weiteren Informationen direkt bei der Pflanze: Zum Beispiel idealer Standort, Giessintervall etc."
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                  />
+            </Frame>
 
 
-    </Shell.TitleView>
-    <VerticalStackLayout>
-        <Label 
-            Text="Hier kannst du ganz viel anpassen ;-)"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" 
-            Margin="20"/>
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+
 </ContentPage>
