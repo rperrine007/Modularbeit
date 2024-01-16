@@ -5,12 +5,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
+    /// <summary>
+    /// First page. Loads welcome page and displays a counter showing the number of plants that currently need water
+    /// </summary>
     public partial class MainViewModel : ObservableObject
     {
-        //Datavariables
+        //Starting an instance for database
         private DataAccessLayer DAL;
-
-        //private string _MainProperty;
 
         [ObservableProperty]
         private int count;
@@ -18,6 +19,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         [ObservableProperty]
         private string mainProperty;
 
+        // Initialize the DAL
         public MainViewModel()
         {
             DAL = new DataAccessLayer();
@@ -31,8 +33,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
 
         /// <summary>
-        /// This method loads first all rooms and then load into each room the plants.
-        /// virtuals: function can be overriden by child-classes
+        /// This method loads all plants and shows a counter of plants that currently need water
         /// </summary>
         private async Task CountPlantsToWater()
         {

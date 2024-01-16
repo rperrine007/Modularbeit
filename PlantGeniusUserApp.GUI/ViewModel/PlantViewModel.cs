@@ -9,13 +9,13 @@ using PlantGeniusUserApp.GUI.Views;
 
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
+    /// <summary>
+    /// Shows the plant overview page - plants are sorted by next water date. Press and hold to edit or delete the plants. The plant can be watered by pressing the watering can.
+    /// </summary>
     public partial class PlantsViewModel : ObservableObject, INotifyPropertyChanged
     {
         //Datavariables
         private DataAccessLayer DAL;
-
-        //Observable Property Update-Button enabled/disabled
-        //TODO Why did the [Observable Property] not work here?
 
         private bool isUpdateButtonEnabled;
         

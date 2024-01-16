@@ -94,7 +94,15 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             if (SelectedPlant == null || string.IsNullOrEmpty(SelectedPlant.PlantName) || SelectedRoom == null || SelectedPlant.PlantWaterRequirement == 0)
             {
                 AlertDescription = "Pflanze konnte nicht hinzugefügt werden. \n Pflanzenname, Raum, Wasserbedarf(Tage) und letzted Giessdatum sind Pflichtfelder.\n Pflanze konnte nicht hinzugefügt werden.";
-                await App.Current.MainPage.DisplayAlert("Warning", AlertDescription, "Ok");
+                if (App.Current != null && App.Current.MainPage != null)
+                {
+                    await App.Current.MainPage.DisplayAlert("Warning", AlertDescription, "Ok");
+                }
+                else
+                {
+                    //TODO ALEX Any error logging or way to handle the error same for the code bellow
+                }
+
                 return;
             }
             //check if a Plant with the given name already exists.

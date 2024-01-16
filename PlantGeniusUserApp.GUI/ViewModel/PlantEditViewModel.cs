@@ -9,6 +9,9 @@ using PlantGenius.DAL.Models;
 
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class PlantEditViewModel : ObservableObject
     {
         public ObservableCollection<Room> Rooms { get; private set; }
