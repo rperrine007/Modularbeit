@@ -13,18 +13,18 @@ namespace PlantGeniusUserApp.GUI.ViewModel
     /// </summary>
     public partial class AddPlantViewModel : ObservableObject
     {
-        //Starting an instance for database
+        // Starting an instance for database
         private DataAccessLayer DAL;
 
-        //datavariables
+        // Datavariables
         [ObservableProperty]
         private Room selectedRoom;
 
-        //Add the current time so it does not need to be set if new plant is added
+        // Add the current time so it does not need to be set if new plant is added
         [ObservableProperty]
         private DateTime currentDateTime;
 
-        //Properties
+        // Properties
         public ObservableHashSet<string> ExistingPlantNames { get; set; }
         [ObservableProperty]
         private Plant selectedPlant;
@@ -83,21 +83,21 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         }
 
         /// <summary>
-        /// Adds a new room to the roomList and the DB.
+        /// Adds a new plant to the roomList and the DB.
         /// </summary>
         /// <param name="obj"></param>
         [RelayCommand(CanExecute = nameof(CanAddPlant))]
         private async Task AddPlant(object obj)
         {
 
-            //checks if a Plant is not null
+            // Check if a Plant is not null
             if (SelectedPlant == null || string.IsNullOrEmpty(SelectedPlant.PlantName) || SelectedRoom == null || SelectedPlant.PlantWaterRequirement == 0)
             {
                 AlertDescription = "Pflanze konnte nicht hinzugefügt werden. \n Pflanzenname, Raum, Wasserbedarf(Tage) und letztes Giessdatum sind Pflichtfelder.\n Pflanze konnte nicht hinzugefügt werden.";
                 await App.Current!.MainPage!.DisplayAlert("Warning", AlertDescription, "Ok");
                 return;
             }
-            //check if a Plant with the given name already exists.
+            // Check if a Plant with the given name already exists.
             else if (ExistingPlantNames.Contains(SelectedPlant.PlantName))
             {
                 AlertDescription = "Pflanze konnte nicht hinzugefügt werden, da es bereits eine Pflanze mit dem angegeben Namen gibt. \n Bitte wählen Sie einen anderen Namen.";
@@ -115,10 +115,10 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 PlantWaterLastTime = SelectedPlant.PlantWaterLastTime,
             };
 
-            //add Plant to DB
+            // Add Plant to DB
             await DAL.AddPlantToDB(newPlant);
 
-            //add to existing names Set so we can make sure not two plants with the same name exist.
+            // Add to existing names Set so we can make sure not two plants with the same name exist.
             ExistingPlantNames.Add(newPlant.PlantName);
 
             try
