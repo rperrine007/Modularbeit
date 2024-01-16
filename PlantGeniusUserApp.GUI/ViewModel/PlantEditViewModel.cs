@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using Org.BouncyCastle.Tls;
 using PlantGenius.DAL;
 using PlantGenius.DAL.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PlantGeniusUserApp.GUI.ViewModel
 {
@@ -22,10 +23,25 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
         [ObservableProperty]
         private Plant selectedPlant;
+
+        // Adding a copy of the plant object to avoid writing to the original object before storing
+        private Plant copyPlant;
+
         public String AlertDescription { get; set; }
         public PlantEditViewModel(Plant selectedPlant)
         {
             SelectedPlant = selectedPlant;
+
+            // Adding a copy of the original object
+            copyPlant = new Plant
+            {
+                PlantName = selectedPlant.PlantName,
+                PlantNameScientific = selectedPlant.PlantNameScientific,
+                PlantID = selectedPlant.PlantID,
+                PlantSort = selectedPlant.PlantSort,
+                PlantWaterLastTime = selectedPlant.PlantWaterLastTime,
+                PlantWaterRequirement = selectedPlant.PlantWaterRequirement
+            };
 
             // Now get the rooms from database and insert in collection
             Rooms = new ObservableCollection<Room>();
@@ -46,15 +62,21 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         [RelayCommand(CanExecute = nameof(CanSavePlant))]
         private async Task SavePlant(object obj)
         {
-            if (SelectedPlant == null || string.IsNullOrEmpty(SelectedPlant.PlantName) || SelectedRoom == null || SelectedPlant.PlantWaterRequirement == 0)
+            if (copyPlant == null || string.IsNullOrEmpty(copyPlant.PlantName) || copyPlant.PlantWaterRequirement <= 0)
             {
-                AlertDescription = "Pflanze konnte nicht hinzugefügt werden. \n Pflanzenname ist ein Pflichtfeld.\n Pflanze konnte nicht hinzugefügt werden.";
+                AlertDescription = "Pflanze konnte nicht hinzugefügt werden. \n Pflanzenname und Wasserbedarf sind Pflichtfelder.\n Pflanze konnte nicht hinzugefügt werden.";
                 await App.Current!.MainPage!.DisplayAlert("Warning", AlertDescription, "Ok");
                 return;
             }
             else
             {
                 // Update the plant's room with the selected room
+                SelectedPlant.PlantName = copyPlant.PlantName;
+                SelectedPlant.PlantNameScientific = copyPlant.PlantNameScientific;
+                SelectedPlant.PlantWaterLastTime = copyPlant.PlantWaterLastTime;
+                SelectedPlant.PlantWaterRequirement = copyPlant.PlantWaterRequirement;
+                SelectedPlant.RoomID = copyPlant.RoomID;
+
                 SelectedPlant.RoomID = SelectedRoom.RoomID;
 
                 try
@@ -88,7 +110,14 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 Rooms.Add(room);
             }
 
-            SelectedRoom = Rooms?.FirstOrDefault(r => r.RoomID == SelectedPlant?.RoomID)!;
+            SelectedRoom = Rooms?.FirstOrDefault(r => r.RoomID == SelectedPlant?.RoomID);
+        }
+
+        // Bind this property to your View for editing
+        public Plant CopyPlant
+        {
+            get => copyPlant;
+            set => SetProperty(ref copyPlant, value);
         }
     }
 }

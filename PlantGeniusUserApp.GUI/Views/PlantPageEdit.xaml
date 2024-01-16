@@ -48,11 +48,11 @@
 
             <Label Text="Pflanzenname" FontAttributes="Bold"/>
             <Entry Placeholder="Pflanzenname"
-                   Text="{Binding SelectedPlant.PlantName, Mode=TwoWay}" />
+                   Text="{Binding CopyPlant.PlantName, Mode=TwoWay}" />
 
             <Label Text="Wissenschaftlicher Name" FontAttributes="Bold"/>
             <Entry Placeholder="Wissenschaftlicher Name"
-                   Text="{Binding SelectedPlant.PlantNameScientific, Mode=TwoWay}" />
+                   Text="{Binding CopyPlant.PlantNameScientific, Mode=TwoWay}" />
 
             <Label Text="Raum" FontAttributes="Bold"/>
             <Picker Title="Select Room"
@@ -61,10 +61,10 @@
             
             <Label Text="Wasserbedarf (Tage)" FontAttributes="Bold"/>
             <Entry Placeholder="Wasserbedarf (Tage) / Nur Zahleneingabe!" TextChanged="OnEntryTextChanged"
-                   Text="{Binding SelectedPlant.PlantWaterRequirement, Mode=TwoWay}"/>
+                   Text="{Binding CopyPlant.PlantWaterRequirement, Mode=TwoWay}"/>
 
             <Label Text="Letztes Giessdatum" FontAttributes="Bold"/>
-            <DatePicker Date="{Binding SelectedPlant.PlantWaterLastTime, Mode=TwoWay}" Format="D"/>
+            <DatePicker Date="{Binding CopyPlant.PlantWaterLastTime, Mode=TwoWay}" Format="D"/>
 
             <Button Text="Save" Command="{Binding SavePlantCommand}" HorizontalOptions="FillAndExpand" />
         </VerticalStackLayout>
