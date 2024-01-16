@@ -225,7 +225,7 @@ namespace PlantGenius.DAL
 
                     foreach (var plant in plantsInRoom)
                     {
-                        // Force reload all plants from DB to ensure update really loads the newest data
+                        // Force reload all plants from DB to ensure update really loads the newest data and not cached entries
                         db.Entry(plant).Reload();
 
                         // Add Plants to list
