@@ -59,7 +59,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             var plants = await DAL.LoadPlantsFromDB();
             foreach (var plant in plants)
             {
-                ExistingPlantNames.Add(plant.PlantName);
+                ExistingPlantNames.Add(plant.PlantName!);
             }
         }
 
@@ -74,7 +74,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             }
 
             // Add the Room to the plant
-            SelectedRoom = Rooms.FirstOrDefault(r => r.RoomID == SelectedPlant.RoomID);
+            SelectedRoom = Rooms?.FirstOrDefault(r => r.RoomID == SelectedPlant?.RoomID)!;
         }
 
         private bool CanAddPlant(object obj)
@@ -93,23 +93,15 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             //checks if a Plant is not null
             if (SelectedPlant == null || string.IsNullOrEmpty(SelectedPlant.PlantName) || SelectedRoom == null || SelectedPlant.PlantWaterRequirement == 0)
             {
-                AlertDescription = "Pflanze konnte nicht hinzugefügt werden. \n Pflanzenname, Raum, Wasserbedarf(Tage) und letzted Giessdatum sind Pflichtfelder.\n Pflanze konnte nicht hinzugefügt werden.";
-                if (App.Current != null && App.Current.MainPage != null)
-                {
-                    await App.Current.MainPage.DisplayAlert("Warning", AlertDescription, "Ok");
-                }
-                else
-                {
-                    //TODO ALEX Any error logging or way to handle the error same for the code bellow
-                }
-
+                AlertDescription = "Pflanze konnte nicht hinzugefügt werden. \n Pflanzenname, Raum, Wasserbedarf(Tage) und letztes Giessdatum sind Pflichtfelder.\n Pflanze konnte nicht hinzugefügt werden.";
+                await App.Current!.MainPage!.DisplayAlert("Warning", AlertDescription, "Ok");
                 return;
             }
             //check if a Plant with the given name already exists.
             else if (ExistingPlantNames.Contains(SelectedPlant.PlantName))
             {
-                AlertDescription = "Pflanze konnte nicht hinzugefügt werden da es bereits eine Pflanze mit dem angegeben Namen gibt. \n Bitte wählen Sie einen anderen Namen.";
-                await App.Current.MainPage.DisplayAlert("Warning", AlertDescription, "Ok");
+                AlertDescription = "Pflanze konnte nicht hinzugefügt werden, da es bereits eine Pflanze mit dem angegeben Namen gibt. \n Bitte wählen Sie einen anderen Namen.";
+                await App.Current!.MainPage!.DisplayAlert("Warning", AlertDescription, "Ok");
                 return;
             }
 
@@ -131,12 +123,12 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
             try
             {
-                await App.Current.MainPage.Navigation.PopAsync();
+                await App.Current!.MainPage!.Navigation.PopAsync();
                 return;
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("Warning", $"Error saving plant: {ex.Message}", "Ok");
+                await App.Current!.MainPage!.DisplayAlert("Warning", $"Error saving plant: {ex.Message}", "Ok");
             }
         }
     }
