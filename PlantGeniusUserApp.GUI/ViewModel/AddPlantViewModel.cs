@@ -41,7 +41,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
             // Initialize the DAL
             DAL = new DataAccessLayer();
-            
+
             // Initalize the Collections
             ExistingPlantNames = new ObservableHashSet<string>();
             selectedPlant = new Plant();
@@ -119,7 +119,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 PlantName = SelectedPlant.PlantName,
                 PlantNameScientific = SelectedPlant.PlantNameScientific ?? string.Empty,
                 RoomID = SelectedRoom.RoomID,
-                Room = SelectedRoom,
                 PlantWaterRequirement = SelectedPlant.PlantWaterRequirement,
                 PlantWaterLastTime = SelectedPlant.PlantWaterLastTime,
             };
