@@ -4,7 +4,6 @@
              x:Class="PlantGeniusUserApp.GUI.Views.PlantPageEdit"
              Shell.BackgroundColor="{StaticResource Primary}" >
 
-    <!-- customized titleView-->
     <Shell.TitleView Margin="0" Padding="0">
 
         <Grid>
@@ -24,7 +23,6 @@
                HorizontalOptions="Start" VerticalOptions="FillAndExpand"
               WidthRequest="220"
               Padding="0,0,0,0" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1">
-
                 <StackLayout Orientation="Horizontal">
                     <Image Source="edit_icon_black.png" Aspect="AspectFit" Margin="8" />
 
@@ -34,15 +32,11 @@
                             TextColor="{StaticResource Primary} "
                             FontAttributes="Bold"
                             FontSize="20"
-                            Margin="0,0,0,0"
-                     />
-
+                            Margin="0,0,0,0"/>
                 </StackLayout>
             </Frame>
         </Grid>
     </Shell.TitleView>
-
-
     <ScrollView>
         <VerticalStackLayout Spacing="15" Padding="10">
 
