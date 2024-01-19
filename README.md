@@ -4,7 +4,6 @@ Wer kennt das nicht? Deine Pflanze ist entweder vertrocknet oder steht im Wasser
 PlantGenius bietet dir die perfekte Unterstützung für die Bewässerung deiner Pflanzen. 
 Vertraue auf diese App und gewährleiste die ideale Wasserintervall für jede Pflanze. Mit einer übersichtlichen To-Do-Liste behältst du leicht im Blick, welche deiner Pflanzen wann gegossen werden müssen.
 
-
 ## Projekte
 ### PlantGenius.DAL
 Besteht im essenziellen aus zwei Teilen mit unterschiedlichen Klassen:
@@ -38,7 +37,7 @@ Es sind vier verschiedene Ansichten vorhanden:
 - Pflanzen editieren: Maske um Pflanzen-Daten zu bearbeiten.
 
 ## Genutzte Frameworks und Aufbau
-Für die Kommunikation mit der genutzten Maria DB wurde das Entity Frame Work (EFF) verwendet. Der Code wurde nach dem Model-View-ViewModel (MVVM) Framework gegliedert. Ausserdem wurde das Paket CommunityToolkit.Mvvm verwendet, da dieses einige nützliche Funktionen bereitstellt und das wichtige Interface INotifyPropertyChanged bereits eingebunden ist.
+Für die Kommunikation mit der genutzten Maria DB wurde das Entity Frame Work (EFF) verwendet. Der Code wurde nach dem Model-View-ViewModel (MVVM) Framework gegliedert. Ausserdem wurde das Paket CommunityToolkit.Mvvm verwendet, da dieses einige nützliche Funktionen bereitstellt und das Interface INotifyPropertyChanged bereits eingebunden ist.
 
 ## Detaillierter Inhalt der NUnit-Tests
 Es werden alle Methoden der Klasse DataAccessLayer.cs und Funktionen mit Lofik der Klassen Room.cs und Plant.cs getestet. Alle Tests werden im entsprechenden Projekt einer separaten Klasse und auf einer InMemoryDataBase ausgeführt sodass die eigentliche DB nicht durch die Tests belastet oder verändert wird.
