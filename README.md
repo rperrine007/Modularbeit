@@ -40,6 +40,6 @@ Es sind vier verschiedene Ansichten vorhanden:
 Für die Kommunikation mit der genutzten Maria DB wurde das Entity Frame Work (EF) verwendet. Der Code wurde nach dem Model-View-ViewModel (MVVM) Framework gegliedert. Hierzu wurde das Paket CommunityToolkit.Mvvm verwendet, da dieses einige nützliche Funktionen bereitstellt und das Interface INotifyPropertyChanged bereits eingebunden ist.
 
 ## Detaillierter Inhalt der NUnit-Tests
-Es werden alle Methoden der Klasse DataAccessLayer.cs und Funktionen mit Lofik der Klassen Room.cs und Plant.cs getestet. Alle Tests werden im entsprechenden Projekt einer separaten Klasse und auf einer InMemoryDataBase ausgeführt sodass die eigentliche DB nicht durch die Tests belastet oder verändert wird.
+Es werden alle Methoden der Klasse DataAccessLayer.cs und Funktionen mit Logik der Klassen Room.cs und Plant.cs getestet. Alle Tests werden im entsprechenden Projekt einer separaten Klasse und auf einer InMemoryDataBase ausgeführt sodass die eigentliche DB nicht durch die Tests belastet oder verändert wird.
 
 Da die Tests alle erfolgreich waren wird an dieser Stelle nicht näher darauf eingegangen.
