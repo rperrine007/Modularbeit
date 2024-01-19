@@ -13,7 +13,7 @@ Besteht im essenziellen aus zwei Teilen mit unterschiedlichen Klassen:
 
 PlantGenius.GUI-Projekt und PlantGeniusUserApp.GUI-Projekt können auf alle Klassen in diesem Projekt zugreifen. 
 
-### DataAccessLayerNUnitTests
+### DataAccessLayerNUnitTests und ModelsNUnitTest
 NUnit Tests der Klassen DataAccessLayers, Rooms und Plants.
 
 ### PlantGenius.GUI
