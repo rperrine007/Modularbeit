@@ -2,7 +2,7 @@
 ## Beschreibung
 Wer kennt das nicht? Deine Pflanze ist entweder vertrocknet oder steht im Wasser.
 PlantGenius bietet dir die perfekte Unterstützung für die Bewässerung deiner Pflanzen. 
-Vertraue auf diese App und gewährleiste die ideale Wassermenge für jede Pflanze. Mit einer übersichtlichen To-Do-Liste behältst du leicht im Blick, welche deiner Pflanzen wann gegossen werden müssen.
+Vertraue auf diese App und gewährleiste die ideale Wasserintervall für jede Pflanze. Mit einer übersichtlichen To-Do-Liste behältst du leicht im Blick, welche deiner Pflanzen wann gegossen werden müssen.
 
 
 ## Projekte
