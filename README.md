@@ -42,23 +42,6 @@ Für die Kommunikation mit der genutzten Maria DB wurde das Entity Frame Work (E
 
 ## Detaillierter Inhalt der NUnit-Tests
 ### Berschreibung der Tests
-In diesem Projekt werden folgende Methoden der Klasse DataAccessLayer.cs getestet:
-- public async Task<List<Room>> GetRooms()
-- public async Task AddRoomToDB(...)
-- public async Task UpdateRoomToDB(...)
-- public async Task DeleteRoomFromDB(...)
-- public async Task UpdateRoomSortNumber(...)
-- public async Task RefreshSortRooms()   
+Es werden alle Methoden der Klasse DataAccessLayer.cs und Funktionen mit Lofik der Klassen Room.cs und Plant.cs getestet. Alle Tests werden im entsprechenden Projekt einer separaten Klasse und auf einer InMemoryDataBase ausgeführt sodass die eigentliche DB nicht durch die Tests belastet oder verändert wird.
 
-- public async Task<List<Plant>> LoadPlantsFromDB()
-- public async Task AddPlantToDB(...)
-- public async Task UpdatePlantsToDB(...)
-- public async Task DeletePlantFromDB(...)
-
-- public async Task<HashSet<int>> GetRoomsWithPlants()
-
-
-Zusätzlich werden Funktionen mit Logik der Klassen Room und Plant in einem separaten Projekt getestet.
-
-Alle Tests werden in einer separaten Klasse und auf einer InMemoryDataBase ausgeführt sodass die eigentliche DB nicht durch die Tests belastet und verändert wird.
 Da die Tests alle erfolgreich waren wird an dieser Stelle nicht näher darauf eingegangen.
