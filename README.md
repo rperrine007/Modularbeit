@@ -19,6 +19,10 @@ NUnit Tests der Klassen DataAccessLayers, Rooms und Plants.
 ### PlantGenius.GUI
 WPF Applikation zur Verwaltung der Räume. Änderungen werden in der DB gespeichert. 
 
+Es sind zwei verschiedene Ansichten verfügbar: 
+- Home: Willkommens-Bildschirm.
+- Räume: Auflistung der Räume und die Möglichkeit diese zu verwalten.
+
 ### PlantGeniusUserApp.GUI
 .NET MAUI Applikation mit welcher eine bearbeitbare Übersicht der gespeicherten Pflanzen in der DB gegeben wird. Die Daten können bearbeitet werden wobei die Änderungen in der DB abgespeichert wird.
 Es wird angegeben, wann welche Pflanze gegossen werden muss. 
