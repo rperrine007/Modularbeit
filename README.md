@@ -27,7 +27,9 @@ Es sind vier verschiedene Ansichten vorhanden:
 - Home: Willkommens-Bildschirm.
 - Pflanzen: Auflistung wichtigsten Daten der Pflanzen.
 - Räume: Auflistung der wichtigsten Daten der Pflanzen, die Pflanzen sind in die zugewiesenen Räume gruppiert.
-- Optionen: Noch nichts, wäre eine Erweiterungsmöglichkeit.
+- Einstellungen: Auflistung möglicher Erweiterungen; noch keine Logik.
+
+... und zwei Unterseiten:
 - Pflanzen hinzufügen: Maske um neue Pflanzen der DB hinzuzufügen.
 - Pflanzen editieren: Maske um Pflanzen-Daten zu bearbeiten.
 
