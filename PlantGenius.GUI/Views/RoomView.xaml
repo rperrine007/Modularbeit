@@ -52,7 +52,7 @@
 
         <!-- ListBox Section 
         Bind the selectedItem to the Property SelectedRoom (not the object selectedRoom! -->
-        <ListBox x:Name="ListBox_RoomList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}" DisplayMemberPath="RoomName" IsSynchronizedWithCurrentItem="True" Margin="10,10,10,0" Background="#FFABC5A4" SelectionChanged="SelectionChangedEvent"/>
+        <ListBox x:Name="ListBox_RoomList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}" DisplayMemberPath="RoomName" IsSynchronizedWithCurrentItem="True" Margin="10,10,10,0" Background="#FFABC5A4"/>
 
         <!-- Detail of Rooms Section -->
         <!-- Including a new Grid for nice proportions -->
@@ -92,6 +92,10 @@
 
         <!-- Menu to interact with database -->
         <Grid  Grid.Row="2" Grid.Column="0" Margin="10,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -99,7 +103,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- RoomSortNumber -1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Grid.Row="0" Grid.Column="0" Tag="-1" Command="{Binding ChangeRoomSortNumberCommand}" Grid.ColumnSpan="2" Margin="0,0,65,0" >
+            <Button Grid.Row="0" Grid.Column="0" Tag="-1" Command="{Binding ChangeRoomSortNumberCommand}" Grid.RowSpan="2" >
                 <!-- Multiple parameters can be given to the RelayComman using an array which will be converted to a tulple-->
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource MultiParameterValueConverter}">
@@ -115,7 +119,7 @@
             </Button>
 
             <!-- RoomSortNumber +1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Grid.Row="0" Grid.Column="1" Tag="1" Command="{Binding ChangeRoomSortNumberCommand}" >
+            <Button Grid.Row="0" Grid.Column="1" Tag="1" Command="{Binding ChangeRoomSortNumberCommand}" Grid.RowSpan="2" >
                 <!-- Multiple parameters can be given to the RelayComman using an array which will be converted to a tulple-->
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource MultiParameterValueConverter}">
@@ -131,7 +135,7 @@
             </Button>
 
             <!-- Delete; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Grid.Row="0" Grid.Column="2" CommandParameter="{x:Reference Name=ListBox_RoomList}" Command="{Binding DeleteRoomCommand}">
+            <Button Grid.Row="0" Grid.Column="2" CommandParameter="{x:Reference Name=ListBox_RoomList}" Command="{Binding DeleteRoomCommand}" Grid.RowSpan="2">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE74D;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>

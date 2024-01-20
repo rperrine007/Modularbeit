@@ -35,16 +35,17 @@ namespace PlantGenius.GUI.ViewModel
         //Properties
         public ObservableCollection<Room> roomList { get; set; }
 
+
         public string RoomName { get; set; }
 
         public string RoomSort { get; set; }
 
         public string RoomFloor { get; set; }
 
-        public string RoomLight { get; set; }      
+        public string RoomLight { get; set; }
 
         //define a Relay Commands which can take two parameters. Tha this works the class MultiParameterValueConverter is necessary.
-        private RelayCommand<(object obj, object tag)> ChangeRoomSortNumberCommand { get; }
+        public RelayCommand<(object obj, object tag)> ChangeRoomSortNumberCommand { get; }
 
         //Constructor
         public RoomWindowViewModel()
@@ -70,19 +71,19 @@ namespace PlantGenius.GUI.ViewModel
         /// </summary>
         public async void GetRoomFromDB()
         {
-                var rooms = await DAL.GetRooms();
-                roomList.Clear();
-                existingNames.Clear();
-                foreach (var room in rooms)
-                {
-                    roomList.Add(room);
-                    existingNames.Add(room.RoomName);
-                }
+            var rooms = await DAL.GetRooms();
+            roomList.Clear();
+            existingNames.Clear();
+            foreach (var room in rooms)
+            {
+                roomList.Add(room);
+                existingNames.Add(room.RoomName);
+            }
         }
 
         private async Task<HashSet<int>> GetRoomIDWithPlantsFromDB()
         {
-             return await DAL.GetRoomsWithPlants();
+            return await DAL.GetRoomsWithPlants();
         }
 
         private bool CanAddRoom(object obj)
@@ -118,12 +119,12 @@ namespace PlantGenius.GUI.ViewModel
 
             // Create a new Room object from the input
             newRoom = new Room()
-                {
-                    RoomName = this.RoomName, 
-                    RoomSort = roomList.Count + 1,
-                    RoomFloor = this.RoomFloor == string.Empty ? null : int.Parse(RoomFloor),
-                    RoomLight = this.RoomFloor == string.Empty ? null : bool.Parse(this.RoomLight)
-                };
+            {
+                RoomName = this.RoomName,
+                RoomSort = roomList.Count + 1,
+                RoomFloor = this.RoomFloor == string.Empty ? null : int.Parse(RoomFloor),
+                RoomLight = this.RoomFloor == string.Empty ? null : bool.Parse(this.RoomLight)
+            };
 
 
             //add Room to DB
@@ -136,7 +137,7 @@ namespace PlantGenius.GUI.ViewModel
             existingNames.Add(this.RoomName);
         }
 
-        
+
         private bool CanDeleteRoom(object obj)
         {
             return true;
@@ -179,7 +180,7 @@ namespace PlantGenius.GUI.ViewModel
                     string message = "Bitte wählen Sie einen Raum aus!";
                     MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            }                
+            }
             //update view again. Else the SortNumber would not be correct.
             GetRoomFromDB();
         }
@@ -190,7 +191,7 @@ namespace PlantGenius.GUI.ViewModel
         /// Why asynchronous: This ensures t hat the application remains responsive and can handle
         /// </summary>
         /// <param name="obj"></param>
-        private async Task ChangeRoomSortNumber(object obj, object tag)
+        public async Task ChangeRoomSortNumber(object obj, object tag)
         {
 
             ListBox? listBox = obj as ListBox;
@@ -365,13 +366,12 @@ namespace PlantGenius.GUI.ViewModel
             }
         }
 
-        
+
 
     }
 }
 
 
-    
 
 
 

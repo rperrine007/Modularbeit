@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Collections;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -21,7 +22,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
     /// <summary>
     /// RoomViewModel is a child-class of PlantsViewModel as it is basically the same but in the childclass, the plant get also sorted after there room property.
     /// </summary>
-    public class RoomViewModel : PlantsViewModel
+    public partial class RoomViewModel : PlantsViewModel
     {
         //This is a special Typ of the CommunityToolkit.Mvvm.Collections which merges the functionality GroupedCollection with Observable Collection.
         public ObservableGroupedCollection<string, Plant> groupedPlants { get; set; } = new ObservableGroupedCollection<string, Plant>();
