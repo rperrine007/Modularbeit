@@ -23,10 +23,12 @@ namespace PlantGenius.GUI.Views
         // Generate a Collection with rooms
         private ObservableCollection<Room> roomList;
 
+        private RoomWindowViewModel roomViewModel;
+
         public RoomView()
         {
             InitializeComponent();
-            RoomWindowViewModel roomViewModel = new RoomWindowViewModel();
+            roomViewModel = new RoomWindowViewModel();
 
             //Set Datacontext for binding in WPF
             this.DataContext = roomViewModel;
@@ -69,6 +71,18 @@ namespace PlantGenius.GUI.Views
                 }
             }
             
+        }
+
+        private void SelectionChangedEvent(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox? listBox = null;
+            listBox = sender as ListBox;
+            if (e.RemovedItems.Count != 0 && listBox.Items.Count > 0)
+            { 
+                // TODO: good idea?
+                var result = MessageBox.Show("Achtung: Änderungen wurden nicht in die Datenbank gespeichert!");
+            }                
+
         }
 
 

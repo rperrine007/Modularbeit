@@ -15,6 +15,7 @@ using Azure;
 using System.DirectoryServices;
 using PlantGenius.GUI.Views;
 using System.Windows.Documents;
+using MySqlX.XDevAPI.Common;
 
 namespace PlantGenius.GUI.ViewModel
 {
@@ -67,7 +68,7 @@ namespace PlantGenius.GUI.ViewModel
         /// <summary>
         /// Get data through the RoomManager; the data will be reloaded from time to time. The Observable Properties and Collection ensure that the view also get the new data. 
         /// </summary>
-        private async void GetRoomFromDB()
+        public async void GetRoomFromDB()
         {
                 var rooms = await DAL.GetRooms();
                 roomList.Clear();
@@ -243,7 +244,7 @@ namespace PlantGenius.GUI.ViewModel
         }
 
 
-        private bool CanSaveChanges(object obj)
+        public bool CanSaveChanges(object obj)
         {
             return true;
         }
@@ -258,13 +259,12 @@ namespace PlantGenius.GUI.ViewModel
 
         // Delete Room
         [RelayCommand(CanExecute = nameof(CanSaveChanges))]
-        private async Task SaveChanges(object obj)
+        public async Task SaveChanges(object obj)
         {
 
             ListBox? listBox = null;
             Room? selectedRoom = null;
 
-            //Exception handling in case: no item of the listBox is chosen by the user, object is not
 
             listBox = obj as ListBox;
             if (listBox != null)
@@ -364,6 +364,9 @@ namespace PlantGenius.GUI.ViewModel
                 return;
             }
         }
+
+        
+
     }
 }
 

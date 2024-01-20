@@ -52,7 +52,7 @@
 
         <!-- ListBox Section 
         Bind the selectedItem to the Property SelectedRoom (not the object selectedRoom! -->
-        <ListBox x:Name="ListBox_RoomList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}" DisplayMemberPath="RoomName" IsSynchronizedWithCurrentItem="True" Margin="10,10,10,0" Background="#FFABC5A4"/>
+        <ListBox x:Name="ListBox_RoomList" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}" DisplayMemberPath="RoomName" IsSynchronizedWithCurrentItem="True" Margin="10,10,10,0" Background="#FFABC5A4" SelectionChanged="SelectionChangedEvent"/>
 
         <!-- Detail of Rooms Section -->
         <!-- Including a new Grid for nice proportions -->
