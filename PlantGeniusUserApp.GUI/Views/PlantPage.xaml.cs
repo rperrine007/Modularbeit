@@ -8,8 +8,7 @@ namespace PlantGeniusUserApp.GUI.Views
     {
         public PlantPage()
         {
-            InitializeComponent();
-            
+            InitializeComponent();            
             BindingContext = new PlantsViewModel();
         }
 

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.Input;
 using MySqlX.XDevAPI.Common;
 using PlantGenius.DAL;
@@ -21,13 +22,11 @@ namespace PlantGenius.GUI.Views
 
         // Generate a Collection with rooms
         private ObservableCollection<Room> roomList;
-        private DataAccessLayer DAL;
 
         public RoomView()
         {
             InitializeComponent();
             RoomWindowViewModel roomViewModel = new RoomWindowViewModel();
-            DAL = new DataAccessLayer();
 
             //Set Datacontext for binding in WPF
             this.DataContext = roomViewModel;
@@ -72,13 +71,6 @@ namespace PlantGenius.GUI.Views
             
         }
 
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-            textBox.Text = string.Empty;
-            // Oder, wenn Sie einen bestimmten Standardtext haben:
-            // textBox.Text = "Neuer Standardtext";
-        }
 
     }
 }

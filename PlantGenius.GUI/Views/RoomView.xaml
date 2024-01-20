@@ -79,7 +79,7 @@
                 <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="#FFDDDDDD">
                     <TextBox Height="25" Text="{Binding Path=RoomID}" IsReadOnly="True"/>
                     <TextBox Height="25" x:Name="inputRoomSort" Text="{Binding Path=RoomSort}" IsReadOnly="True"/>
-                    <TextBox Height="25" x:Name="inputRoomName" Text="{Binding Path=RoomName}" Background="#FFABC5A4" IsReadOnly="False" />
+                    <TextBox Height="25" x:Name="inputRoomName" Text="{Binding Path=RoomName}" Background="#FFABC5A4" IsReadOnly="False"/>
                     <TextBox Height="25" x:Name="inputRoomFloor" Text="{Binding Path=RoomFloor}" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" IsReadOnly="False" />
                     <ComboBox Style="{DynamicResource ComboBoxStyle1}" SelectedValue="{Binding Path=RoomLight}" SelectedValuePath="Tag" x:Name="comboBoxRoomLight_edit" Margin="0,0,0,10" Height="25">
                         <ComboBoxItem Content="Schattenseite" Tag="False"></ComboBoxItem>
@@ -176,7 +176,7 @@
                 <!-- Content of given room -->
                 <StackPanel Grid.Row="0" Grid.Column="1">
                     <TextBox x:Name="inputNewRoomName" Text="{Binding RoomName}" Height="25" Background="#FFABC5A4" />
-                    <TextBox x:Name="inputNewRoomFloor" Text="{Binding RoomFloor}" Height="25" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" GotFocus="TextBox_GotFocus" />
+                    <TextBox x:Name="inputNewRoomFloor" Text="{Binding RoomFloor}" Height="25" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4"/>
                     <ComboBox Style="{DynamicResource ComboBoxStyle1}" x:Name="comboBoxRoomLight" Margin="0,0,0,10" Height="25" SelectedValue="{Binding RoomLight}" SelectedValuePath="Tag">
                         <ComboBoxItem Content="Schattenseite" Tag="False"/>
                         <ComboBoxItem Content="Sonnenseite" Tag="True" />
@@ -186,8 +186,8 @@
             <Button Height="30" Command="{Binding AddRoomCommand}">
                 <TextBlock FontSize="14" Text="Raum hinzufügen" Margin="0,3,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Height="22"/>
             </Button>
-            
-            
+
+
         </StackPanel>
 
     </Grid>

@@ -43,7 +43,7 @@ namespace PlantGenius.GUI.ViewModel
         public string RoomLight { get; set; }      
 
         //define a Relay Commands which can take two parameters. Tha this works the class MultiParameterValueConverter is necessary.
-        public RelayCommand<(object obj, object tag)> ChangeRoomSortNumberCommand { get; }
+        private RelayCommand<(object obj, object tag)> ChangeRoomSortNumberCommand { get; }
 
         //Constructor
         public RoomWindowViewModel()
@@ -298,7 +298,7 @@ namespace PlantGenius.GUI.ViewModel
                     if (difference.Count() > 1)
                     {
                         title = "Achtung";
-                        message = "Die gezeigten Raumname stimmen nicht mit der Datenbank überein. Es wird empfohlen die Applikatino neu zu starten.";
+                        message = "Die gezeigten Raumname stimmen nicht mit der Datenbank überein. Es wird empfohlen die Applikation neu zu starten.";
                         MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                     // check if only one difference was found.
@@ -312,18 +312,11 @@ namespace PlantGenius.GUI.ViewModel
                     return;
                 }
 
-
-                //Create Rooom
-                Room userInputBoxRoom = new Room()
-                {
-                    RoomName = selectedRoom.RoomName,
-                    RoomSort = selectedRoom.RoomSort,
-                    RoomFloor = selectedRoom.RoomFloor,
-                    RoomLight = selectedRoom.RoomLight
-
-                };
                 // Call the method to update the room in the database
-                await DAL.UpdateRoomToDB(userInputBoxRoom);
+                await DAL.UpdateRoomToDB(selectedRoom);
+
+                //update to make sure the observable roomList has the correct data and everything is showed properly.
+                GetRoomFromDB();
             }
             //Error message if no room is selected.
             else

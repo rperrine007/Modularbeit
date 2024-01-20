@@ -114,7 +114,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         }
 
         // Bind this property to your View for editing
-        public Plant CopyPlant
+        private Plant CopyPlant
         {
             get => copyPlant;
             set => SetProperty(ref copyPlant, value);
