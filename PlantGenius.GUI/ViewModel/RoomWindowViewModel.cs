@@ -66,7 +66,7 @@ namespace PlantGenius.GUI.ViewModel
             //Special RelayCommands initialization
             ChangeRoomSortNumberCommand = new RelayCommand<(object, object)>((parameters) => ChangeRoomSortNumber(parameters.Item1, parameters.Item2));
 
-            //get rooms from DB
+            //get rooms from DB. When this function is deleted from the constructor; the DAL is not initialized and all interactions with the DAL do not work.
             GetRoomFromDB();
         }
 
@@ -134,12 +134,11 @@ namespace PlantGenius.GUI.ViewModel
                 RoomLight = this.RoomFloor == string.Empty ? null : bool.Parse(this.RoomLight)
             };
 
+            // Add to ObservableCollection
+            roomList.Add(newRoom);
 
             //add Room to DB
             await DAL.AddRoomToDB(newRoom);
-
-            // Add to ObservableCollection
-            roomList.Add(newRoom);
 
             //add to exsiting names to Dictionary so we can make sure not two rooms with the same name exist.
             existingIDsAndNames[this.RoomID]=this.RoomName;
