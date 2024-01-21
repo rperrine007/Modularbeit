@@ -56,7 +56,6 @@ namespace PlantGenius.GUI.ViewModel
         {
             //initialize datavariables
             roomList = new ObservableCollection<Room>();
-            DAL = new DataAccessLayer();
 
             this.RoomID = -1;
             this.RoomName = string.Empty;
@@ -76,10 +75,12 @@ namespace PlantGenius.GUI.ViewModel
         /// </summary>
         public async void GetRoomFromDB()
         {
-            var rooms = await DAL.GetRooms();
+            DAL = new DataAccessLayer();
             roomList.Clear();
             existingNames.Clear();
             existingIDsAndNames.Clear();
+
+            var rooms = await DAL.GetRooms();
             foreach (var room in rooms)
             {
                 roomList.Add(room);
