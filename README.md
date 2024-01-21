@@ -43,3 +43,6 @@ Für die Kommunikation mit der genutzten Maria DB wurde das Entity Frame Work (E
 Es werden alle Methoden der Klasse DataAccessLayer.cs und Funktionen mit Logik der Klassen Room.cs und Plant.cs getestet. Alle Tests werden im entsprechenden Projekt einer separaten Klasse und auf einer InMemoryDataBase ausgeführt sodass die eigentliche DB nicht durch die Tests belastet oder verändert wird.
 
 Da die Tests alle erfolgreich waren wird an dieser Stelle nicht näher darauf eingegangen.
+
+##Start der Applikation
+Die Applikation wurde mittel Visual Studio 2022 programmiert und ist in dieser Programmierumgebung ausführbar. Achte hierbei darauf das nicht nur .NET-Desktopentwicklung sondern auch .NET Multi-Platform App UI-Entwicklung installiert ist. Um die .NET Maui Applikation starten zu können wird ein Android Emulator benötigt. IOS und Windows-Machine wurde die Darstellung nicht geprüft, daher wird ein Android Emulator empfohlen. Ausserdem müssen die notwendigen NuGet-Packages installiert werden, siehe hierzu die entsprechenden Projektfiles.
