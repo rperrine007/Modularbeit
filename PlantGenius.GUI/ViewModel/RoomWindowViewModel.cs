@@ -28,13 +28,17 @@ namespace PlantGenius.GUI.ViewModel
         //Datavaribles
         private string inputRoomName;
         private int inputRoomSort;
+
+        // TODO existing names
         private HashSet<string> existingNames = new HashSet<string>();
+        private Dictionary <int,string> existingIDsAndNames = new Dictionary<int,string>();
         private HashSet<int> roomIDsWithPlants = new HashSet<int>();
         private DataAccessLayer DAL;
 
         //Properties
         public ObservableCollection<Room> roomList { get; set; }
 
+        public int RoomID { get; set; }
 
         public string RoomName { get; set; }
 
@@ -54,6 +58,7 @@ namespace PlantGenius.GUI.ViewModel
             roomList = new ObservableCollection<Room>();
             DAL = new DataAccessLayer();
 
+            this.RoomID = -1;
             this.RoomName = string.Empty;
             this.RoomSort = string.Empty;
             this.RoomFloor = string.Empty;
@@ -74,10 +79,12 @@ namespace PlantGenius.GUI.ViewModel
             var rooms = await DAL.GetRooms();
             roomList.Clear();
             existingNames.Clear();
+            existingIDsAndNames.Clear();
             foreach (var room in rooms)
             {
                 roomList.Add(room);
                 existingNames.Add(room.RoomName);
+                existingIDsAndNames.Add(room.RoomID, room.RoomName);
             }
         }
 
@@ -101,15 +108,15 @@ namespace PlantGenius.GUI.ViewModel
             Room? newRoom = null;
 
             //checks if a Room is not null
-            if (this.RoomName == string.Empty)
+            if (this.RoomName == string.Empty || this.RoomFloor == string.Empty || this.RoomLight == string.Empty)
             {
                 string title = "Fehler";
-                string message = "Raum konnte nicht hinzugefügt werden. \nRaumname ist ein Pflichtfeld";
+                string message = "Raum konnte nicht hinzugefügt werden. \n Nicht alle notwendigen Felder wurden ausgefüllt.";
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             //check if a Room with the given name already exists.
-            else if (existingNames.Contains(this.RoomName))
+            else if (existingIDsAndNames.ContainsValue(this.RoomName))
             {
                 string title = "Fehler";
                 string message = "Raum konnte nicht hinzugefügt werden. \nEs gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
@@ -133,8 +140,8 @@ namespace PlantGenius.GUI.ViewModel
             // Add to ObservableCollection
             roomList.Add(newRoom);
 
-            //add to exsiting names Set so we can make sure not two rooms with the same name exist.
-            existingNames.Add(this.RoomName);
+            //add to exsiting names to Dictionary so we can make sure not two rooms with the same name exist.
+            existingIDsAndNames[this.RoomID]=this.RoomName;
         }
 
 
@@ -280,14 +287,25 @@ namespace PlantGenius.GUI.ViewModel
                 return;
             }
 
-            //check if a Room with the given name already exists.
-            if (selectedRoom != null && selectedRoom.RoomName != null)
+            //Error message if no room is selected.
+            if (selectedRoom == null && selectedRoom?.RoomName == null)
             {
-                if (existingNames.Contains(selectedRoom.RoomName))
+                string title = "Fehler";
+                string message = "Bitte wählen Sie einen Raum aus!";
+                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            bool hasError = false;
+            foreach (KeyValuePair<int, string> kvp in existingIDsAndNames)
+            {
+                if (kvp.Value == selectedRoom.RoomName && kvp.Key != selectedRoom.RoomID)
                 {
                     string title = "Fehler";
-                    string message = "Raum konnte nicht hinzugefügt werden. \nEs gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
+                    string message = "Raum konnte nicht geändert werden. \n Es gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
                     MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    //set selected RoomName back
+                    // selectedRoom.RoomName = existingIDsAndNames.TryGetValue(selectedRoom.RoomID, out string? RoomName) ? RoomName : string.Empty;
 
                     //find out which room name was changed
                     var difference = existingNames.Except(roomList.Select(rooms => rooms.RoomName));
@@ -308,27 +326,19 @@ namespace PlantGenius.GUI.ViewModel
                         selectedRoom.RoomName = changedRoomName;
                     }
 
-                    //update to make sure the observable roomList has the correct data and everything is showed properly.
-                    GetRoomFromDB();
-                    return;
+                    hasError = true;
                 }
-
-                // Call the method to update the room in the database
-                await DAL.UpdateRoomToDB(selectedRoom);
-
-                //update to make sure the observable roomList has the correct data and everything is showed properly.
-                GetRoomFromDB();
             }
-            //Error message if no room is selected.
-            else
-            {
-                string title = "Fehler";
-                string message = "Bitte wählen Sie einen Raum aus!";
-                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
 
-            }
+            // Call the method to update the room in the database
+            if (!hasError) await DAL.UpdateRoomToDB(selectedRoom);
+
+            //update to make sure the observable roomList has the correct data and everything is showed properly.
+            GetRoomFromDB();
         }
+
+
+        
 
         private bool CanShowMainWindow(object obj)
         {
