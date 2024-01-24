@@ -15,6 +15,7 @@ using Azure;
 using System.DirectoryServices;
 using PlantGenius.GUI.Views;
 using System.Windows.Documents;
+using MySqlX.XDevAPI.Common;
 
 namespace PlantGenius.GUI.ViewModel
 {
@@ -27,12 +28,17 @@ namespace PlantGenius.GUI.ViewModel
         //Datavaribles
         private string inputRoomName;
         private int inputRoomSort;
+
+        // TODO existing names
         private HashSet<string> existingNames = new HashSet<string>();
+        private Dictionary <int,string> existingIDsAndNames = new Dictionary<int,string>();
         private HashSet<int> roomIDsWithPlants = new HashSet<int>();
         private DataAccessLayer DAL;
 
         //Properties
         public ObservableCollection<Room> roomList { get; set; }
+
+        public int RoomID { get; set; }
 
         public string RoomName { get; set; }
 
@@ -40,7 +46,7 @@ namespace PlantGenius.GUI.ViewModel
 
         public string RoomFloor { get; set; }
 
-        public string RoomLight { get; set; }      
+        public string RoomLight { get; set; }
 
         //define a Relay Commands which can take two parameters. Tha this works the class MultiParameterValueConverter is necessary.
         public RelayCommand<(object obj, object tag)> ChangeRoomSortNumberCommand { get; }
@@ -50,8 +56,8 @@ namespace PlantGenius.GUI.ViewModel
         {
             //initialize datavariables
             roomList = new ObservableCollection<Room>();
-            DAL = new DataAccessLayer();
 
+            this.RoomID = -1;
             this.RoomName = string.Empty;
             this.RoomSort = string.Empty;
             this.RoomFloor = string.Empty;
@@ -60,28 +66,32 @@ namespace PlantGenius.GUI.ViewModel
             //Special RelayCommands initialization
             ChangeRoomSortNumberCommand = new RelayCommand<(object, object)>((parameters) => ChangeRoomSortNumber(parameters.Item1, parameters.Item2));
 
-            //get rooms from DB
+            //get rooms from DB. When this function is deleted from the constructor; the DAL is not initialized and all interactions with the DAL do not work.
             GetRoomFromDB();
         }
 
         /// <summary>
         /// Get data through the RoomManager; the data will be reloaded from time to time. The Observable Properties and Collection ensure that the view also get the new data. 
         /// </summary>
-        private async void GetRoomFromDB()
+        public async void GetRoomFromDB()
         {
-                var rooms = await DAL.GetRooms();
-                roomList.Clear();
-                existingNames.Clear();
-                foreach (var room in rooms)
-                {
-                    roomList.Add(room);
-                    existingNames.Add(room.RoomName);
-                }
+            DAL = new DataAccessLayer();
+            roomList.Clear();
+            existingNames.Clear();
+            existingIDsAndNames.Clear();
+
+            var rooms = await DAL.GetRooms();
+            foreach (var room in rooms)
+            {
+                roomList.Add(room);
+                existingNames.Add(room.RoomName);
+                existingIDsAndNames.Add(room.RoomID, room.RoomName);
+            }
         }
 
         private async Task<HashSet<int>> GetRoomIDWithPlantsFromDB()
         {
-             return await DAL.GetRoomsWithPlants();
+            return await DAL.GetRoomsWithPlants();
         }
 
         private bool CanAddRoom(object obj)
@@ -99,15 +109,15 @@ namespace PlantGenius.GUI.ViewModel
             Room? newRoom = null;
 
             //checks if a Room is not null
-            if (this.RoomName == string.Empty)
+            if (this.RoomName == string.Empty || this.RoomFloor == string.Empty || this.RoomLight == string.Empty)
             {
                 string title = "Fehler";
-                string message = "Raum konnte nicht hinzugefügt werden. \nRaumname ist ein Pflichtfeld";
+                string message = "Raum konnte nicht hinzugefügt werden. \n Nicht alle notwendigen Felder wurden ausgefüllt.";
                 MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             //check if a Room with the given name already exists.
-            else if (existingNames.Contains(this.RoomName))
+            else if (existingIDsAndNames.ContainsValue(this.RoomName))
             {
                 string title = "Fehler";
                 string message = "Raum konnte nicht hinzugefügt werden. \nEs gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
@@ -117,25 +127,24 @@ namespace PlantGenius.GUI.ViewModel
 
             // Create a new Room object from the input
             newRoom = new Room()
-                {
-                    RoomName = this.RoomName, 
-                    RoomSort = roomList.Count + 1,
-                    RoomFloor = this.RoomFloor == string.Empty ? null : int.Parse(RoomFloor),
-                    RoomLight = this.RoomFloor == string.Empty ? null : bool.Parse(this.RoomLight)
-                };
-
-
-            //add Room to DB
-            await DAL.AddRoomToDB(newRoom);
+            {
+                RoomName = this.RoomName,
+                RoomSort = roomList.Count + 1,
+                RoomFloor = this.RoomFloor == string.Empty ? null : int.Parse(RoomFloor),
+                RoomLight = this.RoomFloor == string.Empty ? null : bool.Parse(this.RoomLight)
+            };
 
             // Add to ObservableCollection
             roomList.Add(newRoom);
 
-            //add to exsiting names Set so we can make sure not two rooms with the same name exist.
-            existingNames.Add(this.RoomName);
+            //add Room to DB
+            await DAL.AddRoomToDB(newRoom);
+
+            //add to exsiting names to Dictionary so we can make sure not two rooms with the same name exist.
+            existingIDsAndNames[this.RoomID]=this.RoomName;
         }
 
-        
+
         private bool CanDeleteRoom(object obj)
         {
             return true;
@@ -178,7 +187,7 @@ namespace PlantGenius.GUI.ViewModel
                     string message = "Bitte wählen Sie einen Raum aus!";
                     MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            }                
+            }
             //update view again. Else the SortNumber would not be correct.
             GetRoomFromDB();
         }
@@ -189,7 +198,7 @@ namespace PlantGenius.GUI.ViewModel
         /// Why asynchronous: This ensures t hat the application remains responsive and can handle
         /// </summary>
         /// <param name="obj"></param>
-        private async Task ChangeRoomSortNumber(object obj, object tag)
+        public async Task ChangeRoomSortNumber(object obj, object tag)
         {
 
             ListBox? listBox = obj as ListBox;
@@ -243,7 +252,7 @@ namespace PlantGenius.GUI.ViewModel
         }
 
 
-        private bool CanSaveChanges(object obj)
+        public bool CanSaveChanges(object obj)
         {
             return true;
         }
@@ -258,13 +267,12 @@ namespace PlantGenius.GUI.ViewModel
 
         // Delete Room
         [RelayCommand(CanExecute = nameof(CanSaveChanges))]
-        private async Task SaveChanges(object obj)
+        public async Task SaveChanges(object obj)
         {
 
             ListBox? listBox = null;
             Room? selectedRoom = null;
 
-            //Exception handling in case: no item of the listBox is chosen by the user, object is not
 
             listBox = obj as ListBox;
             if (listBox != null)
@@ -279,14 +287,25 @@ namespace PlantGenius.GUI.ViewModel
                 return;
             }
 
-            //check if a Room with the given name already exists.
-            if (selectedRoom != null && selectedRoom.RoomName != null)
+            //Error message if no room is selected.
+            if (selectedRoom == null && selectedRoom?.RoomName == null)
             {
-                if (existingNames.Contains(selectedRoom.RoomName))
+                string title = "Fehler";
+                string message = "Bitte wählen Sie einen Raum aus!";
+                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            bool hasError = false;
+            foreach (KeyValuePair<int, string> kvp in existingIDsAndNames)
+            {
+                if (kvp.Value == selectedRoom.RoomName && kvp.Key != selectedRoom.RoomID)
                 {
                     string title = "Fehler";
-                    string message = "Raum konnte nicht hinzugefügt werden. \nEs gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
+                    string message = "Raum konnte nicht geändert werden. \n Es gibt bereits einen Raum mit dem angegeben Namen. Bitte ändere den Namen.";
                     MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    //set selected RoomName back
+                    // selectedRoom.RoomName = existingIDsAndNames.TryGetValue(selectedRoom.RoomID, out string? RoomName) ? RoomName : string.Empty;
 
                     //find out which room name was changed
                     var difference = existingNames.Except(roomList.Select(rooms => rooms.RoomName));
@@ -298,7 +317,7 @@ namespace PlantGenius.GUI.ViewModel
                     if (difference.Count() > 1)
                     {
                         title = "Achtung";
-                        message = "Die gezeigten Raumname stimmen nicht mit der Datenbank überein. Es wird empfohlen die Applikatino neu zu starten.";
+                        message = "Die gezeigten Raumname stimmen nicht mit der Datenbank überein. Es wird empfohlen die Applikation neu zu starten.";
                         MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                     // check if only one difference was found.
@@ -307,34 +326,19 @@ namespace PlantGenius.GUI.ViewModel
                         selectedRoom.RoomName = changedRoomName;
                     }
 
-                    //update to make sure the observable roomList has the correct data and everything is showed properly.
-                    GetRoomFromDB();
-                    return;
+                    hasError = true;
                 }
-
-
-                //Create Rooom
-                Room userInputBoxRoom = new Room()
-                {
-                    RoomName = selectedRoom.RoomName,
-                    RoomSort = selectedRoom.RoomSort,
-                    RoomFloor = selectedRoom.RoomFloor,
-                    RoomLight = selectedRoom.RoomLight
-
-                };
-                // Call the method to update the room in the database
-                await DAL.UpdateRoomToDB(userInputBoxRoom);
             }
-            //Error message if no room is selected.
-            else
-            {
-                string title = "Fehler";
-                string message = "Bitte wählen Sie einen Raum aus!";
-                MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
 
-            }
+            // Call the method to update the room in the database
+            if (!hasError) await DAL.UpdateRoomToDB(selectedRoom);
+
+            //update to make sure the observable roomList has the correct data and everything is showed properly.
+            GetRoomFromDB();
         }
+
+
+        
 
         private bool CanShowMainWindow(object obj)
         {
@@ -371,11 +375,13 @@ namespace PlantGenius.GUI.ViewModel
                 return;
             }
         }
+
+
+
     }
 }
 
 
-    
 
 
 

@@ -12,25 +12,10 @@ namespace PlantGeniusUserApp.GUI.ViewModel
     /// <summary>
     /// Shows the plant overview page - plants are sorted by next water date. Press and hold to edit or delete the plants. The plant can be watered by pressing the watering can.
     /// </summary>
-    public partial class PlantsViewModel : ObservableObject, INotifyPropertyChanged
+    public partial class PlantsViewModel : ObservableObject
     {
         //Datavariables
         private DataAccessLayer DAL;
-
-        private bool isUpdateButtonEnabled;
-        
-        public bool IsUpdateButtonEnabled
-        {
-            get => isUpdateButtonEnabled;
-            set
-            {
-                if (isUpdateButtonEnabled != value)
-                {
-                    isUpdateButtonEnabled = value;
-                    OnPropertyChanged(nameof(IsUpdateButtonEnabled));
-                }
-            }
-        }
 
         //Properties
         public ObservableCollection<Plant> Plants { get; set; }
@@ -40,17 +25,16 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             // Initialize ObservableCollection
             Plants = new ObservableCollection<Plant>();
             DAL = new DataAccessLayer();
-            IsUpdateButtonEnabled = false;
+            UpdatePlants();
         }
 
 
         /// <summary>
         /// Updates data when the user navigates to this page.
         /// </summary>
-        public ICommand PageAppearingCommand => new Command(async () => await UpdatePlants());
+        protected ICommand PageAppearingCommand => new Command(async () => await UpdatePlants());
 
-
-        private bool CanUpdatePlants()
+        protected bool CanUpdatePlants()
         {
             return true;
         }
@@ -62,13 +46,11 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         [RelayCommand(CanExecute = nameof(CanUpdatePlants))]
         protected async Task UpdatePlants()
         {
-            IsUpdateButtonEnabled = false;
             await LoadPlants();
             await Task.Delay(1000);
-            IsUpdateButtonEnabled = true;
         }
 
-        private bool CanEditPlant()
+        protected bool CanEditPlant()
         {
             return true;
         }
@@ -84,16 +66,9 @@ namespace PlantGeniusUserApp.GUI.ViewModel
                 if (App.Current != null && App.Current.MainPage != null) await App.Current.MainPage.Navigation.PushAsync(editPage);
                 
             }
-        }
+        }       
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private bool CanWaterPlant()
+        protected bool CanWaterPlant()
         {
             return true;
         }
@@ -132,7 +107,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             }
         }
 
-        private bool CanChangeToPlantPage()
+        protected bool CanChangeToPlantPage()
         {
             return true;
         }
@@ -147,7 +122,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             if (App.Current != null && App.Current.MainPage != null) await App.Current.MainPage.Navigation.PushAsync(addPlantPage);
         }
 
-        private bool CanDelete()
+        protected bool CanDelete()
         {
             return true;
         }

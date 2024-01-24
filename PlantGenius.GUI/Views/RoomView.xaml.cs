@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.Input;
 using MySqlX.XDevAPI.Common;
 using PlantGenius.DAL;
@@ -21,13 +22,13 @@ namespace PlantGenius.GUI.Views
 
         // Generate a Collection with rooms
         private ObservableCollection<Room> roomList;
-        private DataAccessLayer DAL;
+
+        private RoomWindowViewModel roomViewModel;
 
         public RoomView()
         {
             InitializeComponent();
-            RoomWindowViewModel roomViewModel = new RoomWindowViewModel();
-            DAL = new DataAccessLayer();
+            roomViewModel = new RoomWindowViewModel();
 
             //Set Datacontext for binding in WPF
             this.DataContext = roomViewModel;
@@ -72,13 +73,18 @@ namespace PlantGenius.GUI.Views
             
         }
 
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void SelectionChangedEvent(object sender, SelectionChangedEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
-            textBox.Text = string.Empty;
-            // Oder, wenn Sie einen bestimmten Standardtext haben:
-            // textBox.Text = "Neuer Standardtext";
+            ListBox? listBox = null;
+            listBox = sender as ListBox;
+            if (e.RemovedItems.Count != 0 && listBox.Items.Count > 0)
+            { 
+                // TODO: good idea?er
+                var result = MessageBox.Show("Achtung: Änderungen wurden nicht in die Datenbank gespeichert!");
+            }                
+
         }
+
 
     }
 }

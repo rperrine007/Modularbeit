@@ -26,6 +26,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
 
         // Properties
         public ObservableHashSet<string> ExistingPlantNames { get; set; }
+
         [ObservableProperty]
         private Plant selectedPlant;
         public String AlertTitle { get; set; }

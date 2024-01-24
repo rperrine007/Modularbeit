@@ -79,7 +79,7 @@
                 <StackPanel x:Name="StackPanel_chosenRoom" Grid.Row="0" Grid.Column="1" Background="#FFDDDDDD">
                     <TextBox Height="25" Text="{Binding Path=RoomID}" IsReadOnly="True"/>
                     <TextBox Height="25" x:Name="inputRoomSort" Text="{Binding Path=RoomSort}" IsReadOnly="True"/>
-                    <TextBox Height="25" x:Name="inputRoomName" Text="{Binding Path=RoomName}" Background="#FFABC5A4" IsReadOnly="False" />
+                    <TextBox Height="25" x:Name="inputRoomName" Text="{Binding Path=RoomName}" Background="#FFABC5A4" IsReadOnly="False"/>
                     <TextBox Height="25" x:Name="inputRoomFloor" Text="{Binding Path=RoomFloor}" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" IsReadOnly="False" />
                     <ComboBox Style="{DynamicResource ComboBoxStyle1}" SelectedValue="{Binding Path=RoomLight}" SelectedValuePath="Tag" x:Name="comboBoxRoomLight_edit" Margin="0,0,0,10" Height="25">
                         <ComboBoxItem Content="Schattenseite" Tag="False"></ComboBoxItem>
@@ -92,6 +92,10 @@
 
         <!-- Menu to interact with database -->
         <Grid  Grid.Row="2" Grid.Column="0" Margin="10,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -99,7 +103,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- RoomSortNumber -1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Grid.Row="0" Grid.Column="0" Tag="-1" Command="{Binding ChangeRoomSortNumberCommand}" Grid.ColumnSpan="2" Margin="0,0,65,0" >
+            <Button Grid.Row="0" Grid.Column="0" Tag="-1" Command="{Binding ChangeRoomSortNumberCommand}" Grid.RowSpan="2" >
                 <!-- Multiple parameters can be given to the RelayComman using an array which will be converted to a tulple-->
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource MultiParameterValueConverter}">
@@ -115,7 +119,7 @@
             </Button>
 
             <!-- RoomSortNumber +1; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Grid.Row="0" Grid.Column="1" Tag="1" Command="{Binding ChangeRoomSortNumberCommand}" >
+            <Button Grid.Row="0" Grid.Column="1" Tag="1" Command="{Binding ChangeRoomSortNumberCommand}" Grid.RowSpan="2" >
                 <!-- Multiple parameters can be given to the RelayComman using an array which will be converted to a tulple-->
                 <Button.CommandParameter>
                     <MultiBinding Converter="{StaticResource MultiParameterValueConverter}">
@@ -131,7 +135,7 @@
             </Button>
 
             <!-- Delete; the Segoe MDL2 Assets font family includes various symbols. Also Arrows.-->
-            <Button Grid.Row="0" Grid.Column="2" CommandParameter="{x:Reference Name=ListBox_RoomList}" Command="{Binding DeleteRoomCommand}">
+            <Button Grid.Row="0" Grid.Column="2" CommandParameter="{x:Reference Name=ListBox_RoomList}" Command="{Binding DeleteRoomCommand}" Grid.RowSpan="2">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE74D;" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,0,0" Padding="1"/>
@@ -176,7 +180,7 @@
                 <!-- Content of given room -->
                 <StackPanel Grid.Row="0" Grid.Column="1">
                     <TextBox x:Name="inputNewRoomName" Text="{Binding RoomName}" Height="25" Background="#FFABC5A4" />
-                    <TextBox x:Name="inputNewRoomFloor" Text="{Binding RoomFloor}" Height="25" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4" GotFocus="TextBox_GotFocus" />
+                    <TextBox x:Name="inputNewRoomFloor" Text="{Binding RoomFloor}" Height="25" PreviewTextInput="TextBox_PreviewTextInput" Background="#FFABC5A4"/>
                     <ComboBox Style="{DynamicResource ComboBoxStyle1}" x:Name="comboBoxRoomLight" Margin="0,0,0,10" Height="25" SelectedValue="{Binding RoomLight}" SelectedValuePath="Tag">
                         <ComboBoxItem Content="Schattenseite" Tag="False"/>
                         <ComboBoxItem Content="Sonnenseite" Tag="True" />
@@ -186,8 +190,8 @@
             <Button Height="30" Command="{Binding AddRoomCommand}">
                 <TextBlock FontSize="14" Text="Raum hinzufügen" Margin="0,3,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Height="22"/>
             </Button>
-            
-            
+
+
         </StackPanel>
 
     </Grid>

@@ -92,7 +92,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Button x:Name="updateButton" Text="Update" IsEnabled="{Binding IsUpdateButtonEnabled}" 
+        <Button x:Name="updateButton" Text="Update"
                 Command="{Binding UpdatePlantsCommand}"
                 HorizontalOptions="Fill">
             <Button.Triggers>

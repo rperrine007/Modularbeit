@@ -23,14 +23,8 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         public MainViewModel()
         {
             DAL = new DataAccessLayer();
+            CountPlantsToWater();
         }
-
-        //Async loading of CountPlantsToWater
-        public async Task InitializeAsync()
-        {
-            await CountPlantsToWater();
-        }
-
 
         /// <summary>
         /// This method loads all plants and shows a counter of plants that currently need water
@@ -61,6 +55,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         /// <summary>
         /// Updates data when the user navigates to this page.
         /// </summary>
-        public ICommand PageAppearingCommand => new Command(async () => await CountPlantsToWater());
+        private ICommand PageAppearingCommand => new Command(async () => await CountPlantsToWater());
     }
 }

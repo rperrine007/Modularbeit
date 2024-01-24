@@ -19,13 +19,6 @@ namespace PlantGenius.GUI.Views
             MainWindowViewModel mainViewModel = new MainWindowViewModel();
             this.DataContext = mainViewModel;
         }
-
-        /*
-        private void Button_ChangeToRoomView_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-        */
     }
 }
 
