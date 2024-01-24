@@ -56,6 +56,13 @@
                   />
             </Frame>
 
+            <Frame Padding="15" CornerRadius="10"  Background ="White" >
+                <Label Text="Refactoring der Klassen"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                  />
+            </Frame>
+
 
         </VerticalStackLayout>
     </Grid>
