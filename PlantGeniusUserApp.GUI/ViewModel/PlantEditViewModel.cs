@@ -58,7 +58,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             return true;
         }
 
-        //TODO Plant will always be stored without save also when returning with back
         [RelayCommand(CanExecute = nameof(CanSavePlant))]
         private async Task SavePlant(object obj)
         {

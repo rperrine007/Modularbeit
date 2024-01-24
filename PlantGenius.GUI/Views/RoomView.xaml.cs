@@ -79,7 +79,6 @@ namespace PlantGenius.GUI.Views
             listBox = sender as ListBox;
             if (e.RemovedItems.Count != 0 && listBox.Items.Count > 0)
             { 
-                // TODO: good idea?er
                 var result = MessageBox.Show("Achtung: Änderungen wurden nicht in die Datenbank gespeichert!");
             }                
 

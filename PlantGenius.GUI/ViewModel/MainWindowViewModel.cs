@@ -33,7 +33,6 @@ namespace PlantGenius.GUI.ViewModel
             //initialize variabel with defined command parameter and cast it as type Window
             var mainWindow = obj as Window;
 
-            //TODO try or if/ else for ArgumentNullException
             try
             {
                 // Save the position of the window to keep size and position

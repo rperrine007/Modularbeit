@@ -29,7 +29,6 @@ namespace PlantGenius.GUI.ViewModel
         private string inputRoomName;
         private int inputRoomSort;
 
-        // TODO existing names
         private HashSet<string> existingNames = new HashSet<string>();
         private Dictionary <int,string> existingIDsAndNames = new Dictionary<int,string>();
         private HashSet<int> roomIDsWithPlants = new HashSet<int>();
@@ -84,8 +83,11 @@ namespace PlantGenius.GUI.ViewModel
             foreach (var room in rooms)
             {
                 roomList.Add(room);
-                existingNames.Add(room.RoomName);
-                existingIDsAndNames.Add(room.RoomID, room.RoomName);
+                if (room.RoomName != null)
+                {
+                    existingNames.Add(room.RoomName);
+                    existingIDsAndNames.Add(room.RoomID, room.RoomName);
+                }                
             }
         }
 
