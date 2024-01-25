@@ -45,7 +45,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             Count = 0;
             foreach (var plant in sortedPlants)
             {
-                if(plant.PlantSort <= 0)
+                if(plant.PlantSort <= -1)
                 {
                     Count++;
                 }
@@ -55,6 +55,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         /// <summary>
         /// Updates data when the user navigates to this page.
         /// </summary>
-        private ICommand PageAppearingCommand => new Command(async () => await CountPlantsToWater());
+        public ICommand PageAppearingCommand => new Command(async () => await CountPlantsToWater());
     }
 }

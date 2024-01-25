@@ -25,6 +25,7 @@ namespace PlantGeniusUserApp.GUI.ViewModel
         private Plant selectedPlant;
 
         // Adding a copy of the plant object to avoid writing to the original object before storing
+        [ObservableProperty]
         private Plant copyPlant;
 
         public String AlertDescription { get; set; }
@@ -110,13 +111,6 @@ namespace PlantGeniusUserApp.GUI.ViewModel
             }
 
             SelectedRoom = Rooms?.FirstOrDefault(r => r.RoomID == SelectedPlant?.RoomID);
-        }
-
-        // Bind this property to your View for editing
-        private Plant CopyPlant
-        {
-            get => copyPlant;
-            set => SetProperty(ref copyPlant, value);
         }
     }
 }

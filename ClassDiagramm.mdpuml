@@ -275,7 +275,7 @@ namespace Views{
 
         + MainViewModel()
         - async Task CountPlantsToWater()
-        - ICommand PageAppearingCommand => new Command();
+        + ICommand PageAppearingCommand => new Command();
     }
 
     class PlantViewModel
