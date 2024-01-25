@@ -4,8 +4,8 @@ skinparam classAttributeIconSize 0
 set namespaceSeparator none
 
 namespace PlantGenius.DAL{
-Room ..> DataAccessLayer : AbhÃ¤ngigkeit
-Plant ..> DataAccessLayer : AbhÃ¤ngigkeit
+Room ..> DataAccessLayer : Abhängigkeit
+Plant ..> DataAccessLayer : Abhängigkeit
 Plant "0" o-- "1" Room : Aggregation
 DataAccessLayer "0" *-- "1" AppDbContext : Komposition
 AppDbContext  -- MariaDB_InMemoryDB : Assoziation
@@ -30,8 +30,8 @@ set namespaceSeparator none
 
 
 namespace PlantGenius.DAL{
-Room ..> DataAccessLayer : AbhÃ¤ngigkeit
-Plant ..> DataAccessLayer : AbhÃ¤ngigkeit
+Room ..> DataAccessLayer : Abhängigkeit
+Plant ..> DataAccessLayer : Abhängigkeit
 Plant "0" o-- "1" Room : Aggregation
 DataAccessLayer "0" *-- "1" AppDbContext : Komposition
 AppDbContext  -- MariaDB_InMemoryDB : Assoziation
@@ -74,8 +74,8 @@ set namespaceSeparator none
 
 
 namespace PlantGenius.DAL{
-Room ..> DataAccessLayer : AbhÃ¤ngigkeit
-Plant ..> DataAccessLayer : AbhÃ¤ngigkeit
+Room ..> DataAccessLayer : Abhängigkeit
+Plant ..> DataAccessLayer : Abhängigkeit
 Plant "0" o-- "1" Room : Aggregation
 DataAccessLayer "0" *-- "1" AppDbContext : Komposition
 AppDbContext  -- MariaDB_InMemoryDB : Assoziation
