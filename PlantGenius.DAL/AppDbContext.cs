@@ -11,7 +11,7 @@ namespace PlantGenius.DAL
     public class AppDbContext : DbContext
     {
 
-        private string connectionString = "Server=49.12.196.20;Port=14501;Database=c1_zhaw2;User Id=c1_zhaw;Password=lQ9fKVoNK7ll!;";
+        private string connectionString = "";
 
         /// <summary>
         /// Constructor
