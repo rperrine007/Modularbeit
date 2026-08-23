@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MySql.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using PlantGenius.DAL.Models;
+
 
 
 namespace PlantGenius.DAL
@@ -11,7 +12,7 @@ namespace PlantGenius.DAL
     public class AppDbContext : DbContext
     {
 
-        private string connectionString = "";
+        private string connectionString = "Host=localhost;Port=5432;Database=plantgenius;Username=pguser;Password=pgpass";
 
         /// <summary>
         /// Constructor
@@ -34,13 +35,13 @@ namespace PlantGenius.DAL
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //To create a in memory DB this function should not be called as the options will already be build. 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+                // Environment Variable lesen oder Fallback
+                var conn = Environment.GetEnvironmentVariable("PG_CONNECTION") ?? connectionString;
+                optionsBuilder.UseNpgsql(conn);
             }
         }
-
         // DB Set corresponds to a table in the DB. It has a lot of useful functions but can cause performance problems.
         // necessary DBSet-Properties.
         public DbSet<Plant> Plants { get; set; }

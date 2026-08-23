@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using CommunityToolkit.Mvvm.Input;
-using MySqlX.XDevAPI.Common;
-using PlantGenius.DAL;
+
 using PlantGenius.DAL.Models;
 using PlantGenius.GUI.ViewModel;
 
@@ -32,11 +27,6 @@ namespace PlantGenius.GUI.Views
 
             //Set Datacontext for binding in WPF
             this.DataContext = roomViewModel;
-
-            //Set sub-datacontext
-            roomList = roomViewModel.roomList;
-            ListBox_RoomList.DataContext = roomList;
-            StackPanel_chosenRoom.DataContext = roomList;
         }
 
         /// <summary>
@@ -79,7 +69,7 @@ namespace PlantGenius.GUI.Views
             listBox = sender as ListBox;
             if (e.RemovedItems.Count != 0 && listBox.Items.Count > 0)
             { 
-                var result = MessageBox.Show("Achtung: Änderungen wurden nicht in die Datenbank gespeichert!");
+                MessageBox.Show("Achtung: Änderungen wurden nicht in die Datenbank gespeichert!");
             }                
 
         }

@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using PlantGenius.DAL;
-using PlantGenius.DAL.Models;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Azure;
-using System.DirectoryServices;
+
+using PlantGenius.DAL;
+using PlantGenius.DAL.Models;
 using PlantGenius.GUI.Views;
-using System.Windows.Documents;
-using MySqlX.XDevAPI.Common;
 
 namespace PlantGenius.GUI.ViewModel
 {
@@ -26,13 +21,10 @@ namespace PlantGenius.GUI.ViewModel
     public partial class RoomWindowViewModel : ObservableObject
     {
         //Datavaribles
-        private string inputRoomName;
-        private int inputRoomSort;
-
         private HashSet<string> existingNames = new HashSet<string>();
         private Dictionary <int,string> existingIDsAndNames = new Dictionary<int,string>();
         private HashSet<int> roomIDsWithPlants = new HashSet<int>();
-        private DataAccessLayer DAL;
+        private readonly DataAccessLayer DAL = new DataAccessLayer();
 
         //Properties
         public ObservableCollection<Room> roomList { get; set; }
@@ -46,6 +38,8 @@ namespace PlantGenius.GUI.ViewModel
         public string RoomFloor { get; set; }
 
         public string RoomLight { get; set; }
+
+
 
         //define a Relay Commands which can take two parameters. Tha this works the class MultiParameterValueConverter is necessary.
         public RelayCommand<(object obj, object tag)> ChangeRoomSortNumberCommand { get; }
@@ -66,15 +60,14 @@ namespace PlantGenius.GUI.ViewModel
             ChangeRoomSortNumberCommand = new RelayCommand<(object, object)>((parameters) => ChangeRoomSortNumber(parameters.Item1, parameters.Item2));
 
             //get rooms from DB. When this function is deleted from the constructor; the DAL is not initialized and all interactions with the DAL do not work.
-            GetRoomFromDB();
+            _ = GetRoomFromDB(); // async Methode starten         
         }
 
         /// <summary>
         /// Get data through the RoomManager; the data will be reloaded from time to time. The Observable Properties and Collection ensure that the view also get the new data. 
         /// </summary>
-        public async void GetRoomFromDB()
+        public async Task GetRoomFromDB()
         {
-            DAL = new DataAccessLayer();
             roomList.Clear();
             existingNames.Clear();
             existingIDsAndNames.Clear();
@@ -133,7 +126,7 @@ namespace PlantGenius.GUI.ViewModel
                 RoomName = this.RoomName,
                 RoomSort = roomList.Count + 1,
                 RoomFloor = this.RoomFloor == string.Empty ? null : int.Parse(RoomFloor),
-                RoomLight = this.RoomFloor == string.Empty ? null : bool.Parse(this.RoomLight)
+                RoomLight = this.RoomLight == string.Empty ? null : bool.Parse(this.RoomLight)
             };
 
             // Add to ObservableCollection

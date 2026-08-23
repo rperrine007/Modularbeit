@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  db:
+    # Use the official PostgreSQL image from Docker Hub
+    image: postgres:15
+    # Set environment variables for PostgreSQL
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_DB: plantgenius
+    # Expose the PostgreSQL port
+    ports:
+      - "5432:5432"
+    # Use a named volume to persist PostgreSQL data
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+# Define a named volume for PostgreSQL data persistence
+volumes:
+  pgdata:

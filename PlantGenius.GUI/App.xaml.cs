@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using PlantGenius.DAL;
+using PlantGenius.GUI.Views;
 
 namespace PlantGenius.GUI
 {
@@ -13,5 +10,19 @@ namespace PlantGenius.GUI
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            // DB-Kontext erstellen und Seed ausführen
+            using var context = new AppDbContext();  
+            // DbInitializer.Initialize(context);                      
+
+            // Danach die MainWindow starten
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+
+
+        }
     }
 }
